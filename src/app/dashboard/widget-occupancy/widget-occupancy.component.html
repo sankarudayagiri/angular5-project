@@ -1,0 +1,39 @@
+<div class="card occupancy-card p-4 mt-1 cursor-pointer align-items-stretch justify-content-center align-items-center bg-dark">
+        <widget-loader *ngIf="occLoading" [module]="'tables'"></widget-loader>
+        <div class="row" *ngIf="!occLoading">
+            <div class="col-7">
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <h6 class="font-weight-normal">OCCUPANCY</h6>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="text-primary">{{currentOccupancy.totalParties}}</h4>
+                        <small *ngIf="currentOccupancy.totalParties==0" class="text-muted">PARTY</small>
+                        <small *ngIf="currentOccupancy.totalParties" class="text-muted">{{currentOccupancy.totalParties==1 ? 'PARTY' : 'PARTIES' }}</small>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="text-primary">{{currentOccupancy.totalCovers}}</h4>
+                        <small *ngIf="currentOccupancy.totalCovers==0" class="text-muted">GUEST</small>
+                        <small *ngIf="currentOccupancy.totalCovers" class="text-muted">{{currentOccupancy.totalParties==1 ? 'GUEST' : 'GUESTS' }}</small>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="text-primary">{{currentOccupancy.totalTables}}</h4>
+                        <small *ngIf="currentOccupancy.totalTables==0" class="text-muted">TABLE</small>
+                        <small *ngIf="currentOccupancy.totalTables" class="text-muted">{{currentOccupancy.totalTables==1 ? 'TABLE' : 'TABLES' }}</small>
+
+                    </div>
+                    <div class="col-12 mt-2">
+                        <h4 class="text-primary">{{currentOccupancy.activeFloorPlans}}</h4>
+                        <small class="text-muted ">ACTIVE FLOOR PLAN</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="chart-wrapper pt-3 text-center">
+                    <circle-progress [percent]="currentOccupancy.percentage" [radius]="45" [outerStrokeColor]="currentOccupancy.percentage < 75 ? '#4c7acf' : '#f86c6b'" [outerStrokeWidth]="6"
+                        [innerStrokeWidth]="5" [innerStrokeColor]="'#0b0912'" [animation]="true" [animationDuration]="300"
+                        [subtitle]="'Occupancy'" [space]="-5"></circle-progress>
+                </div>
+            </div>
+        </div>
+    </div>

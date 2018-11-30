@@ -1,0 +1,66 @@
+<h6 mat-dialog-title class="dialog-header text-center mb-0 font-weight-bold">
+    SELECT TABLE
+    <i class="material-icons pull-right close cursor-pointer " (click)="onNoClick()">
+        clear
+    </i>
+
+</h6>
+<div class="row m-0">
+    <div class="col-12 px-0 maxfh-container select-table-view">
+        <drag-scroll class="floor-plan-cotainer scrollable-content no-inline-navbar justify-content-center" [ngClass]="{'plan-rendered' : fitToView.isFit, 'overflow-hidden' : svgScale == 1, 'd-flex align-items-center' : (!storedPlan && !selectedFloorPlanId) || (tables.length == 0 && immovables.length == 0)}">
+            <div *ngIf="!storedPlan && !selectedFloorPlanId" class="w-100 text-center d-flex align-items-center">
+                <div class="w-100">
+                    <h6 class="text-muted">YOU HAVE NO FLOOR PLANS CREATED</h6>
+                    <a class="btn btn-lg btn-primary px-4" [routerLink]="['/admin/floor-plan/plan-detail', '', 'NEW FLOOR']" (click)="onNoClick()"
+                        *ngIf="currentUser.role == 'ClientAdmin' || currentUser.role == 'JtechAdmin'">+
+                        <small>CREATE NEW</small>
+                    </a>
+                    <p *ngIf="currentUser.role == 'Host'">Please login as Admin or ask Admin to create a new Floor Plan</p>
+                </div>
+            </div>
+            <div class="w-100 text-center d-flex align-items-center" *ngIf="tables.length == 0 && immovables.length == 0 && selectedFloorPlanId">
+                <div class="w-100">
+                    <h6 class="text-muted">THERE ARE NO TABLES ON THIS FLOOR PLAN</h6>
+                </div>
+            </div>
+            <svg *ngIf="tables.length > 0 || immovables.length > 0" id="svgContainer" #svgContainer [attr.width]="fitToView.width == '100%' ? '100%' : fitToView.width"
+                [attr.height]="fitToView.height == '100%' ? '100%' : fitToView.height" [attr.transform]="'scale(' + svgScale + ')'">
+                <g id="plan-container" #planContainer [attr.transform]="'scale(' + fitToView.zoomValue + ')'">
+                    <g *ngFor="let table of tables">
+                        <g [id]="table.ngID" [attr.class]="'table-'+ table.id" [attr.transform]="'translate(' + table.offsetX + ',' + table.offsetY + ')'"
+                            [tableView]="table" [parent]="'tableview'" [multiSelectClass]="table.tableSelectedClass ? table.tableSelectedClass : ''"
+                            [selectedClass]="table.tableStatus.id" (click)="checkAvailableSeats(table)">
+                        </g>
+                    </g>
+
+                    <g *ngFor="let immovable of immovables">
+                        <g [id]="immovable.ngID" [attr.transform]="'translate(' + immovable.offsetX + ',' + immovable.offsetY + ')'" [attr.class]="'immovable-group immovable-'+ immovable.id"
+                            [immovableVisual]="immovable">
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </drag-scroll>
+        <div class="floor-plan-footer text-right">
+            <button class="btn btn-tables btn-lg pull-left m-2 px-4" *ngIf="tables.length > 0 && data.type == 'link'" [disabled]="selectedMergingTables.length < 2"
+                (click)="doMerge();">
+                <small>DONE</small>
+            </button>
+            <div class="d-inline-flex align-items-center pt-3">
+                <span class="mb-1 mr-2 text-uppercase">{{selectedFloorPlanName ? selectedFloorPlanName : ''}}</span>
+                <select-floor-plan-btn class="d-inline-block" [floorPlans]="floorPlans" [selectedPlanID]="selectedFloorPlanId" (selectedPlanIDChange)="updateFloorPlan($event)"></select-floor-plan-btn>
+                <span>
+                    <i class="zoom-controls material-icons cursor-pointer notextselect pl-2" [ngClass]="{'enabled' : svgScale < 2}" (click)="zoomPlan(1)">
+                        add
+                    </i>
+                    <i class="zoom-controls material-icons cursor-pointer notextselect " [ngClass]="{'enabled' : svgScale > 1}" (click)="zoomPlan(-1)">
+                        remove
+                    </i>
+                    <i class="zoom-controls material-icons pl-2 cursor-pointer notextselect" [ngClass]="{'enabled' : svgScale > 1}" (click)="fitToView.zoomValue = zoomValue; svgScale = 1;">
+                        refresh
+                    </i>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

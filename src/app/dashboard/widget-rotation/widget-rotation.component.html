@@ -1,0 +1,56 @@
+<div class="row">
+
+    <div class="col-12">
+        <div class="rotation-cntr scrollbar">
+            <widget-loader *ngIf="rotationLoading" [module]="'tables'"></widget-loader>
+            <div class="no-rotation-cntr" *ngIf="!rotationLoading && rotations.length < 1 && selectedFloorPlanId">
+                <small class="text-extra-muted ls-2">NO ROTATION SET FOR TODAY</small>
+            </div>
+
+            <div class="text-extra-muted ls-2" *ngIf="!selectedFloorPlanId">
+                <small>NO FLOOR PLANS CREATED</small>
+            </div>
+
+            <div *ngIf="!rotationLoading">
+                <div class="row px-3 pb-2 d-flex align-items-center justify-content-center" *ngFor="let rotation of rotations">
+                    <div class="col-md-5 px-0 d-flex align-items-center">
+                        <div class="display-name" [style.background]="rotation.colorCode" [matTooltipPosition]="'right'" matTooltip="{{rotation.firstName}}">
+                            <h4 class="font-weight-normal text-uppercase">{{rotation.initials}}</h4>
+                        </div>
+                        <i class="icon-user mx-3 mx-md-2"></i>
+                        <div>
+                            <small class="text-success font-weight-500">
+                                <strong>{{rotation.currentServingCoverCount}}</strong> NOW
+                            </small>
+                            <small class="d-block">
+                                <strong>{{rotation.totalCoverCount}}</strong> TOTAL
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-md-7 px-0 ">
+                        <swiper class="p-0" [config]="rotationConfig">
+                            <div class="" *ngFor="let table of rotation.serverTableDetails">
+                                <div (click)="selectTable(table, rotation)" [ngClass]="{'party-full-dine': table.percent > 80,'party-full-hold':table.tableStatus.id>=3,'party-full-block':table.tableStatus.id>=4, 'party-half-dine' : table.percent > 40 && table.percent < 80, 'party-started' : table.percent < 40}"
+                                    class="display-circle d-inline-flex align-items-center text-center p-2 ml-1">
+                                    <small class="chair-count">{{table.totalCovers}}</small>
+                                    <div class="content-cntr">
+                                        <h5  class="display-table-name font-weight-bold table m-0" [ngClass]="{'party-hold':table.tableStatus.id>=3,'party-block':table.tableStatus.id>=4}">{{table.tableName}}</h5>
+                                        <span *ngIf="table.tableStatus.id != 1 && table.guestOccuipedTime==null ?null:table.spentTime;" class="spent-time">{{table.spentTime}}</span>
+                                    </div>
+                                    <div *ngIf="table.tableStatus.id==3">
+                                        <img class="held w-100" src='../../../assets/img/floor-plan/held-icon@2x.png'>
+                                    </div>
+                                    <div *ngIf="table.tableStatus.id==4">
+                                        <i class="material-icons lock w-100 text-muted">
+                                            lock
+                                        </i>
+                                    </div>
+                                </div>
+                            </div>
+                        </swiper>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

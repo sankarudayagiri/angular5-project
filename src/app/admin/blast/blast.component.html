@@ -1,0 +1,104 @@
+<div class="row p-4">
+    <div class="col-12 ">
+        <form name="form" (ngSubmit)="f.form.valid && !errorTime &&  blastData.textMessage!=' ' && createBlast() " #f="ngForm" novalidate>
+            <div class="card p-4">
+                <h6 class="text-black font-weight-bold">Message, Max 128</h6>
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <mat-form-field style="width: 300px">
+                            <textarea matInput maxlength="128" name="blast-message" placeholder="Type your message" [(ngModel)]="blastData.textMessage"
+                                required></textarea>
+                            <mat-error>Please enter a message.</mat-error>
+                        </mat-form-field>
+
+                        <p class="text-muted text-left mt-1 mr-5 ">Characters Remaining:
+                            <span class="badge badge-pill badge-primary">{{!blastData.textMessage?128:128-blastData.textMessage.length}}</span>
+                        </p>
+                        <div class="bg-light d-inline-block p-3">
+                            <span class="text-muted">Reply 'STOP' to opt-out.</span>
+                        </div>
+
+                    </div>
+
+                </div>
+                <h6 class="text-black font-weight-bold mt-4">When?</h6>
+                <div class="row mt-2">
+                    <div class="col-md-3 mt-3">
+                        <mat-radio-group>
+                            <mat-radio-button color="primary" name="when" class="mr-3 " value="1" [checked]="blastData.whenBlast ==1" (click)="blastData.whenBlast = 1">Now</mat-radio-button>
+                            <mat-radio-button color="primary" name="when" value="2" [checked]="blastData.whenBlast == 2" (click)="blastData.whenBlast = 2;updateCurrentTime()">Later</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="col-md-6" *ngIf="blastData.whenBlast != 1">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field>
+                                    <input matInput (dateChange)="checktime()" [min]="minDate" (click)="picker.open()" name="date-picker" [matDatepicker]="picker"
+                                        [(ngModel)]="selectedDate" readonly>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <time-picker [(time)]="exportTime" (timeChange)="checktime()" [error]="errorTime" class=" inline-block"></time-picker>
+                                <!-- <div class="row"> -->
+                                <small *ngIf="errorTime" class="text-danger custom-validator">Time should be greater than Current time</small>
+
+                                <!-- </div> -->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <h6 class="text-black font-weight-bold mt-4">Who?</h6>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <mat-radio-group class="stack-radio-group">
+                            <div class="">
+                                <mat-radio-button color="primary" name="who" [checked]="blastData.who == 1" value="1" (click)="blastData.who = 1;blastData.whoByName=null;">Everyone</mat-radio-button>
+                            </div>
+                            <!-- <div class="">
+                                <mat-radio-button color="primary" name="who" [checked]="blastData.who == 2" value="2" (click)="blastData.who = 2;">By Name
+                                    <mat-form-field class="ml-2">
+                                        <input matInput class="h6" maxlength="200" name="by-name" autocomplete="off" autofocus="on" placeholder="Enter Your Name" [disabled]="blastData.who != 2"
+                                            [(ngModel)]="blastData.whoByName" required>
+                                        <mat-error>Please enter a Name.</mat-error>
+                                    </mat-form-field>
+                                </mat-radio-button>
+                            </div> -->
+                            <div class="">
+                                <mat-radio-button color="primary" name="who" [checked]="blastData.who == 3" value="3" (click)="blastData.who = 3;blastData.whoByName=null;">By Lottery (One Random Guest) </mat-radio-button>
+                            </div>
+                            <div class="">
+                                <mat-radio-button color="primary" name="who" class="mt-1" [checked]="blastData.who == 4" value="4" (click)="blastData.who = 4;blastData.whoByName=null;">By Lottery (One Random Guest Registered in Last Hour/Last Half Hour)</mat-radio-button>
+                            </div>
+                            <!-- <div class="">
+                                    <mat-radio-button color="primary" name="who" class="mt-1" [checked]="blastData.who == 4" value="4" (click)="blastData.who = 4;blastData.whoByName=null;">By Lottery (One Random Guest Registered in Last Half Hour)</mat-radio-button>
+                                </div> -->
+                        </mat-radio-group>
+                        <div class="col-md-6 ml-3 p-2" *ngIf="blastData.who == 4">
+                            <mat-radio-group>
+                                <mat-radio-button color="primary" value="1"[checked]="blastData.whenBlast ==1" (click)="blastData.takeLastHour = 1">Last Hour</mat-radio-button>
+                                <mat-radio-button color="primary" class="ml-3" value="2" (click)="blastData.takeLastHour = 0.5">Last Half Hour</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div>
+                    <hr/>
+                    <h6 class="text-muted">
+                        <small>NOTE: The sum of male and female guests may not match the 'everyone' total because that figure reflect
+                            all guests, including those who have not declared their gender.</small>
+                    </h6>
+                </div> -->
+            </div>
+            <div class="col-12 ">
+                <button class="btn btn-success pull-right ml-3">SEND BLAST</button>
+                <!-- <a [routerLink]="[ '/admin/settings']" routerLinkActive="active">
+                    <button class="btn btn-primary pull-right">CANCEL </button>
+                </a> -->
+            </div>
+        </form>
+    </div>
+</div>

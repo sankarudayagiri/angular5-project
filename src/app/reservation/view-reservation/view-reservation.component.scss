@@ -1,0 +1,113 @@
+@import "../../../scss/_module-variables.scss";
+.circle {
+  outline: none;
+  border: none;
+  border-radius: 50px;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+}
+
+.circleToggle {
+  outline: none;
+  padding-top: 5px;
+  border: $brand-primary solid 3px;
+  border-radius: 50px;
+  height: 70px;
+  width: 70px;
+  min-width: 70px;
+  background: #fff;
+  margin-right: 4px;
+  color: $brand-primary;
+  padding: 10px 0;
+  text-align: center;
+
+  // &.selected {
+  //   border: $brand-tables solid 3px;
+  //   border-color: $brand-tables;
+  //   color: #fff;
+  // }
+}
+:host ::ng-deep {
+  .mat-button-toggle-group {
+    box-shadow: none;
+  }
+  .mat-button-toggle-label-content {
+    padding: 2px 15px;
+  }
+}
+
+:host ::ng-deep {
+  .mat-button-toggle {
+    border: 3px solid $brand-reservation;
+    color: $brand-reservation;
+    &.mat-button-toggle-checked {
+      background: $brand-reservation;
+      color: #fff;
+    }
+    &.party-called {
+      border-color: $brand-tables;
+      color: $brand-tables;
+      &.mat-button-toggle-checked {
+        background: $brand-tables;
+        color: #fff;
+      }
+    }
+    &.partially-arrived {
+      border-color: $brand-waitlist;
+      color: $brand-waitlist;
+      &.mat-button-toggle-checked {
+        background: $brand-waitlist;
+        color: #fff;
+      }
+    }
+    &.partyNotArrived {
+      border-color: $brand-waitlist;
+      color: $brand-waitlist;
+      &.mat-button-toggle-checked {
+        background: $brand-waitlist;
+        color: #fff;
+      }
+    }
+    .mat-button-toggle-group {
+      box-shadow: none;
+    }
+  }
+
+  .mat-button-toggle-group {
+    box-shadow: none;
+  }
+
+  .text-primary {
+    color: $brand-reservation !important;
+  }
+
+  .bg-primary {
+    background: $brand-reservation !important;
+  }
+
+  .btn-primary {
+    background: $brand-reservation !important;
+    border-color: $brand-reservation !important;
+  }
+
+  .moveToWaitlistBtn {
+    background: $brand-waitlist;
+    color: white;
+  }
+}
+
+.opacity-70 {
+  opacity: 0.7 !important;
+  cursor: default !important;
+}
+.cursor-default {
+  cursor: default !important;
+}
+
+.btn.disabled,
+.btn-danger:disabled,
+.btn-info:disabled,
+i.disabled, button.circle:disabled {
+  opacity: 0.4;
+}

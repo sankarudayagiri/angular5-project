@@ -1,0 +1,58 @@
+@import "../../../scss/_module-variables.scss";
+
+.msgBox {
+  border-radius: 15px;
+  background: #eceff1;
+  h5 {
+    margin-bottom: 0;
+  }
+}
+
+:host ::ng-deep {
+  .WaitList {
+    .nav-link {
+      &:hover {
+        color: $brand-waitlist;
+      }
+      &.active {
+        color: $brand-waitlist;
+        border-bottom-color: $brand-waitlist;
+      }
+    }
+  }
+  .Table {
+    .nav-link {
+      &:hover {
+        color: $brand-tables;
+      }
+      &.active {
+        color: $brand-tables;
+        border-bottom-color: $brand-tables;
+      }
+    }
+  }
+  .Reservation {
+    .nav-link {
+      &:hover {
+        color: $brand-reservation;
+      }
+      &.active {
+        color: $brand-reservation;
+        border-bottom-color: $brand-reservation;
+      }
+    }
+  }
+  .tab-content {
+    margin-left: 0;
+    .tab-pane {
+      padding-right: 0;
+    }
+  }
+}
+.view-tabs-scrollable {
+  height: calc(100vh - #{$dialog-header + $dialog-action-footer} - 140px);
+  max-height: calc(100vh - #{$dialog-header + $dialog-action-footer} - 140px);
+  overflow: auto;
+}
+
+//top: calc(100vh - #{$dialog-header + $dialog-action-footer} - 60px);

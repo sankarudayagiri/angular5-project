@@ -1,0 +1,187 @@
+<div class="no-results-found text-center" style="z-index:2" *ngIf="floorPlans && floorPlans.length < 1">
+    <h6 class="text-muted">YOU HAVE NO FLOOR PLANS CREATED</h6>
+    <button class="btn btn-lg btn-primary" [routerLink]="['/admin/floor-plan/plan-detail', '', 'NEW FLOOR']" *ngIf="currentUser.role == 'ClientAdmin' || currentUser.role == 'JtechAdmin'">+ CREATE NEW </button>
+    <p *ngIf="currentUser.role == 'Host'">Please login as Admin or ask Admin to create a new Floor Plan</p>
+</div>
+<div class="row table-view-component m-0">
+    <div class="col-12 px-0 bg-dark table-status-bar">
+        <div class="pull-left px-3 py-1 text-center clock-display-cntr" *ngIf="panels.isStatusBarClockVisible && panels.isStatusBarVisible">
+            <h5 class="text-white font-weight-normal mb-0 px-2">{{currentDate| date:'hh:mm' : timezone}}
+                <small>{{currentDate| date:'a' : timezone}}</small>
+            </h5>
+            <h6 class="text-muted font-weight-light text-uppercase px-2">{{currentDate| date:'EEE, d' : timezone}}</h6>
+        </div>
+        <div class="sections-container pull-left" *ngIf="panels.isStatusBarVisible" [ngClass]="{'ml-2': !panels.isStatusBarClockVisible}">
+            <div class="row m-0">
+                <div class="col-4 px-1">
+                    <div class="row d-flex align-items-center sections py-1 m-0">
+                        <div class="icon-cntr pull-left">
+                            <i class="material-icons md-36 mt-1 text-tables">
+                                crop_free
+                            </i>
+                        </div>
+                        <div class="">
+                            <div class="row m-0 d-flex align-items-center">
+                                <span class="pl-2 font-weight-bold pr-1"> {{totalTables| zeroPadding}} </span>
+
+                                <span class="text-muted">Avl Tables</span>
+                            </div>
+                            <div class="row m-0 d-flex align-items-center">
+                                <span class="pl-2 font-weight-bold pr-1"> {{totalTops| zeroPadding}} </span>
+                                <span class="text-muted">Avl Tops</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 px-1" *ngIf="panels.isStatusWaitlistVisible && modules.hasModuleWaitList">
+                    <div class="row d-flex align-items-center sections m-0 py-1">
+                        <div class="icon-cntr pull-left">
+                            <i class="material-icons mt-1 text-waitlist md-36">
+                                history
+                            </i>
+                        </div>
+                        <div class="px-2">
+                            <span class="text-muted" *ngIf="waitlistStats.totalParties < 1"> NO WAIT </span>
+                            <span *ngIf="waitlistStats.totalParties > 0">
+                                {{waitlistStats.totalParties}} {{waitlistStats.totalParties > 1 ? 'PARTIES' : 'PARTY'}} / {{waitlistStats.totalCovers}} {{waitlistStats.totalCovers
+                                > 1 ? 'GUESTS' : 'GUEST'}}</span>
+                        </div>
+                        <div class="add-btn-cntr pull-right">
+                            <add-to-waitlist-btn [size]="'mini'"></add-to-waitlist-btn>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-4 px-1" *ngIf="panels.isStatusBarReservationVisible && modules.hasModuleReservations">
+                    <div class="row d-flex align-items-center sections m-0 py-1 ">
+                        <div class="icon-cntr pull-left">
+                            <i class="icons icon-calendar text-reservation md-36"></i>
+                        </div>
+                        <div class="px-2">
+                            <span class="text-muted" *ngIf="reservationStats.totalParties < 1"> NO RESERVATIONS </span>
+                            <span *ngIf="reservationStats.totalParties > 0">
+                                {{reservationStats.totalParties}} {{reservationStats.totalParties > 1 ? 'PARTIES' : 'PARTY'}} / {{reservationStats.totalCovers}}
+                                {{reservationStats.totalCovers > 1 ? 'GUESTS' : 'GUEST'}}</span>
+                        </div>
+                        <div class="add-btn-cntr pull-right">
+                            <add-reservation-btn [size]="'mini'"></add-reservation-btn>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pt-2" *ngIf="panels.showReservationList || panels.showWaitlist || panels.showServerPanel || panels.showSeatedList">
+            <ul class="nav navbar-nav navbar-dark bg-dark mr-4 pull-right">
+                <li class="nav-item d-md-down-none pt-1">
+                    <a *ngIf="!listPanelPinned" class="nav-link navbar-toggler aside-toggler text-white text-large" href="#" appAsideMenuToggler>&#9776;</a>
+                    <a *ngIf="listPanelPinned" class="nav-link navbar-toggler aside-toggler text-white text-large opacity-5">&#9776;</a>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-12 px-0 maxfh-container svg-parent-cntr" [ngClass]="{'panel-pinned': listPanelPinned}">
+        <drag-scroll class="floor-plan-cotainer  scrollable-content justify-content-center" [ngClass]="{'plan-rendered' : fitToView.isFit, 'overflow-hidden' : svgScale == 1 && !listPanelPinned, 'align-items-center' : tables.length == 0 && immovables.length == 0}">
+            <div class="w-100 text-center" *ngIf="floorPlans.length > 0 && tables.length == 0 && immovables.length == 0">
+                <h6 class="text-muted">THERE ARE NO TABLES ON THIS FLOOR PLAN</h6>
+            </div>
+            <svg *ngIf="tables.length >0 || immovables.length > 0" id="svgContainer" #svgContainer [attr.width]="fitToView.width == '100%' ? '100%' : fitToView.width*svgScale"
+                [attr.height]="fitToView.height == '100%' ? '100%' : fitToView.height*svgScale">
+                <!-- translate(' + fitToView.transFormX + ',' + fitToView.transFormY + ') -->
+                <g [attr.width]="fitToView.width == '100%' ? '100%' : fitToView.width" [attr.height]="fitToView.height == '100%' ? '100%' : fitToView.height"
+                    [attr.transform]="'scale(' + svgScale + ')'">
+                    <g id="plan-container" #planContainer [attr.class]="'plan-container'" [attr.transform]="'scale(' + fitToView.zoomValue + ')'">
+                        <g *ngFor="let table of tables">
+                            <g [id]="table.ngID" [attr.class]="'table-'+ table.id" [attr.transform]="'translate(' + table.offsetX + ',' + table.offsetY + ')'"
+                                [tableView]="table" [parent]="'tableview'" [selectedClass]="table.tableStatus.id" (click)="selectTable(table)">
+                            </g>
+                        </g>
+
+                        <g *ngFor="let immovable of immovables">
+                            <g [id]="immovable.ngID" [attr.transform]="'translate(' + immovable.offsetX + ',' + immovable.offsetY + ')'" [attr.class]="'immovable-group immovable-'+ immovable.id"
+                                [immovableVisual]="immovable">
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </drag-scroll>
+
+        <div class="floor-plan-footer" *ngIf="floorPlans && floorPlans.length > 0">
+            <div class="row m-0">
+                <div class="col-4 pl-0">
+                    <div class="rotation-container">
+                        <i class="material-icons pull-left mt-2 mr-2" *ngIf="serverRotations.length > 0">
+                            room_service
+                        </i>
+                        <ul class="rotation-list">
+                            <li *ngFor="let rotation of serverRotations | slice : 0 : 3" class="d-inline-flex align-items-center" [ngClass]="{'selected': selectedRotation && selectedRotation.serverID == rotation.serverID}"
+                                (click)="selectRotation(rotation)">
+                                <span class="display-name" [style.background]="rotation.colorCode">
+                                    <h5 class="font-weight-500">{{rotation.initials | uppercase}}</h5>
+                                </span>
+                                <span class="next-table">
+                                    <h6>
+                                        <i class="icon-frame ml-2"></i> &nbsp;{{nextTable && nextTable.length > 0 ? nextTable[0].tableName : ''}}</h6>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="d-flex align-items-center">
+                        <i class="material-icons text-success">
+                            fiber_manual_record
+                        </i>
+                        <small>STARTED</small>
+                    </span>
+                    <span class="d-flex align-items-center ml-4">
+                        <i class="material-icons text-warning">
+                            fiber_manual_record
+                        </i>
+                        <small>HALF TIME</small>
+                    </span>
+                    <span class="d-flex align-items-center ml-4">
+                        <i class="material-icons text-danger">
+                            fiber_manual_record
+                        </i>
+                        <small>FULL TIME</small>
+                    </span>
+                </div>
+                <div class="col-4 text-right pt-2 mt-1">
+                    <div class="d-inline-flex align-items-center">
+                        <span class="mb-1 mr-2 text-uppercase">{{selectedFloorPlan ? selectedFloorPlan.layoutName : ''}}</span>
+                        <select-floor-plan-btn class="d-inline-block" [floorPlans]="floorPlans" [selectedPlanID]="selectedFloorPlanId" (selectedPlanIDChange)="updateFloorPlan($event)"></select-floor-plan-btn>
+                        <span>
+                            <i class="zoom-controls material-icons cursor-pointer notextselect pl-2" [ngClass]="{'enabled' : svgScale < 2}" (click)="zoomPlan(1)">
+                                add
+                            </i>
+                            <i class="zoom-controls material-icons cursor-pointer notextselect " [ngClass]="{'enabled' : svgScale > 1}" (click)="zoomPlan(-1)">
+                                remove
+                            </i>
+                            <i class="zoom-controls material-icons pl-2 cursor-pointer notextselect" [ngClass]="{'enabled' : svgScale > 1}" (click)="fitToView.zoomValue = zoomValue; svgScale = 1">
+                                refresh
+                            </i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Content -->
+        <aside class="aside-menu" [ngClass]="{'panel-pinned': listPanelPinned}">
+            <span class="panel-pin" panelPinToggler (click)="toggleListPanelPin()">
+                <img src="assets/img/tables/tab-pin-icon.png" class="m-2">
+            </span>
+            <aside-panel [(waitlistStats)]="waitlistStats" [(reservationStats)]="reservationStats" [ngClass]="{'full-height-panel': !panels.showServerPanel}"
+                *ngIf="panels.showReservationList || panels.showWaitlist || panels.showSeatedList" [tables]="tables" [panels]="panels"
+                [selectedFloorPlanId]="selectedFloorPlanId"></aside-panel>
+            <div class="server-rotation-cntr" *ngIf="panels.showServerPanel">
+                <server-rotation-panel [panels]="panels" [rotations]="serverRotations" [serverData]="serverData" [shiftSectionTables]="shiftSectionTables"
+                    [selectedFloorPlanId]="selectedFloorPlanId"></server-rotation-panel>
+            </div>
+        </aside>
+    </div>
+</div>

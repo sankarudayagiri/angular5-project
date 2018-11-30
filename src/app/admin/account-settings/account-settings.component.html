@@ -1,0 +1,165 @@
+<div id="accountsSettingsContainer" class="p-4">
+        <div id="accountSettingsPaneBody">
+                <form name="form" (ngSubmit)="scrolltoTop(f.form.valid); f.form.valid && save()" #f="ngForm" novalidate>
+                        <h6 class="font-weight-bold text-uppercase">Essentials</h6>
+                        <div id="cardsContainer">
+                                <div class="card p-4 mb-4">
+                                        <div class="row">
+                                                <div class="col-sm-6 col-lg-2">
+                                                        <mat-form-field>
+                                                                <input matInput maxlength="50" placeholder="Client Code" name="clientcode" autocomplete="off" [(ngModel)]="account.code"
+                                                                        required>
+                                                                <mat-error>Please enter Client Code.</mat-error>
+                                                        </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-6 col-lg-2 pl-5">
+                                                        <mat-form-field>
+                                                                <input matInput maxlength="50" placeholder="Customer ID" name="customerid" autocomplete="off" [(ngModel)]="account.customerNumber">
+                                                                <!-- <mat-error>Please enter Customer ID.</mat-error> -->
+                                                        </mat-form-field>
+                                                </div>
+                                        </div>
+                                </div>
+
+                                <h6 class="font-weight-bold text-uppercase">Hot Schedules</h6>
+                                <div class="card p-4 mb-4">
+                                        <div class="row">
+                                                <div class="col-sm-4 col-lg-2">
+                                                        <mat-form-field class="api-username">
+                                                                <input matInput maxlength="50" placeholder="API Username" name="apiusername" autocomplete="off" [(ngModel)]="account.hotScheduleUserName">
+                                                        </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 pl-4 ml-3">
+                                                        <mat-form-field class="api-password">
+                                                                <input matInput maxlength="50" type="password" placeholder="API Password" name="apipassword" autocomplete="off" maxlength="10"
+                                                                        [(ngModel)]="account.hotSchedulePassword">
+                                                        </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 pl-4 ml-4">
+                                                        <mat-form-field class="concept">
+                                                                <input matInput maxlength="50" placeholder="Concept #" name="concept" autocomplete="off" [(ngModel)]="account.hotScheduleConceptNumber">
+                                                        </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 pl-5 ml-1">
+                                                        <mat-form-field class="store">
+                                                                <input matInput maxlength="50" placeholder="Store #" name="store" autocomplete="off" [(ngModel)]="account.hotScheduleStoreNumber">
+                                                        </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 pl-4 ml-5">
+                                                        <time-picker [(time)]="account.hotScheduleShiftCutoffTime"></time-picker>
+                                                </div>
+                                        </div>
+                                </div>
+
+                                <h6 class="font-weight-bold text-uppercase">Account Status</h6>
+                                <div class="card p-4 mb-4">
+                                        <div class="row">
+                                                <div class="col-sm-4 col-lg-2">
+                                                        <mat-form-field class="Status">
+                                                                <mat-select [(ngModel)]="account.accountStatus" name="accountstatus">
+                                                                        <mat-option value="0">Trial</mat-option>
+                                                                        <mat-option value="3">Active</mat-option>
+                                                                        <mat-option value="1">On Hold</mat-option>
+                                                                        <mat-option value="2">Pending Training</mat-option>
+                                                                        <mat-option value="4">Cancelled</mat-option>
+                                                                </mat-select>
+                                                                <mat-label>
+                                                                        Status
+                                                                </mat-label>
+                                                        </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 ml-3">
+                                                        <mat-form-field>
+                                                                <input matInput readonly [matDatepicker]="picker" name="date" placeholder="Choose a date" [(ngModel)]="account.accountDate">
+                                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                                <mat-datepicker #picker></mat-datepicker>
+                                                        </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 ml-5">
+                                                        <mat-form-field class="term">
+                                                                <mat-select placeholder="Term" [(ngModel)]="account.accountTerm" name="accountterm">
+                                                                        <mat-option value="Monthly">Monthly</mat-option>
+                                                                        <mat-option value="Qauarterly">Quarterly</mat-option>
+                                                                        <mat-option value="Anually">Annually</mat-option>
+                                                                </mat-select>
+                                                        </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 ml-4">
+                                                        <mat-form-field>
+                                                                <input matInput maxlength="100" placeholder="Amount" autocomplete="off" name="amount" [(ngModel)]="account.accountBaseAmount"
+                                                                        (focus)="checkForZero($event)" (blur)="updateBaseAmountOnBlur()" OnlyNumber="true" DecimalPlaces="2"
+                                                                        minValue="1.00" maxValue="999999999.00" decimal>
+                                                                <!-- <span matPrefix>$&nbsp;</span>
+                                                                <span matSuffix>.00</span> -->
+                                                        </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 ml-5">
+                                                        <!-- <mat-form-field>
+                                                                <input matInput placeholder="agreement" autocomplete="off" name="agreement" type="number" class="example-right-align" [(ngModel)]="account.accountAgreementNumber">
+                                                                <span matPrefix>$&nbsp;</span>
+                                                                <span matSuffix>.00</span>
+                                                        </mat-form-field> -->
+                                                        <mat-form-field>
+                                                                <input matInput maxlength="50" placeholder="Agreement" name="agreement" autocomplete="off" [(ngModel)]="account.accountAgreementNumber"
+                                                                        numbersOnly>
+                                                        </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2">
+                                                        <mat-slide-toggle class="toggle-primary mt-3" name="accountistest" [(ngModel)]="account.accountIsTest">
+                                                                Test
+                                                        </mat-slide-toggle>
+                                                </div>
+                                        </div>
+                                </div>
+
+                                <h6 class="font-weight-bold text-uppercase">Modules</h6>
+                                <div class="card mb-2">
+                                        <div class="row px-4 py-3">
+                                                <div class="col-sm-4 col-lg-2 py-2">
+                                                        <mat-slide-toggle (change)="tableStaffToggle($event)" class="toggle-primary" name="tablesmodule" [(ngModel)]="account.hasModuleTable">
+                                                                Tables
+                                                        </mat-slide-toggle>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 py-2">
+                                                        <mat-slide-toggle (change)="tableStaffToggle($event)" class="toggle-primary" name="staffmodule" [(ngModel)]="account.hasModuleStaff">
+                                                                Staff
+                                                        </mat-slide-toggle>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 py-2">
+                                                        <mat-slide-toggle (click)="waitlistReservationToggle(this.account.hasModuleWaitList,'hasModuleWaitList')"  class="toggle-primary" name="waitlistmodule" [(ngModel)]="account.hasModuleWaitList">
+                                                                Wait List
+                                                        </mat-slide-toggle>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 py-2">
+                                                        <mat-slide-toggle (click)="waitlistReservationToggle(this.account.hasModuleReservations,'hasModuleReservations')" class="toggle-primary" name="reservationsmodule" [(ngModel)]="account.hasModuleReservations">
+                                                                Reservations
+                                                        </mat-slide-toggle>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 py-2">
+                                                        <mat-slide-toggle class="toggle-primary" name="serverratingsmodule" [(ngModel)]="account.hasModuleServerRatings">
+                                                                Feedback
+                                                        </mat-slide-toggle>
+                                                </div>
+                                                <div class="col-sm-4 col-lg-2 py-2">
+                                                        <mat-slide-toggle  (change)="tapahead($event)"  class="toggle-primary" name="tapaheadseatingmodule" [(ngModel)]="account.hasModuleTapAheadSeating">
+                                                                Tap Ahead Settings
+                                                        </mat-slide-toggle>
+                                                </div>
+                                        </div>
+                                        <div class="row">
+                                                <div class="col-12 rule-info py-2" >
+                                                        <p [ngClass]="{'text-danger' : (!account.hasModuleTable && !account.hasModuleWaitList && !account.hasModuleReservations)}" class="text-muted mb-2 px-4">At least one module from Tables, Wait List or Reservations has to be
+                                                                purchased
+                                                        </p>
+                                                </div>
+                                        </div>
+                                </div>
+                                <section class="buttom-section py-4">
+                                        <div class="footer text-right" >
+                                                <button class="btn btn-success" [disabled]="!account.hasModuleTable && !account.hasModuleWaitList && !account.hasModuleReservations"> SAVE SETTINGS </button>
+                                        </div>
+                                </section>
+                        </div>
+                </form>
+        </div>
+</div>

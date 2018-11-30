@@ -1,0 +1,76 @@
+@import "../../scss/_module-variables.scss";
+
+.login-page {
+  background: #161225 url(/assets/img/login-bg.jpg);
+  color: #fff;
+  background-size: cover;
+  position: relative;
+  &::before {
+    background: rgba(22, 18, 37, 0.9);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    content: "";
+  }
+  .login-container {
+    min-height: 100vh;
+    background: rgba(22, 18, 37, 1);
+  }
+  .rounded-circle {
+    border-radius: 50%;
+    height: 55px;
+    width: 55px;
+    float: right;
+  }
+
+  .left-section {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    h6,
+    h5 {
+      letter-spacing: 3px;
+    }
+    h5 {
+      font-weight: 500 !important;
+    }
+  }
+}
+
+:host ::ng-deep label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  color: grey;
+}
+:host ::ng-deep .mat-form-field-underline {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+:host ::ng-deep .mat-form-field-label {
+  color: grey;
+}
+:host ::ng-deep .mat-focused .mat-form-field-label {
+  color: $brand-primary;
+}
+
+input {
+  font-size: 22px;
+  font-weight: 100;
+  font-family: $font-family-sans-serif;
+}
+
+.mat-form-field {
+  display: block;
+}
+
+.help-block {
+  margin-top: -15px;
+  color: $brand-danger;
+  font-size: 80%;
+}
+
+.spinner {
+  left: 35px;
+}

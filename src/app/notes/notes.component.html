@@ -1,0 +1,68 @@
+<div class="overlay" id="notes" [ngClass]="notesPanelClass" click-stop-propagation>
+    <div class="p-3" *ngIf="displayNotes?.length>0">
+        <h5 class=" font-weight-bold ">Today</h5>
+        <!-- <hr/> -->
+    </div>
+    <div class="px-4 scrollable-content scrollbar">
+
+        <div *ngFor="let data of displayNotes" class="mt-5">
+            <div class="row mb-5 ">
+                <div class="col-md-2 displayNameContainer">
+                    <div class="displayName bg-primary ">
+                        <h5 class="font-weight-normal text-uppercase">
+                            {{data.addedBy| slice:0:2}}
+                        </h5>
+                    </div>
+
+                </div>
+                <div class="col-md-10 p-2 notesMsgBox ">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h6 class="font-weight-bold text-capitalize text-primary">
+                                {{data.addedBy}}
+                            </h6>
+                        </div>
+                        <div class="col-md-5 ">
+                            <h6 class="font-weight-bold text-primary">
+                                {{data.addedAt | date: 'h:mm aaa' :timezone}}
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="row px-2">
+                        <div class="col-md-9">
+                            <div class="font-weight-normal">{{data.note}} </div>
+                        </div>
+                        <div class="col-md-3" *ngIf="data.hasReminder">
+                                <i class="material-icons" >
+                                    access_alarm
+                                </i>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="msgContainer p-1 bg-primary">
+        <div class="row px-3 py-1">
+            <div class="col-md-7">
+                <mat-form-field [ngClass]="{'mat-form-field-invalid' : error}">
+                    <input (keyup)="error=false" matInput autocomplete="off" placeholder="Please enter your text here"
+                        [(ngModel)]="notes.note">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3 mt-3 pl-5">
+                <i class="material-icons" (click)="setReminder()">
+                    access_alarm
+                </i>
+            </div>
+            <div class="col-md-2 mt-3">
+                <i class="material-icons" (click)="sendMsg()">
+                    send
+                </i>
+            </div>
+            <!-- <button  >send</button> -->
+        </div>
+    </div>
+</div>

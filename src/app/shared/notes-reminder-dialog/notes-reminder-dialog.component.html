@@ -1,0 +1,22 @@
+<div>
+        <h6 class="text-center font-weight-bold">REMINDER</h6>
+
+        <div class="row mt-4">
+                <div class="col-md-12 text-center">
+                        <span class="font-weight-normal"> {{data.data}}</span>
+                </div>
+
+        </div>
+        <div class="row mt-4 d-flex justify-content-center">
+                <div class="col-md-2">
+                        <button class="btn btn-primary " (click)="onNoClick()">DISMISS</button>
+                </div>
+                <div class="col-md-2 ml-4">
+                        <button class="btn btn-success" (click)="noteRead(data.id)">OK</button>
+
+                </div>
+                <!-- <div class="col-md-2 ml-5">
+                <button class="btn btn-primary" (click)="onNoClick()">CANCEL</button>
+                            </div> -->
+        </div>
+</div>

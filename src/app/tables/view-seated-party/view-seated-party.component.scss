@@ -1,0 +1,106 @@
+@import "../../../scss/_module-variables.scss";
+.circle {
+  outline: none;
+  border: none;
+  border-radius: 50px;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+}
+.mat-progress-bar {
+  display: block;
+  height: 15px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.text-event{
+  color: #ff24ca;
+}
+
+:host ::ng-deep {
+  mat-progress-bar {
+    .mat-button-toggle-group {
+      box-shadow: none !important;
+    }
+    .mat-progress-bar-buffer {
+      //background-color: rgb(251, 113, 74) !important;
+      background-color: $gray-lighter !important;
+    }
+    .mat-progress-bar-fill::after {
+      background: $brand-tables;
+      border-radius: 40px;
+    }
+    &.Occupied-start {
+      .mat-progress-bar-fill::after {
+        background: $brand-tables;
+      }
+    }
+    &.Occupied-half {
+      .mat-progress-bar-fill::after {
+        background: #fbcb25;
+      }
+    }
+    &.Occupied-end {
+      .mat-progress-bar-fill::after {
+        background: $brand-danger;
+      }
+    }
+  }
+}
+
+.circleToggle {
+  outline: none;
+  padding-top: 5px;
+  border: $brand-dark solid 3px;
+  border-radius: 50px;
+  height: 70px;
+  width: 70px;
+  min-width: 70px;
+  background: #fff;
+  margin-right: 4px;
+  color: $brand-dark;
+  padding: 10px 0;
+  text-align: center;
+
+  // &.selected {
+  //   border: $brand-tables solid 3px;
+  //   border-color: $brand-tables;
+  //   color: #fff;
+  // }
+}
+
+:host ::ng-deep {
+  .mat-button-toggle {
+    // border: 2px solid $brand-primary;
+    // margin-right: 4px;
+    // color:$brand-primary;
+    &.mat-button-toggle-checked {
+      border: 2px solid $brand-tables;
+      background: $brand-tables;
+      color: #fff;
+    }
+  }
+  .mat-button-toggle-group {
+    box-shadow: none;
+  }
+}
+
+.mat-button-toggle-group {
+  box-shadow: none;
+}
+
+.view-tabs {
+  position: relative;
+  top: 10px;
+}
+
+.text-tables {
+  color: $brand-tables;
+}
+.btn.disabled,
+.btn-danger:disabled,
+.btn-info:disabled,
+i.disabled, button.circle:disabled {
+  opacity: 0.4;
+}

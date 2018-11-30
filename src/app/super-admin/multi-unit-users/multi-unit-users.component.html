@@ -1,0 +1,78 @@
+<div class="container-fluid d-flex flex-column ">
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-md-8">
+            <div class="d-flex justify-content-end">
+                <button class="  btn btn-primary ml-3 font-weight-normal pull-right" (click)="addNewMultiUser(null)">
+                    + ADD NEW
+                </button>
+            </div>
+
+            <div class="card mt-4 px-2 py-1" *ngFor="let multiUnitAdmin of multiAdminUsers;let index=index">
+                <div class="row d-flex align-items-center p-2">
+                    <div class="col-md-10">
+                        <span class="h5 font-weight-500 mb-2">{{multiUnitAdmin.userName}}</span>
+                        <mat-chip-list class="mat-chip-list-wrapper mt-4 mb-3" name="{{'index'}}" [(ngModel)]="multiUnitAdmin.searchData" #chipList>
+                            <span *ngFor="let chip of multiUnitAdmin.clients;let chipIndex=index">
+                                <mat-chip *ngIf="chip.id" class="pl-3 pr-2 mb-2 mr-2">
+                                    <span class=" font-weight-normal d-flex align-items-center">{{chip.dba}}
+                                        <button type="button" class="close   ml-3 " (click)="removeChip(index,chipIndex)" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </span>
+                                </mat-chip>
+                            </span>
+                            <div *ngIf="!addChipData[index]">
+
+                                <button class="btn btn-primary  pr-4 mb-1" name="{{'index'}}" (click)="addChipData[index]=true;multiUnitAdmin.searchData=null;clientData[index]=null">
+                                    <span class="ml-2">+</span>
+                                </button>
+                            </div>
+                            <div *ngIf="addChipData[index]">
+                                <mat-form-field>
+                                    <input #a name="{{'index'}}" type="text" matInput (keyup)="onKey($event)" maxlength="100" id="clientSearchInput" [matAutocomplete]="auto"
+                                        [(ngModel)]="multiUnitAdmin.searchData" (matChipInputTokenEnd)="addChip($event,multiUnitAdmin.multiUnitClientID,null)"
+                                        [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" placeholder="Search and add locations">
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option *ngFor="let option of searchData.data" (onSelectionChange)="addChip(multiUnitAdmin.multiUnitClientID,option.dba,option.id,index)"
+                                            [value]="option.dba">
+                                            <span class="text-capitalize">
+                                                {{option.dba}}
+                                                <small class="d-block text-muted">{{option.addressLine1}}
+                                                    <span *ngIf="option.addressLine2">, {{option.addressLine2}}</span>
+                                                </small>
+                                            </span>
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                        </mat-chip-list>
+                        <button *ngIf="multiUnitAdmin.clients?.length>0" class="btn  btn-success font-weight-normal" (click)="addClients(multiUnitAdmin.multiUnitClientID)">save</button>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="pull-right">
+                            <h5 class="icon-user text-primary" (click)="addNewMultiUser(multiUnitAdmin)"></h5>
+                            <hr>
+                            <h5 *ngIf="index != showDeleteIndex" class=" more-options icon-trash text-danger cursor-pointer " (click)="showDeleteConfirm(index)"></h5>
+                        </div>
+                    </div>
+
+                    <div class="more-options-card" [ngClass]="index === showDeleteIndex ? 'options-enabled' : ''" click-stop-propagation>
+                        <div class="d-flex align-items-center justify-content-center mb-3">
+                            <div class="p-2">
+                                <p>Are you sure you want to delete?. This operation cannot be undone</p>
+                                <div class="text-center">
+                                    <button class="btn btn-primary mr-1" (click)="showDeleteIndex = null">NO</button>
+                                    <button class="btn btn-danger" (click)="deleteUser(multiUnitAdmin.userID)">DELETE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

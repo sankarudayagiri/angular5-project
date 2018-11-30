@@ -1,0 +1,48 @@
+@import "../../../scss/_module-variables.scss";
+
+.loader-overlay {
+  background: rgba(256, 256, 256, 0.85);
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 9;
+}
+.widget-loader {
+  width: 100%;
+  left: 0;
+  margin-left: 0;
+  margin-top: -10px;
+}
+.widget-loader small {
+  letter-spacing: 5px;
+  font-size: 60%;
+}
+.loading-text {
+  opacity: 0.1;
+  letter-spacing: 10px;
+  margin: auto;
+  text-align: center;
+}
+
+.spinner {
+  > div {
+    width: 15px;
+  }
+  &.tables {
+    > div {
+      background-color: $brand-tables !important;
+    }
+  }
+  &.waitlist {
+    > div {
+      background-color: $brand-waitlist !important;
+    }
+  }
+  &.reservation{
+    > div{
+      background-color: $brand-reservation !important;
+    }
+  }
+}

@@ -1,0 +1,176 @@
+<div class="dialog-scrollable-content">
+    <quick-seat-party *ngIf="data.seat=='available'" (seatPartyDetails)="showSeatParty($event)" [hidden]="showWaitlist"></quick-seat-party>
+
+    <div class="row m-0" *ngIf="data.seat==null" [hidden]="showWaitlist">
+        <div class="col-md-8 px-4 dialog-divider dialog-scrollable-content has-action-footer">
+            <div class="row py-4">
+                <div class="col-12 mt-2">
+                    <h5 cdkFocusInitial class="pb-2 font-weight-bold" [ngClass]="{'text-event' : data.table.isEvent}">
+                        <span>{{data.table.isEvent ? "EVENT" : "REGULAR"}}</span>
+                        <!-- <span class="text-warning" *ngIf="data.waitparty.waitListType.id == 2">EVENT</span> -->
+                    </h5>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="text-muted">{{data.table.seatedTime | date : 'hh:mm'}}
+                            <small>{{data.table.seatedTime | date : 'a'}} </small>
+                        </h6>
+                        <h5 class="font-weight-normal">{{data.table.spentTime}}
+                            <span class="text-muted">/ {{data.table.turnOverTime}}
+                            </span>
+                        </h5>
+                        <h6 class="text-muted">{{data.table.expectedEndTime | date : 'hh:mm'}}
+                            <small>{{data.table.expectedEndTime | date : 'a'}}</small>
+                        </h6>
+                    </div>
+                    <mat-progress-bar [ngClass]="{'Occupied-start' : data.table.percent < 40, 'Occupied-half' : data.table.percent > 40 && data.table.percent < 90, 'Occupied-end' : data.table.percent > 90}"
+                        mode="determinate" [value]="data.table.percent"></mat-progress-bar>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr class="w-100" />
+                </div>
+            </div>
+            <div class="row py-4">
+                <div class="col-12 font-weight-bold">
+                    <user-info (click)="editparty()" [userDetails]="userDetails"></user-info>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr class="w-100" />
+                </div>
+            </div>
+            <div class="row mb-4">
+                <!-- <div class="col-12 pt-5 d-flex align-items-center">
+                        <button class="circleToggle party-arrival" (click)="data.waitparty.waitListType.id == 2 && confirmPartyArrival(userDetails)">
+                            <i class="material-icons md-36 p-2">directions_run</i>
+                        </button>
+                        <p class="ml-2 mb-0 text-muted font-weight-bold d-flex align-items-center">PARTY ARRIVED</p>
+                    </div> -->
+                <div class="col-12 pt-4">
+                    <mat-button-toggle-group class="d-flex" #group="matButtonToggleGroup" (change)="onSelectionChange(group.value)">
+                        <mat-button-toggle class="circleToggle" value="1" [checked]="data.table.mealCourse && data.table.mealCourse.id == 1">
+                            <h3 class="font-weight-500 mt-2 w-100">A</h3>
+                        </mat-button-toggle>
+                        <p class="ml-2 mb-0 text-muted font-weight-bold d-flex align-items-center" [ngClass]="{'text-tables' : data.table.mealCourse && data.table.mealCourse.id == 1}">APPETIZER</p>
+
+                        <mat-button-toggle class="circleToggle ml-4" value="2" [checked]="data.table.mealCourse && data.table.mealCourse.id == 2">
+                            <h3 class="font-weight-500 mt-2">E</h3>
+                        </mat-button-toggle>
+                        <p class="ml-2 mb-0 text-muted font-weight-bold d-flex align-items-center" [ngClass]="{'text-tables' : data.table.mealCourse && data.table.mealCourse.id == 2}">ENTREE</p>
+
+                        <mat-button-toggle class="circleToggle ml-4" value="3" [checked]="data.table.mealCourse && data.table.mealCourse.id == 3">
+                            <h3 class="font-weight-500 mt-2">D</h3>
+                        </mat-button-toggle>
+                        <p class="ml-2 mb-0 text-muted font-weight-bold d-flex  align-items-center" [ngClass]="{'text-tables' : data.table.mealCourse && data.table.mealCourse.id == 3}">DESSERT</p>
+
+                        <mat-button-toggle class="circleToggle ml-4" value="4" [checked]="data.table.mealCourse && data.table.mealCourse.id == 4">
+                            <h3 class="font-weight-500 mt-2">C</h3>
+                        </mat-button-toggle>
+                        <p class="ml-2 mb-0 text-muted  font-weight-bold d-flex align-items-center" [ngClass]="{'text-tables' : data.table.mealCourse && data.table.mealCourse.id == 4}">CHECK</p>
+                    </mat-button-toggle-group>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4 pr-0 guest-msg-his-tabs-cntr">
+            <view-tabs class="view-tabs" (tabChange)="selectedTabChange($event)" [visitHistory]="visitHistory" [type]="'Table'" [guestId]="userDetails.guest ? userDetails.guest.id : null"></view-tabs>
+            <div class="d-flex align-items-end px-3 message-type-field" *ngIf="tab">
+                <input matInput [(ngModel)]="textMessage.messageText" [disabled]="!userDetails.guest" placeholder="Please enter your text here">
+                <i class="material-icons cursor-pointer" [ngClass]="{'disabled': !userDetails.guest}" (click)="userDetails.guest && messageSend()">
+                    send
+                </i>
+            </div>
+        </div>
+    </div>
+    <select-server [hidden]="!showWaitlist"></select-server>
+</div>
+
+<div class="dialog-footer text-center d-flex justify-content-between">
+    <div class="col-md-2" *ngIf="!data.table.mergeDetails">
+        <button class="circle p-3 bg-white" (click)="linkTables()" [disabled]="data.table.tableStatus.id == 'Held' || data.table.tableStatus.id == 'Blocked'">
+            <i class="material-icons md-42 text-primary">
+                link
+            </i>
+        </button>
+        <p>
+            <small>LINK</small>
+        </p>
+    </div>
+
+    <div class="col-md-2" *ngIf="data.table.mergeDetails">
+        <button class="circle p-3 bg-primary" (click)="confirmUnLink()">
+            <i class="material-icons md-42">
+                link_off
+            </i>
+        </button>
+        <p>
+            <small>UNLINK</small>
+        </p>
+    </div>
+
+    <div class="col-md-2" *ngIf="data.table.tableStatus.id != 'Held'">
+        <button [disabled]="data.table.spentTimeinMins > 5" class="circle p-3 bg-white" (click)="data.seat==null ?seatTimeCheck('hold'):holdTable()">
+            <i class="material-icons md-42 text-info">
+                pan_tool
+            </i>
+        </button>
+        <p>
+            <small>HOLD</small>
+        </p>
+    </div>
+
+    <div class="col-md-2" *ngIf="data.table.tableStatus.id == 'Held'">
+        <button class="circle p-3 btn-info" [disabled]="true">
+            <i class="material-icons md-42">
+                pan_tool
+            </i>
+        </button>
+        <p>
+            <small>HELD</small>
+        </p>
+    </div>
+
+    <div class="col-md-2" *ngIf="data.table.tableStatus.id != 'Blocked'">
+        <button [disabled]="data.table.spentTimeinMins > 5" class="circle p-3 bg-white" (click)="data.seat==null ?seatTimeCheck('block'):blockTable()">
+            <i class="material-icons md-42 text-danger">
+                lock
+            </i>
+        </button>
+        <p>
+            <small>BLOCK</small>
+        </p>
+    </div>
+    <div class="col-md-2" *ngIf="data.table.tableStatus.id == 'Blocked'">
+        <button class="circle p-3 btn-danger" [disabled]="true">
+            <i class="material-icons md-42">
+                lock
+            </i>
+        </button>
+        <p>
+            <small>BLOCKED</small>
+        </p>
+    </div>
+
+    <div class="col-md-2">
+        <button [disabled]="!data.table.server && !data.table.seatedTime" class="text-truncate circle py-3 bg-white" (click)="showWaitlist = !showWaitlist" [style.background]="data.table.serverColor && showWaitlist ? data.table.serverColor : '#fff'">
+            <span class="mb-0 " [style.color]="data.table.serverColor && showWaitlist ? '#fff' : data.table.serverColor ? data.table.serverColor : '#201a36'"
+                *ngIf="data.table.server">{{data.table.server ? data.table.server.description : "?" }}</span>
+            <h3 class="mb-0 font-weight-bold" *ngIf="!data.table.server">?</h3>
+        </button>
+        <p>
+            <small>SERVER</small>
+        </p>
+    </div>
+    <div class="col-md-2 ">
+        <button class="circle p-3 bg-white" [ngClass]="{'text-muted': data.table.tableStatus.id == 'Available'}"
+            [disabled]="data.table.tableStatus.id == 'Available'" (click)="confirmTableRelease()">
+            <i class="material-icons md-42">
+                replay
+            </i>
+        </button>
+        <p>
+            <small>RELEASE TABLE</small>
+        </p>
+    </div>
+</div>

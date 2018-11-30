@@ -1,0 +1,58 @@
+<div class="row justify-content-center" [ngClass]="{'dialog-time-slots my-5': container == 'dialog'}">
+    <div class="col-12 pt-2" *ngIf="pastDate">
+        <h6 class="d-block font-weight-normal text-muted">YOU CANNOT ADD RESERVATION FOR A PAST DATE</h6>
+    </div>
+    <div class="col-12" *ngIf="!pastDate">
+        <h6 class="text-muted font-weight-normal">AVAILABLE SLOTS</h6>
+        <div class="d-flex align-items-center" [ngClass]="{'justify-content-center': container == 'dialog'}">
+            <span class="h5 mr-2 text-muted" [ngClass]="{'text-primary' : !meriden}">
+                <span class="font-weight-500">AM</span>
+            </span>
+            <mat-slide-toggle class="toggle-reservation two-way mr-1 mb-2" (ngModelChange)="updateResultsOnMeriden()"
+                name="meriden" [checked]="meriden" [(ngModel)]="meriden">
+                <h5 class="font-weight-500 mt-1 text-muted" [ngClass]="{'text-primary' : meriden}">PM</h5>
+            </mat-slide-toggle>
+        </div>
+    </div>
+
+    <div class="col-12 pt-4" *ngIf="noSlots && !pastDate">
+        <h6 class="font-weight-bold">
+            <span class="text-muted font-weight-normal">NO AVAILABLE SLOTS FOR</span> {{meridenValue}}
+        </h6>
+    </div>
+    <div class="col-12 pb-2" [ngClass]="{'col-md-10 col-lg-8': container == 'dialog'}" *ngIf="filteredTimeSlots.length > 0 && !pastDate">
+        <div class="time-slots pills mt-3" *ngFor="let slot of filteredTimeSlots; let index = index;">
+            <hr class="w-100" *ngIf="slot.timeSlotArray.length>0" />
+            <small class="mb-2 d-block" *ngIf="!noSlots">
+
+                <h6 [ngClass]="{'text-center': container == 'dialog'}" *ngIf="slot.timeSlotArray.length>0" class="d-inline-flex align-items-center font-weight-500 text-reservation">
+                    <span class="d-flex align-items-center" *ngIf="totalAllowedPendingCount(slot.timeSlots)">
+                        <i class="material-icons text-muted">
+                            perm_identity
+                        </i>{{totalAllowedPendingCount(slot.timeSlots)}}</span>
+                    <span *ngIf="totalAllowedPendingCount(slot.timeSlots) && slot.isParty">&nbsp;
+                        {{totalAllowedPendingCount(slot.timeSlots)
+                        < 2 ? 'PARTY' : 'PARTIES' }} LEFT</span> <span *ngIf="totalAllowedPendingCount(slot.timeSlots) && !slot.isParty">&nbsp;
+                            {{totalAllowedPendingCount(slot.timeSlots)
+                            < 2 ? 'GUEST' : 'GUESTS' }} LEFT</span> <span></span>
+                    <span class="mx-2" *ngIf="slot.timeSlots && totalAllowedPendingCount(slot.timeSlots)">|</span>
+                    <span class="text-muted font-weight-normal">{{slot.allowedFromTime}} - {{slot.allowedToTime}}</span>
+                </h6>
+            </small>
+            <div class="my-4" *ngIf="totalAllowedPendingCount(slot.timeSlots)==0 && slot.timeSlotArray.length > 0 && !allDayRule">
+                <h6 class="font-weight-bold">
+                    <span class="text-muted font-weight-normal">Maximum number of reservations has been met.</span>
+                </h6>
+            </div>
+            <!-- allDayRule -->
+            <ul *ngIf="totalAllowedPendingCount(slot.timeSlots) > 0 || allDayRule">
+                <li *ngFor="let time of slot.timeSlotArray; let i = index;">
+                    <a class="cursor-pointer" [ngClass]="checkSelectedTime(time) ? 'active' : ''" (click)="selectTime(time,totalAllowedPendingCount(slot.timeSlots),slot.isParty);">{{time
+                        | date : 'h:mm'}}
+                        <small>{{time | date : 'a'}}</small>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

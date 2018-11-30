@@ -1,0 +1,50 @@
+<div class="dialog-scrollable-content">
+    <div class="row d-flex justify-content-center pt-4">
+        <div class="col-md-6 col-sm-10">
+            <div class="card p-3 bg-light cursor-pointer" *ngFor="let staff of staffList" (click)="confirmAssignServer(staff.id)">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="server-details pull-left">
+                            <div class="display-name small" click-stop-propagation [style.background]="staff.colorCode">
+                                <h5 class="font-weight-500 text-center text-uppercase">{{staff.initials}}</h5>
+                            </div>
+                        </div>
+
+                        <div class="section-details">
+                            <div class="row">
+                                <div class="col-10">
+                                    <h6 class="font-weight-bold text-uppercase" [ngClass]="{'text-muted' : staff.id !== this.data.serverID && !staff.isAssigned, 'text-primary' : staff.id == this.data.serverID}">{{staff.firstName}} {{staff.lastName}}</h6>
+                                </div>
+                                <div class="col-2 assigned-server text-right">
+                                                <i class="material-icons text-muted md-36" [ngClass]="{'text-success': staff.id == this.data.serverID}" *ngIf="staff.isAssigned">
+                                                    done
+                                                </i>
+                                                <span *ngIf="staff.isCut"><img width="30" src="../../../../assets/img/server-cut-icon@2x.png"/></span>
+                                            </div>
+                                <div class="col-12">
+                                    <div class="section-details">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="d-inline-flex align-items-center">
+                                                    <small class="text-muted">SERVING NOW - </small>
+                                                    <i class="material-icons text-muted">
+                                                        fullscreen
+                                                    </i>
+                                                    <h6 class="font-weight-bold text-success mb-0"> {{staff.totalTable | zeroPadding}}</h6>
+                                                    <i class="material-icons text-muted ml-3">
+                                                        perm_identity
+                                                    </i>
+                                                    <h6 class="font-weight-bold text-success mb-0"> {{staff.totalCover | zeroPadding}}</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

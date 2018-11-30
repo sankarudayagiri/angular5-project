@@ -1,0 +1,86 @@
+<div class="admin-header px-4 py-2 row d-flex align-items-center" *ngIf="showAdminHeader">
+  <div class="col-md-8">
+    <div class="row my-1">
+      <div class="col-12">
+        <div class="dba-details-cntr d-flex">
+          <div class="display-name cursor-pointer" [routerLink]="['/admin/profile-settings']">
+            <h5 class="font-weight-normal text-uppercase">{{clientName.initials}}</h5>
+          </div>
+          <div class="dba-desc ml-3">
+            <h4 class="mb-0 font-weight-normal text-capitalize">{{clientName.dba}}</h4>
+            <p class="text-muted d-flex-row mb-0">
+              <span *ngIf="clientName.addressLine1">
+                {{clientName.addressLine1}}
+                <span *ngIf="clientName.addressLine2||clientName.city||clientName.state||clientName.country">
+                  ,
+                </span>
+              </span>
+              <span *ngIf="clientName.addressLine2">
+                {{clientName.addressLine2}}
+                <span *ngIf="clientName.city||clientName.state||clientName.country">
+                  ,
+                </span>
+              </span>
+              <span *ngIf="clientName.city">
+
+                {{clientName.city}}
+                <span *ngIf="clientName.state||clientName.country">
+                  ,
+                </span>
+              </span>
+              <span *ngIf="clientName.state">
+                {{clientName.state}}
+                <span *ngIf="clientName.country">
+                  ,
+                </span>
+              </span>
+              <span *ngIf="clientName.country">
+                {{clientName.country}}
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4 d-inline-flex align-items-center text-right">
+      <!-- <div class="text-uppercase w-100">
+          <span class="font-weight-bold set-time">
+              {{displayDate | date:'h:mm a' : timezone}}
+          </span> {{displayDate | date:'MMM' : timezone}} {{displayDate | date:'dd' : timezone}},
+          <span class="text-uppercase">{{displayDate | date:'EEEE' : timezone}} </span>
+      </div> -->
+    <!-- <div class="row d-flex align-items-center">
+      <div class="col-8">
+        <div class="row">
+          <div class="col-12 text-muted">
+            Current Occupancies
+          </div>
+          <div class="col-md-4">
+            <h3 class="text-tables">{{currentOccupancy.totalParties | zeroPadding}}</h3>
+            <p class="text-muted  mt-1 labelTag">Parties</p>
+          </div>
+          <div class="col-md-4">
+            <h3 class="text-tables">{{currentOccupancy.totalCovers | zeroPadding}}</h3>
+            <p class="text-muted mt-1 labelTag">Covers</p>
+          </div>
+          <div class="col-md-4">
+            <h3 class="text-tables">{{currentOccupancy.totalTables | zeroPadding}}</h3>
+            <p class="text-muted  mt-1 labelTag"> Tables</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="chart-wrapper text-center">
+          <circle-progress [percent]=currentOccupancy.percentage [radius]="35" [outerStrokeWidth]="6" [innerStrokeWidth]="5" [innerStrokeColor]="'#ccc'"
+            [titleColor]="'#0b0912'" [animation]="true" [animationDuration]="300" [subtitle]="'Occupancy'" [space]="-5"></circle-progress>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>
+<ol class="breadcrumb px-4" *ngIf="showAdminHeader">
+  <app-breadcrumbs></app-breadcrumbs>
+</ol>

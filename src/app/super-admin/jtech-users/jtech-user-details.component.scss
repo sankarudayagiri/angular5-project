@@ -1,0 +1,54 @@
+@import "../../../scss/_module-variables.scss";
+
+.circle {
+  outline: none;
+  border: none;
+  border-radius: 50px;
+  height: 70px;
+  width: 70px;
+}
+:host ::ng-deep {
+  .mat-button-toggle {
+    border: 2px solid $brand-primary;
+    margin-right: 4px;
+    color: $brand-primary;
+    &.mat-button-toggle-checked {
+      background: $brand-primary;
+      color: #fff;
+    }
+  }
+  .mat-button-toggle-group {
+    box-shadow: none;
+  }
+  .mat-progress-bar.mat-accent .mat-progress-bar-fill::after {
+    background-color: $brand-danger;
+  }
+  .mat-progress-bar.mat-accent .mat-progress-bar-buffer{
+    background-color: #ffcdd2;
+  }  .mat-focused .mat-form-field-label.mat-accent{
+    color: $brand-danger;
+  }
+
+  .mat-form-field {
+    display: block !important;
+  }
+}
+
+.password-strength-cntr{
+  position: relative;
+  top: -18px;
+}
+
+.help-block {
+  margin-top: -15px;
+  color: $brand-danger;
+  font-size: 80%;
+}
+
+mat-password-strength-info{
+  position: absolute;
+  width: 100%;
+  left: 0;
+  z-index: 1;
+  text-align: left;
+}

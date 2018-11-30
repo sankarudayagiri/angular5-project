@@ -1,0 +1,103 @@
+@import "../../../scss/_module-variables.scss";
+
+$arrow-size: 8px;
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.search-cntr {
+  width: 750px;
+  margin: auto;
+  #clientSearchInput {
+    border: 0;
+    // border-radius:50px;
+    width: 750px;
+  }
+  .search-loader {
+    top: -5px;
+  }
+}
+
+.search-banner {
+  background: #161225 url(/assets/img/login-bg.jpg) center;
+  background-position: cover;
+  position: relative;
+  &::before {
+    background: rgba(22, 18, 37, 0.9);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    content: "";
+  }
+
+  .client-search {
+    height: 50px;
+  }
+}
+
+.title {
+  color: white;
+  :hover {
+    color: blue;
+  }
+}
+
+:host ::ng-deep {
+  .mat-form-field-underline {
+    background-color: white;
+    width: 250px;
+  }
+  .mat-form-field-ripple {
+    background-color: white;
+  }
+  .mat-form-field-infix {
+    display: block;
+    position: relative;
+    flex: auto;
+    width: 230px;
+  }
+  .mat-form-field-empty.mat-form-field-label {
+    color: white;
+  }
+  .widget-loader {
+    text-align: right;
+    padding-right: 20px;
+  }
+}
+
+.bg-primary {
+  color: #fff !important;
+}
+
+// #clientSearchInput {
+//   border-radius: 5px;
+// }
+
+.text-white {
+  color: #fff !important;
+}
+
+mat-chip.chip {
+  opacity: 0.8;
+  &.bg-primary {
+    opacity: 1 !important;
+  }
+}
+
+.search-tabs {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 1;
+    border-left: $arrow-size solid transparent;
+    border-right: $arrow-size solid transparent;
+    border-bottom: $arrow-size #fff solid;
+  }
+}

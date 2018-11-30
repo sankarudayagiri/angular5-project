@@ -1,0 +1,71 @@
+@import "../../scss/_module-variables.scss";
+// alert styles
+.alertMsgBox {
+  position: fixed;
+  z-index: 9999;
+  top: 70px;
+  right: 10px;
+}
+
+:host ::ng-deep .alert {
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+  &.alert-danger {
+    background: $brand-danger;
+    color: #fff;
+    border-color: $brand-danger;
+  }
+  &.alert-success {
+    background: $brand-success;
+    color: #fff;
+    border-color: $brand-success;
+  }
+}
+input:focus {
+  outline: none;
+  border: none;
+}
+
+input {
+  outline: none;
+  border: none;
+}
+
+.jtechheader {
+  background-color: darken($brand-dark, 2%);
+  color: white;
+  border-bottom: $brand-dark solid 1px;
+}
+
+:host ::ng-deep {
+  .mat-select-arrow {
+    color: white;
+  }
+  .mat-select-value {
+    color: white;
+  }
+  .mat-form-field-infix {
+    width: 80px;
+  }
+
+  .mat-form-field-underline {
+    background-color: white;
+  }
+}
+
+:host ::ng-deep label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  color: grey;
+}
+:host ::ng-deep .mat-form-field-underline {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+:host ::ng-deep .mat-form-field-label {
+  color: grey;
+}
+:host ::ng-deep {
+  .mat-focused .mat-form-field-label,
+  .mat-form-field-label:not(.mat-form-field-empty) {
+    color: transparent;
+  }
+}

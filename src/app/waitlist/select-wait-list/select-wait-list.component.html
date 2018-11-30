@@ -1,0 +1,8 @@
+<div class="row d-flex justify-content-center m-0 py-3 dialog-scrollable-content has-action-footer">
+        <div class="col-4">
+            <div class="card bg-light px-4 py-3 cursor-pointer" *ngFor="let list of waitlistTypes"  (click)="selectWaitList(list);">
+                <h5 class="font-weight-bold text-center text-capitalize" [ngClass]="{'text-waitlist' : selectedID == list.waitListID}">{{list.waitListName}}</h5>
+                <p class="text-muted text-center mb-0"> {{list.totalParties}} PARTIES, {{list.totalCovers}} GUESTS </p>
+            </div>
+        </div>
+    </div>

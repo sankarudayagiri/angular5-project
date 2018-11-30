@@ -1,0 +1,30 @@
+<div class="px-5 py-2">
+    <div class="row mt-2 mb-4">
+        <div class="col-md-10">
+            <h4 class="font-weight-normal mb-1">HELP</h4>
+
+        </div>
+        <div class="col-md-2">
+            <div class="row">
+                help +1 800 321 6221
+            </div>
+            <div class="row">
+                wecare@jech.com
+
+            </div>
+        </div>
+    </div>
+
+        <div class="card" *ngFor="let data of helpData">
+    <div class="row" >
+                <div class="col-md-1 bg-primary">
+                    </div>
+                    <div class="col-md-11   p-3">
+                        <a href="{{data.url}}" target="_blank">
+                            {{data.fileName}}
+                        </a>
+                    </div>
+        </div>
+        
+    </div>
+</div>

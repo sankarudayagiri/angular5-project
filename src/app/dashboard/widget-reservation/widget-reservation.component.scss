@@ -1,0 +1,103 @@
+@import "../../../scss/_module-variables.scss";
+
+$occupancy-card-height: 190px;
+$avl-tables-card-height: 170px;
+$reset-btn-cntr-height: 50px;
+$rotation-cntr-height: 210px;
+$card-inbetween-space: 230px;
+$list-card-header-height: 120px;
+
+.card {
+  h4 {
+    margin: 0;
+    font-weight: bold;
+  }
+  .card-right-section {
+    border-left: darken($body-bg, 5%) solid 1px;
+    background: lighten($body-bg, 1.5%);
+    position: relative;
+    .stop-reservation-cntr {
+      background: $brand-reservation;
+      color: #fff;
+      position: absolute;
+      bottom: 0;
+    }
+    .unblock-reservation-cntr {
+      background: #fff;
+      position: absolute;
+      bottom: 0;
+    }
+  }
+}
+
+.list-card-header {
+  max-height: $list-card-header-height;
+  min-height: 100px;
+}
+
+.btn-unblock {
+  font-size: 11px;
+}
+
+.font-weight-bold {
+  font-weight: bold !important;
+}
+
+.link-tab-list {
+  li {
+    .tab-label {
+      position: relative;
+      padding-bottom: 16px;
+      &::after {
+        content: "";
+        height: 2px;
+        width: 100px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+    }
+  }
+  &.reservation-tabs {
+    li.active {
+      color: $brand-reservation;
+      .text-muted {
+        color: $brand-reservation !important;
+      }
+      .tab-label {
+        &::after {
+          background: $brand-reservation;
+        }
+      }
+    }
+  }
+}
+
+.list-container {
+  max-height: 295px;
+  overflow: hidden;
+}
+
+:host ::ng-deep {
+  .scrollable-content-reservation {
+    max-height: calc(
+      (100vh - #{$navbar-height}) / 2 - #{$list-card-header-height} - 45px
+    ) !important;
+    height: calc(
+      (100vh - #{$navbar-height}) / 2 - #{$list-card-header-height} - 45px
+    ) !important;
+    min-height: 260px !important;
+    .table-responsive {
+      tr:first-child {
+        td {
+          border-top: 0 !important;
+        }
+      }
+    }
+  }
+  add-reservation-btn {
+    button {
+      margin-top: -5px;
+    }
+  }
+}

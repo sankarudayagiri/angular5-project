@@ -1,0 +1,85 @@
+<div class="container-fluid" [ngClass]="{'waitlist':parent == 'waitlist','tables':parent=='tables','reservation':parent=='reservation'}">
+    <div class="row p-4 text-center justify-content-center">
+        <div class="col-lg-10">
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-sm-6">
+                    <h6 class="text-muted">
+                        <i class="icon-people d-inline-block mr-2"></i>Adults</h6>
+                    <number-stepper [ngClass]="{ 'input-value':data.guestModel.adultCovers}" [(modelValue)]="data.guestModel.adultCovers" [required]="true" name="adult-covers" (click)="clear($event)"
+                        [minValue]="1" [maxValue]="999"></number-stepper>
+                    <div *ngIf="!data.guestModel.adultCovers" class="help-block text-danger custom-validator">
+                        <small>Please enter Adult count.</small>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <h6 class="text-muted">
+                        <i class="icon-people d-inline-block mr-2"></i> Kids</h6>
+                    <number-stepper [ngClass]="{ 'input-value':data.guestModel.childCovers}" [(modelValue)]="data.guestModel.childCovers" name="kids-covers" (click)="clearValue($event)" [minValue]="0"
+                        [maxValue]="999"></number-stepper>
+                </div>
+            </div>
+            <div class="row justify-content-center text-center mt-4">
+                <div class="col-sm-6 col-lg-3">
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : invalidCountry,'input-value':countryCode}">
+                        <input class="h5" (ngModelChange)="validateCountry(countryCode)" (blur)="validateCountry(countryCode)" maxlength="100" name="country"
+                            placeholder="Country" autocomplete="off" matInput [matAutocomplete]="auto" [(ngModel)]="countryCode">
+                        <span matPrefix>({{codeValue}}) &nbsp;</span>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getCountryCode();validateCountry(countryCode)">
+                            <mat-option *ngFor="let option of countries | filter : countryCode : 'countryName' : 'countryCode'" [value]="option.countryName">
+                                {{option.countryName}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <div *ngIf="invalidCountry" class="help-block text-danger custom-validator">Please select valid Country.</div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <p class="icon-phone">
+                        <mat-form-field [ngClass]="{ 'input-value':data.guestModel.guest.phone}">
+                            <input  matInput autocomplete="off" maxlength="12" minlength="8" [numbersOnly] placeholder="Enter Phone Number" name="phone-number"
+                                [(input)]="data.guestModel.guest.phone" class="h5" [(ngModel)]="data.guestModel.guest.phone"
+                                (blur)="onBlurMethod()">
+                            <mat-error>Please enter valid Phone Number.</mat-error>
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <i class="icon-user mr-2"></i>
+                    <mat-form-field [ngClass]="{ 'input-value':data.guestModel.guest.name}">
+                        <input class="h5" matInput maxlength="100" autocomplete="off" name="guest-name" required placeholder="Enter Guest Name" [(ngModel)]="data.guestModel.guest.name">
+                        <mat-error>Please enter Guest Name.</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-6 col-lg-3" *ngIf="parent=='waitlist'">
+                    <i class="material-icons  mr-2">nfc</i>
+                    <mat-form-field [ngClass]="{ 'input-value':data.guestModel.pagerNumber}">
+                        <input class="h5" matInput maxlength="5" [numbersOnly] placeholder="Enter Pager" [(input)]="data.guestModel.pagerNumber"
+                            [(ngModel)]="data.guestModel.pagerNumber">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--MAT CHIP-->
+    <div class="row justify-content-center">
+        <div class="col-10 text-center">
+            <mat-chip-list class="mat-chip-list-wrapper" [multiple]="true">
+                <mat-chip *ngFor="let note of notes" [ngClass]="note.selected ? 'selected' : ''" class="mb-2" (click)="note.selected = !note.selected; selectedNotes()">
+                    <span>{{note.description}}</span>
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+    </div>
+
+    <!--CUSTOM NOTES-->
+    <div class="row justify-content-center mt-3">
+        <div class="col-6 text-center">
+            <i class="icon-plus mr-2"></i>
+            <mat-form-field class="custom-note-field" [ngClass]="{ 'input-value':data.guestModel.notes.customNotes}">
+                <input matInput maxlength="500" placeholder="Add Custom Note" name="custom-note" [(ngModel)]="data.guestModel.notes.customNotes">
+            </mat-form-field>
+        </div>
+    </div>
+</div>

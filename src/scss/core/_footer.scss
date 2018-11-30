@@ -1,0 +1,12 @@
+.app-footer {
+  min-height: $footer-height;
+  padding: 0 $spacer;
+  padding-left: 75px;
+  line-height: $footer-height;
+  color: $footer-color;
+  background: $footer-bg;
+  @include borders($footer-borders);
+  position: relative;
+    z-index: -1;
+    margin-top: -52px;
+}

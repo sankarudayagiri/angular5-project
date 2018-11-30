@@ -1,0 +1,42 @@
+<div class="p-4">
+    <div class="row">
+        <div class="col-md-4 col-lg-3 d-flex">
+            <div class="card p-4 pt-5 text-center bg-primary cursor-pointer" (click)="openDialog(null)">
+                <i class="material-icons add-new text-muted">add</i>
+                <h6 class="font-weight-bold text-uppercase">ADD USER</h6>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-3 d-flex" *ngFor="let jtechAdmin of jtechAdmins;let index=index">
+            <!-- <div class="card text-center p-2" routerLinkActive="active" [routerLink]="['/admin/jtechAdmins/id']"> -->
+            <div class="card text-center p-4" (click)="openDialog(jtechAdmin)">
+                <span *ngIf="index != showDeleteIndex" class="more-options d-flex align-content-center p-0 cursor-pointer" click-stop-propagation
+                    (click)="showDeleteConfirm(index)">
+                    <i class="fa fa-trash-o delete-icon cursor-pointer text-danger m-1"></i>
+                </span>
+
+                <div class="display-name d-flex align-items-center justify-content-center lg mx-auto my-3">
+                    <h5 class="m-0 font-weight-normal text-uppercase"> {{jtechAdmin.userName | slice:0:2}}</h5>
+                </div>
+                <h6 class="font-weight-bold mx-auto ">{{jtechAdmin.userName}}</h6>
+                <div class="text-muted mx-auto mb-3 mt-2">
+                    <!-- <span class="icon-phone PhoneIcon mr-1"></span> -->
+                    <!-- <h6 class="text-muted d-inline ">1234567890</h6> -->
+                </div>
+                <div class="text-muted mx-auto mb-3 mt-0" *ngIf="jtechAdmin.email">
+                    <span class="icon-envelope"></span>
+                    <h6 class=" ml-1 text-muted d-inline ">{{jtechAdmin.email}}</h6>
+                </div>
+
+                <div class="more-options-card" [ngClass]="index === showDeleteIndex ? 'options-enabled' : ''" click-stop-propagation>
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <div class="p-2">
+                            <p>Are you sure you want to delete?. This operation cannot be undone</p>
+                            <button class="btn btn-primary" (click)="showDeleteIndex = null">NO</button>
+                            <button class="btn btn-danger" (click)="deleteUser(jtechAdmin.id, index)">DELETE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

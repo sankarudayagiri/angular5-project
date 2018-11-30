@@ -1,0 +1,83 @@
+<div class="row px-4 mt-3 d-flex align-items-center">
+    <div class="col-md-3 mt-2">
+
+        <mat-form-field>
+            <input matInput maxlength="50" placeholder="Station IP Address" [(ngModel)]="pagerData.localPagerIPAddress">
+
+        </mat-form-field>
+        <!-- <i class="icon-pencil  text-primary font-weight-bold"></i> -->
+    </div>
+    <div class="col-md-3 mt-2 text-muted d-flex align-items-center">
+        <span>Local Paging Enabled</span>
+        <mat-slide-toggle class="toggle-primary ml-2" [checked]="pagerData.isLocalPagingEnabled==true" [(ngModel)]="pagerData.isLocalPagingEnabled"></mat-slide-toggle>
+    </div>
+    <div class="col-md-6 pull-right">
+        <button class="btn btn-success pull-right" (click)="savePagerSettings()"> SAVE SETTINGS </button>
+    </div>
+
+</div>
+<div class="row px-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="p-5">
+                <h6 class="text-black font-weight-bold mb-4"> Add Alpha Pager(s)</h6>
+                <app-pagers [type]="'alpha'" [pagers]="pagerData.alphaPagers" [compareData]="pagerData.numericPagers" (pager)="getAlpha($event)"></app-pagers>
+            </div>
+            <div class="col-12 pager-range-info px-4 py-2">
+                <p class=" text-muted mt-2">
+             Pagers may be entered individually (4, 31, 523) or as a range. Range of 100 - 200, 150 - 250 must be entered at a time. 
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="p-5">
+                <h6 class="text-black font-weight-bold mb-4"> Add Numeric Pager(s)</h6>
+                <app-pagers [type]="'numeric'" [pagers]="pagerData.numericPagers" [compareData]="pagerData.alphaPagers" (pager)="getNumeric($event)"></app-pagers>
+            </div>
+            <div class="col-12 pager-range-info px-4 py-2">
+                <p class=" text-muted mt-2">Pagers may be entered individually (4, 31, 523) or as a range. Range of 100 - 200, 150 - 250 must be entered at a time. </p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="row mx-4">
+    <div class="card">
+        <div class="px-4 py-4">
+            <h6 class="text-black font-weight-bold mb-4 ">Paging Messages</h6>
+
+            <div class="row px-2">
+                <mat-chip-list class="mat-chip-list-wrapper" #chipList>
+                    <mat-chip *ngFor="let chip of pagerData.pagingMessages ;let index=index" class="pl-3 pr-2" (click)="chipSelected(index,chip.id)">
+                        <span class=" font-weight-normal d-flex align-items-center">{{chip}}
+                            <button type="button" class="close   ml-3 " (click)="removeChip(index)" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </span>
+                    </mat-chip>
+                    <div *ngIf="!addChipData">
+                        <button class="btn btn-primary ml-2 pr-4 " (click)="addChipData=true">
+                            <span class="ml-2">+</span>
+                        </button>
+                    </div>
+                    <div *ngIf="addChipData">
+                        <mat-form-field class="ml-3">
+                            <input  maxlength="100" maxlength="100" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addChipOnBlur"
+                                (matChipInputTokenEnd)="addChip($event)"autofocus="on"  matInput autocomplete="off">
+                        </mat-form-field>
+                    </div>
+                </mat-chip-list>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row px-4">
+    <div class="col-12 mb-4">
+        <button class="btn btn-success pull-right" (click)="savePagerSettings()"> SAVE SETTINGS </button>
+    </div>
+</div>

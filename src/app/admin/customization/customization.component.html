@@ -1,0 +1,188 @@
+<div class="p-4">
+    <h6 class="font-weight-bold mb-3">Messages</h6>
+    <div class="card p-4 pr-0">
+        <div class="row mb-5">
+            <div class="col-md-3 pr-5">
+                <h6 class="font-weight-bold">Wait List Add Guest
+                    <!-- <span class="icon-pencil text-primary pl-4 font-weight-bold"></span> -->
+
+                </h6>
+                <div class="custom-message-box p-2 mt-4">
+                    <textarea maxlength={{76-dba.length}} autocomplete="off" matInput [(ngModel)]="customizedData.messageWaitListAddGuest" class="px-1 font-weight-bold my-3"></textarea>
+
+                </div>
+                <p class="text-right mt-1">
+                    <small class="text-muted">Characters Remaining: </small>
+                    <span class="badge badge-pill badge-primary">{{!customizedData.messageWaitListAddGuest?(76-dba.length):(76-dba.length)-(customizedData.messageWaitListAddGuest.length)}}</span>
+                </p>
+
+            </div>
+            <div class="col-md-3 pr-5">
+                <h6 class="font-weight-bold ">Wait List Call-Ahead
+                    <!-- <span class="icon-pencil text-primary pl-4 font-weight-bold"></span> -->
+                </h6>
+                <div class="custom-message-box p-2 mt-4">
+                    <textarea ng-value="Please see host upon Arrival" autocomplete="off" matInput [(ngModel)]="customizedData.messageWaitListCallAhead"
+                        maxlength={{76-dba.length}} class="px-1 font-weight-bold my-3"></textarea>
+                </div>
+                <p class="text-right mt-1">
+                    <small class="text-muted">Characters Remaining: </small>
+                    <span class="badge badge-pill badge-primary">{{!customizedData.messageWaitListCallAhead?(76-dba.length):(76-dba.length)-customizedData.messageWaitListCallAhead.length}}</span>
+                </p>
+            </div>
+            <div class="col-md-3 pr-5">
+                <h6 class="font-weight-bold">Page Guest
+                    <!-- <span class="icon-pencil text-primary pl-4 font-weight-bold"></span> -->
+                </h6>
+                <div class="custom-message-box p-2 mt-4">
+                    <textarea ng-value="Please return to the host! Not coming? Let us know!" autocomplete="off" matInput [(ngModel)]="customizedData.messagePageGuest"
+                        maxlength="{{76-dba.length}}" class="px-1 font-weight-bold my-3"></textarea>
+
+                </div>
+                <p class="text-right mt-1">
+                    <small class="text-muted">Characters Remaining: </small>
+                    <span class="badge badge-pill badge-primary">{{!customizedData.messagePageGuest?(76-dba.length):(76-dba.length)-customizedData.messagePageGuest.length}}</span>
+                </p>
+            </div>
+            <div class="col-md-3 pr-5">
+                <h6 class="font-weight-bold"> New Reservation
+                    <!-- <span class="icon-pencil text-primary pl-4 font-weight-bold"></span> -->
+                </h6>
+                <div class="custom-message-box p-2 mt-4">
+                        <label class="mt-2 mb-0">Reservation Details</label>
+                    <textarea autocomplete="off" matInput [(ngModel)]="customizedData.messageNewReservation" maxlength={{16-dba.length}} class="px-1 font-weight-bold my-0"
+                        id="newReservation">
+                    </textarea>
+
+                </div>
+                <p class="text-right mt-1">
+                    <small class="text-muted">Characters Remaining: </small>
+                    <span class="badge badge-pill badge-primary">{{!customizedData.messageNewReservation?(16-dba.length):(16-dba.length)-customizedData.messageNewReservation.length}}</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="p-3 bg-light rounded">
+            <p class="text-muted m-0">View More at</p>
+            <p class="text-muted m-0">Reply STOP to opt-out.</p>
+        </div>
+        <p class="text-muted mt-2">If the New Reservation Override Message is present, that message will be sent instead of the default.</p>
+        <div>
+        </div>
+    </div>
+
+    <!--FREQUENT GUESTS-->
+
+    <h6 class="font-weight-bold mb-3">Frequent Guests</h6>
+    <div class="card p-4 pr-0">
+        <mat-checkbox color="primary" class="text-muted" [(ngModel)]="customizedData.requestFrequentGuests" [checked]="customizedData.requestFrequentGuests==true">Recognize Frequent Guests</mat-checkbox>
+        <h6 class="text-muted">
+            Guest is frequent after
+            <mat-form-field class="ml-1 mr-1" style="width: 65px;">
+                <mat-select placeholder="Select" [(ngModel)]="customizedData.frequentVisitsCount">
+
+                    <mat-option *ngFor="let visit of visits" [value]="visit">{{visit}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            visits within
+            <mat-form-field class=" ml-1 mr-1" style="width: 65px;">
+                <mat-select placeholder="Select" [(ngModel)]="customizedData.frequentWeeksCount">
+
+                    <mat-option *ngFor="let week of weeks" [value]="week">{{week}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            weeks.
+        </h6>
+        <p class="text-muted">If box is checked, frequent guest will be identified with a star icon in the Notes of Wait List and Reservation records.</p>
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <h6 class="font-weight-bold">Wait List SMS Prefix
+                    <!-- <span class="icon-pencil text-primary pl-5 font-weight-bold"></span> -->
+                </h6>
+                <div class="custom-message-box p-2 mt-4">
+                    <textarea autocomplete="off" matInput [(ngModel)]="customizedData.waitListTextMessagePrefix" maxlength={{76-dba.length}}
+                        class="px-1 font-weight-bold my-3"></textarea>
+
+                </div>
+                <p class="text-right mt-1">
+                    <small class="text-muted">Characters Remaining: </small>
+                    <span class="badge badge-pill badge-primary">{{!customizedData.waitListTextMessagePrefix?(76-dba.length):(76-dba.length)-customizedData.waitListTextMessagePrefix.length}}</span>
+                </p>
+            </div>
+            <div class="col-md-3">
+                <h6 class="font-weight-bold ">Reservation SMS Prefix
+                    <!-- <span class="icon-pencil text-primary pl-4 font-weight-bold"></span> -->
+                </h6>
+                <div class="custom-message-box p-2 mt-4">
+                    <textarea autocomplete="off" matInput [(ngModel)]="customizedData.reservationTextMessagePrefix" maxlength={{76-dba.length}}
+                        class="px-1 font-weight-bold my-3"></textarea>
+
+                </div>
+                <p class="text-right mt-1">
+                    <small class="text-muted">Characters Remaining: </small>
+                    <span class="badge badge-pill badge-primary">{{!customizedData.reservationTextMessagePrefix?(76-dba.length):(76-dba.length)-customizedData.reservationTextMessagePrefix.length}}</span>
+                </p>
+            </div>
+        </div>
+        <p class="text-muted mt-3">If guest is frequent and relevant SMS prefix (above) is not blank, prefix will be included in SMS immediately following
+            the DBA.</p>
+        <div>
+        </div>
+    </div>
+
+
+    <!--GUEST PORTAL-->
+
+    <h6 class="font-weight-bold mb-3" [ngClass]="{'text-muted' : !modules.hasModuleServerRatings}">Guest Portal</h6>
+    <div class="card p-4 pr-0" [ngClass]="{'disabled' : !modules.hasModuleServerRatings}">
+        <mat-checkbox [disabled]="!modules.hasModuleServerRatings" color="primary" class="text-muted" [(ngModel)]="customizedData.isGuestPortalActive" [checked]="customizedData.isGuestPortalActive==true">Guest Portal Active</mat-checkbox>
+        <p class="text-muted mt-3">If box is checked, the guest portal URL is attached to outgoing SMS; if not checked, the URL is omitted.</p>
+    </div>
+
+    <!--NOTES-->
+
+    <h6 class="font-weight-bold mb-3">Notes</h6>
+    <div class="card p-4 pr-0">
+        <h6>Default Notes</h6>
+        <div class="row px-3">
+            <mat-chip-list class="mat-chip-list-wrapper" #chipList>
+                <mat-chip *ngFor="let chip of listNotes;let index=index" class="pl-3 pr-2 mb-2">
+                    <span class=" font-weight-normal d-flex align-items-center">{{chip.description}}
+                        <button type="button" class="close   ml-3 " (click)="removeChip(index)" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </span>
+                </mat-chip>
+                <div *ngIf="!addChipData">
+                    <button class="btn btn-primary ml-2 pr-4 " (click)="addChipData=true">
+                        <span class="ml-2">+</span>
+                    </button>
+                </div>
+                <div *ngIf="addChipData">
+                    <mat-form-field class="ml-3">
+                        <input [matChipInputFor]="chipList" maxlength="100" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addChipOnBlur"
+                            (matChipInputTokenEnd)="addChip($event)" autocomplete="off" autofocus="on" matInput>
+                    </mat-form-field>
+                </div>
+            </mat-chip-list>
+        </div>
+    </div>
+
+    <!-- Paging1
+
+    <h6 class="font-weight-bold mb-3">Paging1</h6>
+    <div class="card px-5 py-4 pr-0">
+        <div class="row">
+            <mat-chip-list>
+                <mat-chip>Paging1</mat-chip>
+            </mat-chip-list>
+            <button class="btn btn-primary ml-2 ">+</button>
+        </div>
+    </div> -->
+    <div class="col-12 pl-0 mb-5">
+        <button class="btn btn-success pull-right ml-3" (click)="save()">+ SAVE SETTINGS </button>
+        <!-- <a [routerLink]="[ '/admin/settings' ]" routerLinkActive="active">
+            <button class="btn btn-primary pull-right">CANCEL </button>
+        </a> -->
+    </div>
+</div>

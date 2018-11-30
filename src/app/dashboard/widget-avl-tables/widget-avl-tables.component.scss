@@ -1,0 +1,21 @@
+@import "../../../scss/_module-variables.scss";
+
+$avl-tables-card-height: 170px;
+
+.card {
+  h4 {
+    margin: 0;
+    font-weight: bold;
+  }
+  .info-bg {
+    background: lighten($body-bg, 1.5%);
+  }
+}
+.avl-tables-card {
+  min-height: $avl-tables-card-height;
+  .bottom-align {
+    position: absolute;
+    bottom: 0;
+  }
+}
+

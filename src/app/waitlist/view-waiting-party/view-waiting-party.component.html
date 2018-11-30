@@ -1,0 +1,137 @@
+<div >
+    <div class="row m-0" [hidden]="showWaitlist">
+        <div class="col-md-8 px-4 dialog-divider dialog-scrollable-content has-action-footer">
+            <div class="row pb-3 pt-4">
+                <div class="col-12">
+                    <h5 class="pb-2 font-weight-bold">
+                        <span *ngIf="data.waitparty.waitListType.id == 1">WALK-IN</span>
+                        <span class="text-warning" *ngIf="data.waitparty.waitListType.id == 2">CALL AHEAD</span>
+                        <span class="text-warning" *ngIf="data.waitparty.waitListType.id == 3">TAP AHEAD</span>
+                    </h5>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="text-muted">{{userDetails.createdDate | date : 'hh:mm'}}
+                            <small>{{userDetails.createdDate | date : 'a'}} </small>
+                        </h6>
+                        <h5 class="font-weight-normal">{{data.waitparty.spentTime}}
+                            <!-- <small>min</small> -->
+                            <span class="text-muted">/ {{data.waitparty.quotedWaitTime | slice : 0 : 5}}
+                                <!-- <small>min</small> -->
+                            </span>
+                        </h5>
+                        <h6 class="text-muted">{{expectedEndTime | date : 'hh:mm'}}
+                            <small>{{expectedEndTime | date : 'a'}}</small>
+                        </h6>
+                    </div>
+                    <mat-progress-bar [ngClass]="{'wait-time-reached' : percentage > 90}" mode="determinate" [value]="data.waitparty.percent"></mat-progress-bar>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr class="w-100" />
+                </div>
+            </div>
+            <div class="row py-4">
+                <div class="col-12 font-weight-bold">
+                    <user-info (click)="editparty()" [type]="'WaitList'" [userDetails]="userDetails"></user-info>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr class="w-100" />
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-5 pt-5 d-flex align-items-center">
+                    <button class="circleToggle party-arrival" (click)="data.waitparty.waitListType.id == 2 && confirmPartyArrival(userDetails)"
+                        [ngClass]="{'selected':data.waitparty.waitListType.id == 1}">
+                        <i class="material-icons md-36 p-2">directions_run</i>
+                    </button>
+                    <p class="ml-2 mb-0 text-muted font-weight-bold d-flex align-items-center">PARTY
+                        <span *ngIf="data.waitparty.waitListType.id == 2">&nbsp;NOT&nbsp;</span> ARRIVED</p>
+                </div>
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <h4 class="text-muted">Priority</h4>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <button class="circleToggle med-priority" (click)="medPriority = !medPriority; highPriority = false; editWaitlist()" [ngClass]="{'selected':medPriority}">
+                                <h2 class="font-weight-bold px-1 py-2">M</h2>
+                            </button>
+                            <p class="ml-2 mr-5 mb-0 text-muted font-weight-bold d-flex align-items-center">MEDIUM</p>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <button class="circleToggle hg-priority" (click)="highPriority = !highPriority; medPriority = false; editWaitlist()" [ngClass]="{'selected':highPriority}">
+                                <h2 class="font-weight-bold px-1 py-2">H</h2>
+                            </button>
+                            <p class="ml-2 mb-0 text-muted font-weight-bold d-flex align-items-center">HIGH</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4 pr-0 guest-msg-his-tabs-cntr">
+            <view-tabs class="view-tabs" (tabChange)="selectedTabChange($event)" [visitHistory]="userDetails.visitHistory" [type]="'WaitList'" [guestId]="userDetails.guest ? userDetails.guest.id : null"></view-tabs>
+            <div class="d-flex align-items-end px-3 message-type-field" *ngIf="tab">
+                <input matInput [(ngModel)]="message.messageText" placeholder="Please enter a message.">
+                <i class="material-icons cursor-pointer" *ngIf="message.messageText && checkEmptyString()"  (click)="messageSend()">
+                    send
+                </i>
+            </div>
+        </div>
+    </div>
+    <select-waitlist [hidden]="!showWaitlist" [(selectedID)]="data.waitListID" (selectedIDChange)="editWaitlist()"></select-waitlist>
+</div>
+
+<div class="dialog-footer text-center d-flex justify-content-between">
+    <div class="col-md-2">
+        <button class="circle p-3 bg-white" (click)="seatParty(data.waitparty.waitListDataID, data.waitparty.waitListType.id, data.waitparty)">
+            <i class="material-icons md-42 text-warning">
+                fullscreen
+            </i>
+        </button>
+        <p><small>SEAT PARTY</small></p>
+    </div>
+    <div class="col-md-2">
+        <button *ngIf="modules.hasModuleTable" class="circle p-3 bg-white" (click)="suggestTable(data.waitparty.waitListDataID)">
+            <i class="material-icons md-42 text-info" *ngIf="data.waitparty.suggestedTableName==null">
+                scatter_plot  
+
+            </i>
+            <span class="text-dark font-weight-500" *ngIf="data.waitparty.suggestedTableName">
+                    {{data.waitparty.suggestedTableName}}
+            </span> 
+        </button>
+
+        <button *ngIf="!modules.hasModuleTable" [disabled]="true" class="circle p-3 bg-white">
+            <i class="material-icons md-42 text-info">
+                scatter_plot
+            </i>
+        </button>
+
+        <p [ngClass]="{'text-extra-muted': !modules.hasModuleTable}"><small>SUGGESTED TABLE</small></p>
+    </div>
+    <div class="col-md-2 ">
+        <button class="circle p-3 bg-white" [ngClass]="{'moveToWaitlistBtn' : showWaitlist}" (click)="showWaitlist = !showWaitlist">
+            <span class="md-42 font-weight-normal text-capitalize" [ngClass]="{'moveToWaitlistBtn':showWaitlist, 'text-warning': !showWaitlist}">
+                <!-- {{data.waitparty.waitListName}} -->
+                {{ (data.waitparty.waitListName.length>6)? (data.waitparty.waitListName | slice:0:4)+'...':(data.waitparty.waitListName) }}
+            </span>
+        </button>
+        <p><small>SWITCH WAIT LIST</small></p>
+    </div>
+    <div class="col-md-2">
+        <button class="circle p-3 bg-white" [disabled]="userDetails.isFromReservation==true" (click)="confirmNoShow()">
+            <i class="material-icons md-42 text-danger">block</i>
+        </button>
+        <p><small>NO SHOW</small></p>
+    </div>
+    <div class="col-md-2 ">
+        <button class="circle p-3 bg-white" (click)="confirmDelete()">
+            <i class="material-icons md-42 text-danger">delete</i>
+        </button>
+        <p><small>DELETE</small></p>
+    </div>
+</div>
+

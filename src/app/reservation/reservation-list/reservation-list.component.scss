@@ -1,0 +1,138 @@
+@import "../../../scss/_module-variables.scss";
+
+.table {
+  th,
+  td {
+    padding: 1.2rem 0.5rem;
+    vertical-align: middle;
+    &.group-header {
+      background: lighten(#f1f3f5, 3);
+    }
+  }
+  .no-top-border {
+    tr:first-child {
+      td {
+        border-top: 0;
+      }
+    }
+  }
+}
+.bottom-border:last-child {
+  td{
+    border-bottom:1px solid #eaeef1;
+
+  }
+}
+.badge {
+  padding: 0.5em 0.6em;
+  border-radius: 19px;
+  background: $brand-reservation;
+  position: relative;
+  top: -15px;
+  left: -12px;
+}
+
+.scrollable-content-reservation {
+  max-height: calc(
+    100vh - #{$reservation-header + $navbar-height + $inline-header-height}
+  );
+  height: calc(
+    100vh - #{$reservation-header + $navbar-height + $inline-header-height}
+  );
+  overflow: auto;
+  &.no-filters {
+    max-height: calc(100vh - #{$navbar-height + $inline-header-height});
+    height: calc(100vh - #{$navbar-height + $inline-header-height});
+  }
+}
+.text-primary {
+  color: $brand-reservation !important;
+}
+.bg-primary {
+  background: $brand-reservation !important;
+}
+.btn-primary {
+  background: $brand-reservation !important;
+  border-color: $brand-reservation !important;
+}
+.muteBadge {
+  background: $gray-lighter;
+}
+.spinner {
+  width: 70px;
+  text-align: center;
+  position: relative;
+}
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: $brand-reservation;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+.table-name-display {
+  max-width: 75px;
+  min-width: 75px;
+  position: relative;
+  background: $gray-lighter;
+  border-color: darken($gray-lighter, 5%);
+  .color-bar {
+    width: 5px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+@-webkit-keyframes sk-bouncedelay {
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+  }
+}
+@keyframes sk-bouncedelay {
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+.hg-priority {
+  background: transparent;
+  border: $brand-danger solid 2px;
+  color: $brand-danger;
+}
+.opacity-70 {
+  opacity: 0.7 !important;
+  cursor: default !important;
+}
+.cursor-default {
+  cursor: default !important;
+}
+.seat-icon {
+  transform: rotate(180deg);
+  transform-origin: center;
+}
+
+.party-desc{
+  max-width: 340px;
+}

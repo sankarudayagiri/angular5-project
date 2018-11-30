@@ -1,0 +1,242 @@
+$brand-primary: #4c7acf;
+
+.rule-cards {
+  justify-content: space-around;
+  padding-left: 20px;
+}
+.rule-card-1 {
+  display: flex;
+  justify-content: space-around;
+}
+.allow-count {
+  display: inline-flex;
+  h4 {
+    padding-top: 8px;
+  }
+}
+.close {
+  color: white;
+}
+section > button {
+  margin: 5px;
+}
+
+.delete-icon {
+  font-size: 24px;
+}
+.rule-heading {
+  padding-top: 10px;
+  h5 {
+    text-align: left;
+    float: left;
+    width: 22%;
+    button {
+      border-radius: 20px;
+      // margin-right: 140px;
+      background-color: white;
+      color: black;
+      cursor: default;
+      font-size: 15px;
+    }
+  }
+}
+.rule-setting {
+  h5 {
+    text-align: left;
+  }
+  .copy-code-area {
+    width: 1000px;
+    background-color: #f1f3f5;
+    resize: none;
+    border: none;
+  }
+  .setting-top {
+    display: flex;
+
+    span {
+      margin-left: 390px;
+    }
+  }
+  .setting-buttom {
+    display: flex;
+    justify-content: space-around;
+    .reservation-type {
+      padding-top: 38px;
+    }
+  }
+}
+.cover-count {
+  display: inline-flex;
+  padding-left: 20px;
+  h4 {
+    padding-top: 10px;
+  }
+}
+.my-date-picker {
+  width: 50%;
+}
+.example-events {
+  width: 350px;
+  height: 50px;
+  border: none;
+  overflow: auto;
+}
+.breadcrumb {
+  background-color: #e2e2e2;
+  border-bottom: none;
+  margin: 0px;
+}
+.breadcrumb-item.active {
+  color: forestgreen !important;
+}
+//REVISIT THE STYLES
+input {
+  width: 100%;
+}
+input.h2 {
+  font-size: 2rem;
+  margin-top: -2rem;
+  width: inherit;
+}
+:host ::ng-deep input.h3 {
+  font-size: 1.5rem;
+  margin-top: -1.5rem;
+  width: inherit;
+}
+.reservation-rule-container p {
+  margin-bottom: 0.8rem;
+}
+.no-rule-cntr {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.mat-mini-fab:not([class*="mat-elevation-z"]) {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  background: #e2e2e2;
+  color: #000;
+  font-weight: normal;
+  width: 38px;
+  height: 38px;
+}
+.mat-mini-fab.bg-primary:not([class*="mat-elevation-z"]) {
+  color: #fff;
+}
+body,
+button,
+a,
+span {
+  &:focus {
+    outline: none;
+  }
+}
+button h3 {
+  line-height: 24px;
+}
+.mat-form-field {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+}
+.mat-form-field-infix {
+  display: block;
+  position: relative;
+  flex: auto;
+  min-width: 0;
+  width: 180px;
+  /**/
+}
+.mat-button-wrapper {
+  display: inline-block;
+  line-height: 24px;
+}
+
+.recurence-timeSlots {
+  padding: 10px 15px;
+}
+:host ::ng-deep .mat-button-toggle-label-content {
+  line-height: 27px;
+  padding: 4px 14px;
+}
+
+.mat-button-toggle {
+  background-color: #e2e2e2;
+  color: black;
+}
+:host ::ng-deep .mat-button-toggle-checked {
+  background-color: $brand-primary;
+  color: white;
+}
+:host ::ng-deep .mat-button-toggle-label {
+  margin: 0px;
+}
+.date-list > div {
+  padding: 2px 8px;
+  border-radius: 30px;
+  margin: 0 2px 8px 0;
+  color: white;
+  display: inline-block;
+  .mat-input-element {
+    z-index: -10;
+    position: relative;
+    height: 0;
+    width: 0;
+    margin-left: -2px;
+    .mat-icon-button {
+      width: 0;
+      height: 0;
+    }
+  }
+}
+.mat-datepicker-toggle-default-icon {
+  width: 1em;
+  //  margin: -9px;
+  margin-left: -12px;
+}
+
+:host
+  ::ng-deep
+  .mat-radio-button.mat-accent.mat-radio-checked
+  .mat-radio-outer-circle {
+  border-color: $brand-primary;
+}
+:host ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: $brand-primary;
+}
+.date-picker {
+  .mat-form-field-underline {
+    height: 0px;
+  }
+}
+
+.close {
+  color: white;
+}
+
+.selected-values {
+  span:last-child {
+    .comma-seperator {
+      display: none;
+    }
+  }
+}
+.card {
+  .rule-info {
+    background: #f9f9f9;
+  }
+  .timepicker-error-message {
+    margin-top: -16px;
+    margin-bottom: -4px;
+  }
+}
+
+.mat-form-field {
+  text-align: left;
+}
+
+.badge {
+  border-radius: 20px;
+}

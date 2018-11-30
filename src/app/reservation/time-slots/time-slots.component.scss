@@ -1,0 +1,58 @@
+@import "../../../scss/_module-variables.scss";
+
+.text-primary {
+  color: $brand-reservation !important;
+}
+
+.bg-primary {
+  background: $brand-reservation !important;
+}
+
+.btn-primary {
+  background: $brand-reservation !important;
+  border-color: $brand-reservation !important;
+}
+
+.pills {
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      margin-bottom: 3px;
+      a {
+        display: block;
+        padding: 5px 10px;
+        border-radius: 25px;
+        border: #ccc solid 1px;
+        background: #fff;
+        min-width: 78px;
+        margin-right: 2px;
+        text-align: center;
+        .badge {
+          color: #000;
+          background: rgba(0, 0, 0, 0.1);
+          padding: 6px;
+          border-radius: 20px;
+        }
+        &.active {
+          background: $brand-reservation;
+          border-color: $brand-reservation;
+          color: #fff;
+          .badge {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+.filter-pills ul li a {
+  padding: 4px 4px 4px 10px;
+}
+
+.dialog-time-slots {
+  text-align: center;
+}

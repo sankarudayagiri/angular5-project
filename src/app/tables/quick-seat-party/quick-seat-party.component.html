@@ -1,0 +1,57 @@
+<div class="row mt-4 justify-content-center">
+    <div class="col-3 text-center">
+        <div class="col-12">
+            <img src="assets/img/plate-icon@2x.png" width="120" class="my-2">
+        </div>
+        <div class="d-inline-flex align-items-center my-3">
+            <span class="h5 mr-2 text-muted">
+                <span class="font-weight-bold">REGULAR</span>
+            </span>
+            <mat-slide-toggle class="toggle-success" [(ngModel)]="seatPartyModel.isEvent">
+                <h5 class="font-weight-bold text-muted">EVENT</h5>
+            </mat-slide-toggle>
+        </div>
+    </div>
+</div>
+<div class="col-12">
+    <hr/>
+</div>
+<div class="container-fluid">
+    <div class="row p-4 text-center justify-content-center">
+        <div class="col-lg-10">
+            <div class="row justify-content-center">
+                <div class="col-lg-3 col-sm-6">
+                    <h6 class="text-muted">
+                        <i class="icon-people d-inline-block mr-2"></i>Adults</h6>
+                    <number-stepper [(modelValue)]="seatPartyModel.adultCovers" (click)="clear($event)"[required]="true" name="adult-covers" [minValue]="1" [maxValue]="999"></number-stepper>
+                    <div *ngIf="!seatPartyModel.adultCovers" class="help-block text-danger custom-validator">
+                        <small>Adults count is Required</small>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <h6 class="text-muted">
+                        <i class="icon-people d-inline-block mr-2"></i> Kids</h6>
+                    <number-stepper [(modelValue)]="seatPartyModel.childCovers" (click)="clearValue($event)" name="kids-covers" [minValue]="0" [maxValue]="999"></number-stepper>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="row justify-content-center mt-3">
+  <button class="btn btn-lg btn-tables mx-2" (click)="seatParty()">
+    +
+    <small>SEAT PARTY</small>
+  </button>
+  <button class="btn btn-lg btn-waitlist mx-2" *ngIf="(data.panels && data.panels.showReservationList) || (data.panels && data.panels.showWaitlist)" (click)="seatFromListPanelOpen = true">
+    +
+    <small>SEAT FROM LIST</small>
+  </button>
+  <button class="btn btn-lg btn-outline-success mx-2" (click)="addParty();">
+    +
+    <small>ADD DETAILS</small>
+  </button>
+</div>
+</div>
+    <div class="bg-overlay-seatfrom-list" *ngIf="seatFromListPanelOpen"></div>
+    <div class="aside-seatfrom-list" [ngClass]="{'open' : seatFromListPanelOpen}">
+        <aside-panel [parent]="'seat-modal'" [panels]="data.panels" [tableID]="data.table.tableID" [panelToggle]="seatFromListPanelOpen" (panelToggleChange)="seatFromListPanelOpen = false"></aside-panel>
+    </div>

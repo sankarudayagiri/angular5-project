@@ -1,0 +1,54 @@
+@import "../../../scss/_module-variables.scss";
+
+.badge {
+  padding: 8px;
+  border-radius: 3px;
+  background: #eff0f2;
+  color: #000;
+  &.active {
+    background: #08b0d5;
+    color: #fff;
+  }
+}
+
+hr {
+  width: 325px;
+}
+
+.circle {
+  outline: none;
+  border: none;
+  border-radius: 50px;
+  height: 70px;
+  width: 70px;
+  padding-top: 14px;
+  background: #fff !important;
+}
+
+:host ::ng-deep {
+  &.mat-button-toggle {
+    border: 2px solid $brand-primary;
+    margin-right: 4px;
+    color: $brand-primary;
+    background: #fff !important;
+    &:focus {
+      background: #fff !important;
+    }
+    &.mat-button-toggle-checked {
+      background: $brand-primary !important;
+      color: #fff;
+    }
+  }
+  .mat-button-toggle-group {
+    box-shadow: none;
+  }
+}
+
+.border {
+  border: $gray-lighter solid 1px;
+}
+
+.opener-icon {
+  transform: rotate(180deg);
+  transform-origin: center;
+}

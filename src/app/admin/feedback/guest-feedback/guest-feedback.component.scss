@@ -1,0 +1,24 @@
+@import "../../../../scss/_module-variables.scss";
+
+mat-form-field {
+  width: 100px;
+}
+.phone-icon {
+  margin-top: -20px;
+}
+.ratings {
+  color: $brand-primary;
+  font-size: 14px;
+}
+
+.icon-ratings {
+  color: $brand-waitlist;
+  font-size: 14px;
+}
+.smilies {
+  color: $brand-waitlist;
+  font-size: 55px;
+}
+a.active {
+  color: $brand-primary;
+}

@@ -1,0 +1,131 @@
+<div class="row m-0">
+    <div class="col-md-4 p-0 fh-container has-header">
+        <ul class="link-tab-list px-4">
+            <li>
+                <a [routerLink]="['/staff/shift']">SHIFT</a>
+            </li>
+            <li>
+                <a [routerLink]="['/staff/shift-layouts']">SHIFT LAYOUTS</a>
+            </li>
+            <li>
+                <a routerLinkActive="active" [routerLink]="['/staff/staff-list']">STAFF</a>
+            </li>
+        </ul>
+        <div class="px-4 scrollable-content">
+            <ul class="list-items">
+                <li class="cursor-pointer" [ngClass]="{'active' : selectedStaffType == 'All'}" (click)="getFilteredStaffList('All')">
+                    <p class="text-uppercase font-weight-normal">ALL
+                        <span class="badge badge-pill small badge-primary">{{staffCount.all}}</span>
+                    </p>
+                </li>
+                <li class="cursor-pointer" [ngClass]="{'active' : selectedStaffType == 'Servers'}" (click)="getFilteredStaffList('Servers')">
+                    <p class="text-uppercase font-weight-normal">SERVERS
+                        <span class="badge badge-pill small badge-primary">{{staffCount.servers}}</span>
+                    </p>
+                </li>
+                <li class="cursor-pointer" [ngClass]="{'active' : selectedStaffType == 'Managers'}" (click)="getFilteredStaffList('Managers')">
+                    <p class="text-uppercase font-weight-normal">MANAGERS
+                        <span class="badge badge-pill small badge-primary">{{staffCount.managers}}</span>
+                    </p>
+                </li>
+                <li class="cursor-pointer" [ngClass]="{'active' : selectedStaffType == 'Kitchen Staff'}" (click)="getFilteredStaffList('Kitchen Staff')">
+                    <p class="text-uppercase font-weight-normal">KITCHEN STAFF
+                        <span class="badge badge-pill small badge-primary">{{staffCount.kitchenstaff}}</span>
+                    </p>
+                </li>
+                <li class="cursor-pointer" [ngClass]="{'active' : selectedStaffType == 'Others'}" (click)="getFilteredStaffList('Others')">
+                    <p class="text-uppercase font-weight-normal">OTHERS
+                        <span class="badge badge-pill small badge-primary">{{staffCount.others}}</span>
+                    </p>
+                </li>
+            </ul>
+        </div>
+        <div class="px-4 btn-container">
+            <button class="btn btn-primary" (click)="addStaff()">+ ADD STAFF</button>
+        </div>
+    </div>
+    <div class="col-md-8 p-0 bg-white fh-container has-header">
+        <div class="no-rule-cntr fh-container d-flex align-items-center justify-content-center" *ngIf="staffCount.all < 1">
+            <div class="col-12 text-center">
+                <h6>NO STAFF</h6>
+                <button class="btn btn-lg btn-primary" (click)="addStaff()">+
+                    <small>ADD STAFF</small>
+                </button>
+            </div>
+        </div>
+        <div class="col-12 p-0 h-100" *ngIf="staffCount.all > 0">
+            <!-- <div class="header d-flex align-items-center">
+                <div class="row w-100">
+                    <div class="col-md-7">
+                        <div class="input-group pl-3">
+                            <div class="input-group-prepend pt-1">
+                                <i class="icons icon-magnifier mt-2 lead"></i>
+                            </div>
+                            <input type="text" [(ngModel)]="searchText" class="form-control border-0" placeholder="Search here...">
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="header d-flex align-items-center">
+                <div class="row m-0 px-2 w-100">
+                    <div class="col-md-7">
+                        <h5 class="font-weight-normal">{{selectedStaffType}}</h5>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="staffList.length < 1" style="height: 80vh;" class="no-rule-cntr d-flex align-items-center justify-content-center">
+                <div class="col-12 text-center">
+                    <h6>NO RESULTS</h6>
+                </div>
+            </div>
+            <div class="scrollable-content no-btn-container">
+                <div class="table-responsive px-2">
+                    <table class="table table-responsive table-hover mb-0">
+                        <tbody class="border-0">
+                            <tr (click)="viewStaff(staff)" *ngFor="let staff of staffList | filter : searchText : 'firstName' ; let index = index;">
+                                <td class="text-left mx-60">
+                                    <div class="display-name small bg-light text-white" [style.background]="staff.colorCode">
+                                        <h5>
+                                            <small class="text-uppercase font-weight-normal">{{staff.initials}}</small>
+                                        </h5>
+                                        <!-- <span class="avatar-status badge-success"></span> -->
+                                    </div>
+                                </td>
+                                <td class="col-4" style="max-width: 180px; word-wrap: break-word;">
+                                    <div>
+                                        <h6 class="mb-0 font-weight-normal">{{staff.firstName | uppercase}}
+                                            <span>&nbsp;{{staff.lastName | uppercase}}</span>
+                                        </h6>
+                                    </div>
+                                    <div class="text-muted">
+                                        <small *ngIf="staff.isServer">SERVER</small>
+                                        <small *ngIf="staff.isManager">MANAGER</small>
+                                        <small *ngIf="staff.isKitchenStaff">KITCHEN STAFF</small>
+                                        <small *ngIf="staff.isOther">OTHERS</small>
+                                    </div>
+                                </td>
+                                <td class="col-3">
+                                    <div class="d-flex">
+                                        <i class="material-icons text-muted mx-2">
+                                            nfc
+                                        </i>
+                                        <span class="h5 font-weight-500">{{staff.pager}}</span>
+                                        <span class="text-extra-muted" *ngIf="!staff.pager">NO PAGER</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <i class="icons icon-phone mx-2"></i>
+                                    <span class="h5 font-weight-normal" *ngIf="staff.phoneNumber">{{staff.countryCode}} {{staff.phoneNumber}}</span>
+                                    <span class="text-extra-muted" *ngIf="!staff.phoneNumber">NO DETAILS</span>
+                                </td>
+                                <td click-stop-propagation>
+                                    <i class="material-icons text-danger cursor-pointer" (click)="showDeleteConfirm(staff.id)">delete_outline</i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

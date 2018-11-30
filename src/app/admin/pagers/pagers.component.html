@@ -1,0 +1,94 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- <div class="card p-5  ">
+            <h6 class="text-black font-weight-bold"> Add Alpha Pager(s)</h6> -->
+        <mat-radio-group class="mt-4">
+            <mat-radio-button color="primary" value="1" class="mr-3" [checked]="range==false" (click)="range=false;error=false;addPager=null;samePagerNumberError=false">Individual</mat-radio-button>
+            <mat-radio-button color="primary" value="2" [checked]="range==true" (click)="range=true;pagerTo=null;pagerFrom=null;samePagerNumberError=false">Range</mat-radio-button>
+        </mat-radio-group>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <form name="form" (ngSubmit)="f.form.valid && addPagers()" #f="ngForm" novalidate>
+                    <span *ngIf="range">
+                        <mat-form-field>
+                            <input maxlength="5" matInput name="pagers-from" autocomplete="off" (focus)="error=false;samePagerNumberError=false" [(input)]="pagerFrom" (focusout)="pagersRangeCheck($event)"
+                                (keyup)="pagersRangeCheck($event)" placeholder="Pager(s) from" [(ngModel)]="pagerFrom" [numbersOnly]>
+                        </mat-form-field>
+                        <mat-form-field class="ml-3">
+                            <input maxlength="5" matInput name="pagers-to" autocomplete="off" (focus)="error=false;samePagerNumberError=false" (focusout)="pagersRangeCheck($event)"
+                                placeholder="Pager(s) to" (keyup)="pagersRangeCheck($event)" [(ngModel)]="pagerTo" [(input)]="pagerTo"
+                                [numbersOnly]>
+                        </mat-form-field>
+                    </span>
+                    <span *ngIf="!range">
+                        <mat-form-field>
+                            <input maxlength="5" matInput name="individual" [numbersOnly] [(input)]="addPager" [allowComma]="true" autocomplete="off"
+                                placeholder="Pager(s)" [(ngModel)]="addPager" (focus)="pagersRangeCheck($event)" >
+                        </mat-form-field>
+                    </span>
+                    <button class="btn btn-primary ml-3" [disabled]="(!range && !addPager) || (range && (!pagerFrom || !pagerTo) ||  error)">ADD</button>
+                </form>
+            </div>
+            <span *ngIf="error" class="text-danger ml-3">A range of 100 pagers can be entered at a time. </span>
+            <span *ngIf="samePagerNumberError" class="text-danger ml-3">
+                <span *ngIf="samePagerNumberLength==1" >Pager number already exists in the list.
+                </span>
+                <span *ngIf="samePagerNumberLength > 1" >Few pager numbers already exists in the list.
+                </span>
+            </span>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12">
+                <hr/>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-10 mt-2">
+                <div *ngIf="type=='alpha'">
+                    <h6 class="text-black font-weight-bold mb-4"> Active Alpha Pager(s)</h6>
+                </div>
+                <div *ngIf="type=='numeric'">
+                    <h6 class="text-black font-weight-bold mb-4"> Active Numeric Pager(s)</h6>
+                </div>
+                <!-- <span *ngFor="let pager of alphaPagerList;let index=index">
+                    <span class="badge mb-2 cursor-pointer" (click)="selectAllPagers=false;selected[index]=!selected[index];selectPager(index,pager)"
+                        [ngClass]="selected[index] ? 'bg-primary' : ''">
+                        {{pager}}
+                    </span>
+                </span>
+                <span *ngFor="let pager of numericPagerList;let index=index">
+                    <span class="badge mb-2 cursor-pointer" (click)="selectAllPagers=false;selected[index]=!selected[index];selectPager(index,pager)"
+                        [ngClass]="selected[index] ? 'bg-primary' : ''">{{pager}}</span>
+                </span> -->
+                <span *ngFor="let pager of pagers;let index=index">
+                    <span class="badge mb-2 cursor-pointer" (click)="selectAllPagers=false;selected[index]=!selected[index];selectPager(index,pager)"
+                        [ngClass]="selected[index] ? 'bg-primary' : ''">{{pager}}</span>
+                </span>
+            </div>
+
+        </div>
+        <div class="row mt-5 ">
+            <div class="col-md-12">
+                <hr/>
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-md-3">
+                <mat-checkbox color="primary" class="mr-3 text-muted" [checked]="selectAllPagers==true" [(ngModel)]="selectAllPagers" (change)="selectAll($event)">
+                    <span>Select All</span>
+                </mat-checkbox>
+            </div>
+            <div class="col-md-7">
+                <p class="font-weight-bold text-muted pull-right">{{selectedPagersIndex}} pagers are selected</p>
+            </div>
+            <div class="col-md-2">
+                <i class="material-icons text-danger cursor-pointer" [ngClass]="{'disabled' : selectedPagersIndex == 0}" (click)="deletePager()">delete_outline</i>
+            </div>
+        </div>
+        <!-- <div class="row"> -->
+
+        <!-- </div> -->
+    </div>
+
+</div>

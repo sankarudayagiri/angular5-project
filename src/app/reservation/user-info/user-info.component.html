@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-md-4">
+        <i class="icon-people font-weight-bold mr-2"></i>
+        <span class="h4 font-weight-500"> {{userDetails.adultCovers + userDetails.childCovers}}
+            <small class="text-muted">({{userDetails.adultCovers}}/{{userDetails.childCovers}})</small>
+        </span>
+    </div>
+    <div class="col-md-4 text-truncate">
+        <i class="icon-user font-weight-bold mr-2"></i>
+        <i class="material-icons text-warning" *ngIf="userDetails.guest" [ngClass]="{'d-none' :  !userDetails.isFrequentGuest && !userDetails.guest.isFrequentGuest }">
+            star
+        </i>
+        <span class="h4 font-weight-500 text-capitalize" *ngIf="userDetails.guest">{{userDetails.guest.name}}</span>
+        <span class="text-extra-muted" *ngIf="!userDetails.guest">NO DETAILS</span>
+
+    </div>
+    <div class="col-md-4">
+        <i class="icon-phone font-weight-bold mr-2"></i>
+        <span class="h4 font-weight-500" *ngIf="userDetails.guest">{{userDetails.guest ? userDetails.guest.countryCode : ""}}&nbsp;{{userDetails.guest ? userDetails.guest.phone : ''}}</span>
+        <span class="text-extra-muted" *ngIf="!userDetails.guest">NO DETAILS</span>
+    </div>
+
+</div>
+<div class="row mt-4">
+
+    <div class="col-md-4 d-flex align-items-center" *ngIf="type=='WaitList'">
+        <!-- <i class="icon-phone font-weight-bold mr-2"></i> -->
+        <i class="material-icons text-dark mr-2">nfc</i>
+        <span class="h4 font-weight-500">{{userDetails.pagerNumber? userDetails.pagerNumber:''}}</span>
+        <span class="text-extra-muted" *ngIf="!userDetails.pagerNumber">NO PAGER</span>
+    </div>
+    <div class="col-md-8 d-flex align-items-center">
+        <i class="icon-note font-weight-bold mr-2 pull-left"></i>
+        <div *ngIf="userDetails.notes && (userDetails.notes.notes || userDetails.notes.customNotes)">
+            <mat-chip-list class="mat-chip-list-wrapper">
+                <mat-chip class="mb-2" *ngIf="userDetails.notes.customNotes">
+                    <span>{{userDetails.notes.customNotes}}</span>
+                </mat-chip>
+                <mat-chip *ngFor="let chip of userDetails.notes.notes;let index=index" class="mb-2">
+                        <span>{{chip.description}}</span>
+                    </mat-chip>
+            </mat-chip-list>
+        </div>
+        <span class="text-extra-muted" *ngIf="userDetails.notes && ((userDetails.notes.notes && userDetails.notes.notes.length < 1 && !userDetails.notes.customNotes) || (!userDetails.notes.notes && !userDetails.notes.customNotes))">NO NOTES</span>
+    </div>
+</div>
+
+<!-- <div *ngIf="openModal">
+    <model-pop-up  ></model-pop-up>
+</div> -->

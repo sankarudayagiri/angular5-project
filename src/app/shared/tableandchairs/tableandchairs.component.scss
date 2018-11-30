@@ -1,0 +1,84 @@
+@import "../../../scss/_module-variables.scss";
+
+.svg-table-error {
+  fill: $brand-danger;
+}
+
+.svg-table-chairs {
+  &.Occupied-start {
+    fill: darken($brand-tables, 6%);
+  }
+  &.Occupied-half {
+    fill: darken(#fbcb25, 10%);
+  }
+  &.Occupied-end {
+    fill: darken($brand-danger, 6%);
+  }
+  &.Held {
+    fill: #a43839;
+  }
+  &.table-selected {
+    fill: #719c35;
+  }
+  &.table-deselected {
+    fill: #aeaeae;
+  }
+  &.Occupied-end.table-deselected {
+    fill: darken($brand-danger, 6%) !important;
+  }
+}
+
+.svg-table {
+  cursor: pointer;
+  &.Occupied-start {
+    fill: $brand-tables;
+  }
+  &.Occupied-half {
+    fill: #fbcb25;
+  }
+  &.Occupied-end {
+    fill: $brand-danger;
+  }
+  &.Available {
+    fill: #fff;
+  }
+  &.Blocked {
+    fill: #aeaeae;
+  }
+  &.Held {
+    fill: #fff;
+  }
+  &.table-selected {
+    fill: #8dc641;
+  }
+  &.table-deselected {
+    fill: #fff;
+  }
+  &.Occupied-end.table-deselected {
+    fill: $brand-danger !important;
+  }
+}
+
+.svg-table-text {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  &.table-selected,
+  &.occupied-text {
+    fill: #fff;
+  }
+  &.table-deselected {
+    fill: #161225;
+  }
+  &.Occupied-end.table-deselected {
+    fill: #fff;
+  }
+}
+
+.server-initials {
+  text-transform: uppercase;
+  font-size: 12px;
+}

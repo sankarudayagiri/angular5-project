@@ -1,0 +1,192 @@
+@import "../../scss/_module-variables.scss";
+
+:host ::ng-deep .tab-content {
+  .tab-pane {
+    padding: 0;
+  }
+}
+
+//Target child component style
+:host ::ng-deep .nav-tabs {
+  .nav-item.active .nav-link {
+    background: transparent;
+    border-color: transparent;
+    border-bottom: $brand-waitlist solid 2px;
+    color: $brand-waitlist;
+  }
+}
+
+:host ::ng-deep .nav-tabs {
+  .nav-item .nav-link {
+    &:hover {
+      color: $brand-waitlist;
+    }
+  }
+}
+
+.text-primary {
+  color: $brand-waitlist !important;
+}
+
+.bg-primary {
+  background: $brand-waitlist !important;
+}
+
+.btn-primary {
+  background: $brand-waitlist !important;
+  border-color: $brand-waitlist !important;
+}
+
+.btn-outline-waitlist {
+  border-color: $brand-waitlist !important;
+}
+
+.hidden-date-form {
+  margin-bottom: -50px;
+}
+
+.pills {
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      margin-bottom: 3px;
+      a {
+        display: block;
+        padding: 4px 5px;
+        border-radius: 25px;
+        border: #ccc solid 2px;
+        .badge {
+          color: #000;
+          background: rgba(0, 0, 0, 0.1);
+          padding: 6px;
+          border-radius: 20px;
+        }
+        &.active {
+          background: $brand-waitlist;
+          border-color: $brand-waitlist;
+          color: #fff;
+          .badge {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+.filter-pills ul li a {
+  padding: 4px 4px 4px 10px;
+}
+
+.card .floated-btn {
+  position: absolute;
+  right: 20px;
+}
+
+.link-tab-list {
+  overflow: visible !important;
+  //margin-bottom: 0 !important;
+  li {
+    position: relative;
+    a {
+      color: $brand-dark;
+      
+      &.active {
+        border-bottom: $brand-waitlist solid 2px;
+        color: $brand-waitlist;
+      }
+      &:hover {
+        color: $brand-waitlist !important;
+      }
+    }
+    .waitlist-options {
+      position: fixed;
+      //bottom: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      border-radius: 4px;
+      padding: 6px 4px 2px;
+      min-width: 60px;
+      i {
+        color: #fff;
+        padding: 0 2px;
+        cursor: pointer;
+      }
+    }
+    &:hover {
+      .waitlist-options {
+        display: block;
+      }
+    }
+  }
+  &.filter-tabs {
+    li{
+      a{
+        padding: 6px 0;
+      }
+    }
+  }
+}
+
+drag-scroll {
+  height: 50px;
+}
+
+:host ::ng-deep swiper .swiper-container {
+  height: 55px !important;
+  padding-left: 20px;
+}
+
+.swiper-cntr{
+  padding-left: 90px;
+}
+
+.list-filters{
+  margin-top: -10px !important;
+}
+
+.scrollable-content-waitlist {
+  max-height: calc(
+    100vh - #{$waitlist-header + $navbar-height + $inline-header-height}
+  );
+  height: calc(
+    100vh - #{$waitlist-header + $navbar-height + $inline-header-height}
+  );
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
+    margin-left: -10px;
+    -webkit-appearance: none;
+  }
+  // &::-webkit-scrollbar-button {    }
+  &::-webkit-scrollbar-track {
+    background-color: lighten($gray-lighter, 5%);
+  }
+  // &::-webkit-scrollbar-track-piece {    }
+  &::-webkit-scrollbar-thumb {
+    height: 50px;
+    background-color: darken($gray-lighter, 10%);
+    background-clip: content-box;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 1px 2px;
+    border-radius: 10px;
+  }
+  &.no-filters {
+    max-height: calc(
+      100vh - #{$navbar-height + $inline-header-height +
+        $waitlist-filtertabs-cntr}
+    );
+    height: calc(
+      100vh - #{$navbar-height + $inline-header-height +
+        $waitlist-filtertabs-cntr}
+    );
+  }
+  &.no-header {
+    max-height: calc(100vh - #{$navbar-height + $inline-header-height});
+    height: calc(100vh - #{$navbar-height + $inline-header-height});
+  }
+}

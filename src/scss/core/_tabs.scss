@@ -1,0 +1,32 @@
+.nav-tabs {
+  padding:0;
+  border-bottom:0; 
+  .nav-link {
+    padding: 0.8rem 0;
+    margin: 0 15px;
+    &.active {
+      background: transparent;
+      border-color: transparent;
+      border-bottom: $brand-primary solid 2px;
+      color: $brand-primary;
+      &:focus {
+        background: transparent;
+        border-color: transparent;
+        border-bottom: $brand-primary solid 2px;
+      }
+    }
+    &:hover{
+      border-color:transparent;
+      color: $brand-primary;
+    }
+  }
+}
+
+
+.tab-content {
+  margin-left: 1.5rem;
+  background: transparent;
+  border: none;
+  .tab-pane {
+  }
+}

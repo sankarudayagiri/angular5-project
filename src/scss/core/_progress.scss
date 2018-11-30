@@ -1,0 +1,28 @@
+.progress{
+  border-radius:10px;
+  overflow: hidden;
+  .progress-bar {
+    border-radius:10px;
+    height:100%;
+  }
+}
+
+.progress-xs {
+  height: 4px;
+}
+
+.progress-sm {
+  height: 6px;
+}
+
+// White progress bar
+.progress-white {
+  background-color: rgba(255,255,255,.2) !important;
+  .progress-bar {
+    background-color: #fff;
+  }
+}
+
+.progress-bar-wrapper{
+  margin-bottom: 1.5 * $spacer;
+}

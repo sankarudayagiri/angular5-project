@@ -1,0 +1,71 @@
+@import "../../../scss/_module-variables.scss";
+
+.table {
+  th,
+  td {
+    padding: 0.8rem 0.5rem;
+    vertical-align: middle;
+    &.group-header {
+      background: lighten(#f1f3f5, 3);
+    }
+  }
+  .no-top-border {
+    tr:first-child {
+      td {
+        border-top: 0;
+      }
+    }
+  }
+}
+.bottom-border:last-child {
+  td{
+    border-bottom:1px solid #eaeef1;
+
+  }
+}
+
+.text-primary {
+  color: $brand-reservation !important;
+}
+.bg-primary {
+  background: $brand-reservation !important;
+}
+.btn-primary {
+  background: $brand-reservation !important;
+  border-color: $brand-reservation !important;
+}
+.muteBadge {
+  background: $gray-lighter;
+}
+.course-badge {
+  border: $gray-light solid 2px;
+  border-radius: 40px;
+  height: 40px;
+  width: 40px;
+  min-width: 40px; // float: right;
+  text-align: center;
+  display: inline-block;
+}
+.table-name-display {
+  max-width: 60px;
+  min-width: 60px;
+  position: relative;
+  background: $gray-lighter;
+  border-color: darken($gray-lighter, 5%);
+  .color-bar {
+    width: 5px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    &.party-started {
+      background-color: $brand-success;
+    }
+    &.party-half-dine {
+      background-color: $brand-warning;
+    }
+    &.party-full-dine {
+      background-color: $brand-danger;
+    }
+  }
+}

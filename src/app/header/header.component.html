@@ -1,0 +1,109 @@
+<header class="app-header jtechheader navbar" [ngClass]="{'jtechheader' : showJtechHeader}">
+  <button class="navbar-toggler d-lg-none" *ngIf="!showJtechHeader" type="button" appMobileSidebarToggler>&#9776;</button>
+  <!--<a class="navbar-brand" href="#"></a>-->
+  <ul class="nav navbar-nav d-md-down-none mr-2">
+    <li class="nav-item" *ngIf="location">
+      <a class="nav-link navbar-toggler" href="#" appSidebarToggler>&#9776;</a>
+    </li>
+    <li>
+      <button class="ml-4 btn btn-reservation" *ngIf="!showJtechHeader">+ ADD RESERVATION </button>
+    </li>
+  </ul>
+
+  <a [routerLink]="['/jtech-admin/search']" (click)="shared.clearSessions()" routerLinkActive="active">
+    <i class="material-icons pl-3 pb-2 cursor-pointer text-white">
+      home
+    </i>
+  </a>
+
+  <ul class="nav navbar-nav ml-4" *ngIf="showJtechHeader">
+    <li class="nav-item dropdown" dropdown>
+      <a href class="nav-link dropdown-toggle d-flex align-content-center" dropdownToggle (click)="false">
+        <mat-form-field class="mr-3">
+          <mat-select [(value)]="selected">
+            <mat-option value="All" (click)="clientInfo.accountStatus=null">All</mat-option>
+            <mat-option value="Trial" (click)="clientInfo.accountStatus=0">Trial</mat-option>
+            <mat-option value="Premium" (click)="clientInfo.accountStatus=3">Active</mat-option>
+            <mat-option value="Premium" (click)="clientInfo.accountStatus=1">On Hold</mat-option>
+            <mat-option value="Premium" (click)="clientInfo.accountStatus=2">Pending Training</mat-option>
+            <mat-option value="Premium" (click)="clientInfo.accountStatus=4">Cancelled</mat-option>
+
+          </mat-select>
+        </mat-form-field>
+      </a>
+    </li>
+    <li class="nav-item d-flex align-items-center">
+      <span matPrefix class="material-icons text-white ml-5">
+        search
+      </span>
+      <mat-form-field class="ml-2 text-white" style="width: 250px">
+        <!-- <i class="material-icons title">search </i> -->
+        <input type="text" (keyup)="onKey($event)" class="title" id="clientSearch" [matAutocomplete]="auto" matInput [(ngModel)]="clientInfo.searchText"
+          placeholder="Search by Client Code or DBA">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option class="text-capitalize" *ngFor="let option of searchData.data" (onSelectionChange)="viewAccount(option.id)" [value]="option.dba">
+            <span class="text-capitalize">
+              {{option.dba}}
+              <small class="d-block text-muted">{{option.addressLine1}}
+                <span *ngIf="option.addressLine2">, {{option.addressLine2}}</span>
+              </small>
+              <small class="status-text">
+                <small *ngIf="option.accountStatus == 0">TRIAL</small>
+                <small *ngIf="option.accountStatus == 3">ACTIVE</small>
+                <small *ngIf="option.accountStatus == 1">ON HOLD</small>
+                <small *ngIf="option.accountStatus == 2">PENDING TRAINING</small>
+                <small *ngIf="option.accountStatus == 4">CANCELLED</small>
+              </small>
+            </span>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </li>
+    <!-- <li><button class="ml-4 btn btn-primary">+ ADD RESERVATION </button></li> -->
+  </ul>
+
+  <ul class="nav navbar-nav ml-auto pr-3">
+    <li class="nav-item" *ngIf="showJtechHeader">
+      <div class="nav-link d-flex align-items-center d-flex flex-column" href="#">
+
+        <h5 class="text-white font-weight-bold mb-0">{{count.total}}</h5>
+        <small class="text-white ">LOCATIONS</small>
+      </div>
+    </li>
+    <li class="nav-item  d-flex align-items-center" *ngIf="showJtechHeader">
+      <add-location-btn class="ml-4 mr-5" [parent]="'header'" (locationAddedChange)="getClientCount()"></add-location-btn>
+    </li>
+
+    <li class="nav-item dropdown" dropdown>
+      <a href class="nav-link dropdown-toggle d-flex align-content-center" dropdownToggle (click)="false">
+        <span class="d-md-down-none mt-2 mr-2" [ngClass]="{'text-white' : showJtechHeader}">Welcome</span>
+        <div class="display-name small">
+          <h5 class="font-weight-normal text-uppercase m-0">{{currentUser.UserName | slice : 0 : 2}}</h5>
+        </div>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <span *ngIf="showJtechHeader">
+          <a class="dropdown-item" [routerLink]="['/jtech-admin/users']">
+            <i class="icon-user"></i> Jtech Users</a>
+          <a class="dropdown-item" [routerLink]="['/jtech-admin/multi-unit-users']">
+            <i class="icon-user"></i> Multi Admin Users</a>
+        </span>
+        <a class="dropdown-item" [routerLink]="['/login']">
+          <i class="fa fa-lock"></i> Logout</a>
+      </div>
+    </li>
+  </ul>
+</header>
+<alert class="alertMsgBox rounded overflow-hidden" *ngIf="message && message.type === 'success'" type="success" (onClosed)="message = null"
+  dismissible="true" dismissOnTimeout="8000">
+  {{message.text}}
+</alert>
+<alert class="alertMsgBox rounded overflow-hidden" *ngIf="message && message.type === 'error'" type="danger" (onClosed)="message = null"
+  dismissible="true" dismissOnTimeout="8000">
+  {{message.text}}
+</alert>
+
+<alert class="alertMsgBox rounded overflow-hidden bubble-info" *ngIf="message && message.type === 'info'" type="info" (onClosed)="message = null"
+  dismissOnTimeout="1500">
+  {{message.text}}
+</alert>

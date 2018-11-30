@@ -1,0 +1,182 @@
+@import "../../../scss/_module-variables.scss";
+
+.chart-wrapper {
+  padding: 0 !important;
+}
+
+.seat-icon {
+  transform: rotate(180deg);
+  transform-origin: center;
+}
+
+.badge {
+  padding: 0.5em 0.6em;
+  border-radius: 19px;
+  background: $brand-waitlist;
+  //  color: ;
+  position: relative;
+  top: -15px;
+  left: -12px;
+  &.pager-count{
+    left: 20px;
+  }
+}
+
+.bg-waitlist {
+  background: $brand-waitlist !important;
+}
+
+.table {
+  th,
+  td {
+    padding: 1rem 0.5rem;
+    vertical-align: middle;
+    .waitlist-name{
+      position: relative;
+      bottom: -4px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .party-info{
+      position: relative;
+      margin-top: -4px;
+    }
+
+  }}
+ 
+  .no-top-border {
+    tr:first-child {
+      td {
+        border-top: 0;
+      }
+    }
+}
+.bottom-border:last-child {
+  td{
+    border-bottom:1px solid #eaeef1;
+
+  }
+}
+
+.scrollable-content-waitlist {
+  max-height: calc(
+    100vh - #{$waitlist-header + $navbar-height + $inline-header-height}
+  );
+  height: calc(
+    100vh - #{$waitlist-header + $navbar-height + $inline-header-height}
+  );
+  overflow: auto;
+  &.no-filters {
+    max-height: calc(
+      100vh - #{$navbar-height + $inline-header-height +
+        $waitlist-filtertabs-cntr}
+    );
+    height: calc(
+      100vh - #{$navbar-height + $inline-header-height +
+        $waitlist-filtertabs-cntr}
+    );
+  }
+  &.no-header {
+    max-height: calc(100vh - #{$navbar-height + $inline-header-height});
+    height: calc(100vh - #{$navbar-height + $inline-header-height});
+  }
+}
+.btn-seat-party {
+  border: transparent solid 2px;
+  &.med-priority {
+    background: transparent;
+    border: $brand-waitlist solid 2px;
+    color: $brand-waitlist;
+  }
+  &.hg-priority {
+    background: transparent;
+    border: $brand-danger solid 2px;
+    color: $brand-danger !important;
+  }
+}
+.opacity-70 {
+  opacity: 0.7 !important;
+  cursor: default !important;
+}
+.cursor-default {
+  cursor: default !important;
+}
+.spinner {
+  width: 70px;
+  text-align: center;
+  position: relative;
+}
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: $brand-reservation;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+.table-responsive {
+  tr {
+    td:first-child {
+      padding-left: 1.5rem;
+    }
+  }
+}
+.table-name-display {
+  max-width: 75px;
+  min-width: 75px;
+  position: relative;
+  background: $gray-lighter;
+  border-color: darken($gray-lighter, 5%);
+  .color-bar {
+    width: 5px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    &.med-priority {
+      background: $brand-waitlist;
+    }
+    &.hg-priority {
+      background: $brand-danger;
+    }
+  }
+}
+@-webkit-keyframes sk-bouncedelay {
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+  }
+}
+@keyframes sk-bouncedelay {
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+.party-desc{
+  max-width: 340px;
+  > div{
+    position: relative;
+    top:-4px;
+  }
+}

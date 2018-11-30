@@ -1,0 +1,76 @@
+<div class="card cursor-pointer" [ngClass]="{'mb-0' : modules.hasModuleWaitList}">
+    <div class="row m-0">
+        <div class="col-md-9">
+            <widget-loader *ngIf="reservationLoading" [overlay]="true" [module]="'reservation'"></widget-loader>
+            <div class="row list-card-header">
+                <div class="col-12">
+                    <h6 class="font-weight-bold px-3 py-4 mb-0">
+                        <i class="icon-event mr-2 text-reservation"></i> RESERVATIONS
+                        <add-reservation-btn [size]="'mini'"></add-reservation-btn>
+                    </h6>
+                </div>
+                <div class="col-12">
+                    <ul class="link-tab-list px-3 mt-0 reservation-tabs">
+                        <li [ngClass]="{'active': selectedReservationTab == details.timeInterval}" *ngFor="let details of reservationHeaderDetail;let index=index"
+                            (click)="onSelectedReservationHeaderTab(details.timeInterval)">
+                            <div class="mr-4" *ngIf="details.totalCount!=0">
+                                <div class="count-display pull-left mr-2" >
+                                    <h2 class="text-muted font-weight-bold">{{details.totalCount}}</h2>
+                                </div>
+                                <div class="tab-label">
+                                    <span class="text-muted">PARTIES</span>
+                                    <span class="text-muted d-inline-block">in
+                                        <span class="font-weight-500">{{details.timeInterval}}</span> min</span>
+                                </div>
+                            </div>
+                        </li>
+                        <div *ngIf="!partyCount">
+                            <span class="font-weight-500"> UPCOMING RESERVATIONS FOR TODAY</span>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <hr class="w-100 my-0" />
+                <div class="w-100 list-container pl-2">
+                    <reservation-list *ngIf="reservations[0]?.length>0" [parent]="'dashboard'" [noResults]="noReservationResults" [(scrollReachedBottom)]="scrollReachedBottom"
+                        (scrollReachedBottomChange)="getNextReservationSet($event)" [reservationData]="reservations" [type]="'1'"></reservation-list>
+                    <div class="scrollable-content-reservation no-filters d-flex align-items-center">
+                        <h6 *ngIf="reservations[0]?.length==0" class="text-center text-uppercase w-100 font-weight-bold">
+                            <span class="text-muted ls-2">NO RESERVATIONS</span>
+                        </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class=" col-md-3 p-0 card-right-section">
+            <div class="p-4">
+                <h6 class="text-reservation mb-0">TOTAL</h6>
+                <h3 class="font-weight-bold mb-0 text-reservation">{{totalReservationCount.totalParties }}/{{totalReservationCount.totalCovers}}</h3>
+                <small class="text-muted">{{totalReservationCount.totalParties > 1 ? 'PARTIES' : 'PARTY' }} /</small>
+                <small class="text-muted">{{totalReservationCount.totalCovers > 1 ? 'GUESTS' : 'GUEST' }}</small>
+                <h6 class="text-reservation mt-4 mb-2 font-weight-500" *ngIf="availableReservation && (availableReservation.totalPartyCount > 1 || availableReservation.totalCoversCount > 1)">
+                    AVAILABLE RESERVATIONS
+                </h6>
+                <div *ngIf="availableReservation && availableReservation.isRuleExistsForParty">
+                    <span class="h5 font-weight-bold">{{availableReservation.totalPartyCount}}</span> {{availableReservation.totalPartyCount > 1 ? 'PARTIES'
+                    : 'PARTY'}}</div>
+                <div *ngIf="availableReservation && availableReservation.isRuleExistsForCovers">
+                    <span class="h5 font-weight-bold">{{availableReservation.totalCoversCount}}</span> {{availableReservation.totalCoversCount > 1 ? 'GUESTS'
+                    : 'GUEST'}}</div>
+            </div>
+
+            <div class="p-4 stop-reservation-cntr" *ngIf="!blockReservationsStaus && currentUser.role != 'Host'">
+                <span class="" (click)=" confirmForBlockUnBlock('block')">
+                    <span class="badge bg-white badge-pill rounded text-danger">STOP</span> RESERVATIONS FOR TODAY</span>
+            </div>
+            <div class="unblock-reservation-cntr p-4" *ngIf="blockReservationsStaus && currentUser.role != 'Host'">
+                <span class="">
+                    <span class="text-muted">RESERVATIONS ARE BLOCKED FOR TODAY</span>
+                </span>
+                <button class="btn btn-reservation mt-2 btn-unblock" (click)="confirmForBlockUnBlock('unblock')">UNBLOCK</button>
+            </div>
+        </div>
+    </div>
+</div>

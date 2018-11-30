@@ -1,0 +1,94 @@
+@import "../../../scss/_module-variables.scss";
+
+$occupancy-card-height: 190px;
+$avl-tables-card-height: 170px;
+$reset-btn-cntr-height: 50px;
+$rotation-cntr-height: 210px;
+$card-inbetween-space: 230px;
+$list-card-header-height: 120px;
+
+.rotation-cntr {
+  min-height: $rotation-cntr-height !important;
+  max-height: calc(
+    100vh - #{$occupancy-card-height + $avl-tables-card-height +
+      $reset-btn-cntr-height + $navbar-height + $card-inbetween-space}
+  );
+  height: calc(
+    100vh - #{$occupancy-card-height + $avl-tables-card-height +
+      $reset-btn-cntr-height + $navbar-height + $card-inbetween-space}
+  );
+  overflow: auto;
+  overflow-x: hidden;
+  &.no-footer {
+    max-height: calc(100vh - #{$dialog-header});
+    height: calc(100vh - #{$dialog-header});
+  }
+}
+.display-circle {
+  border-radius: 35px;
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
+  background: #fff;
+  position: relative;
+  border: #fff solid 3px;
+  box-shadow: 2px 2px 2px rgba($gray, 0.1);
+  cursor: pointer;
+  .chair-count {
+    display: inline-block;
+    width: 20px;
+    background: $brand-dark;
+    height: 20px;
+    color: #fff;
+    border-radius: 20px;
+    position: absolute;
+    right: -2px;
+    top: -2px;
+    // padding: 2px 5px;
+    line-height: 18px;
+  }
+  .table {
+    line-height: 12px;
+  }
+  .spent-time {
+    width: 100%;
+  }
+  .content-cntr {
+    display: inline-block;
+    margin-left: 1px;
+    width: 100%;
+  }
+  &.party-started {
+    border-color: $brand-success;
+  }
+  &.party-half-dine {
+    border-color: $brand-warning;
+  }
+  &.party-full-dine {
+    border-color: $brand-danger;
+  }
+  &.party-full-hold {
+    border-color: #c45959;
+  }
+  &.party-full-block {
+    border-color: #b0bec5;
+  }
+}
+.display-table-name {
+  &.party-hold {
+    position: absolute;
+    top: 24px;
+    left: 2px;
+  }
+}
+.held {
+  margin-left: -10px;
+}
+.lock {
+  font-size: 30px;
+  margin-right: 8px;
+}
+
+drag-scroll {
+  height: 50px;
+}

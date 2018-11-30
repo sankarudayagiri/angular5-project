@@ -1,0 +1,147 @@
+<div class="overflow-hidden p-2 text-center search-banner">
+    <nav class="site-header sticky-top py-1">
+        <div class="container d-flex flex-column flex-md-row justify-content-between">
+            <span class="py-2">
+                <h2 class="font-weight-bold bg-dark">JTECH</h2>
+            </span>
+            <ul class="nav navbar-nav ml-auto pr-3">
+                <li class="nav-item dropdown" dropdown>
+                    <a href class="nav-link dropdown-toggle d-flex align-content-center" dropdownToggle (click)="false">
+                        <span class="d-md-down-none mt-2 mr-2 bg-dark">Welcome</span>
+                        <div class="display-name small">
+                            <h5 class="font-weight-normal m-0 text-uppercase">{{currentUser.UserName | slice : 0 : 2}}</h5>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+                        <a class="dropdown-item" [routerLink]="['/jtech-admin/users']">
+                            <i class="icon-user"></i> Jtech Users</a>
+                        <a class="dropdown-item" [routerLink]="['/jtech-admin/multi-unit-users']">
+                            <i class="icon-user"></i> Multi Admin Users</a>
+                        <a class="dropdown-item" [routerLink]="['/login']">
+                            <i class="fa fa-lock"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="col-md-12 p-lg-5 mx-auto my-5">
+        <div class="form-group my-3 py-5">
+            <div class=" d-flex justify-content-center">
+
+                <span [ngClass]="{'text-white search-tabs': clientInfo.accountStatus == null}" class="text-muted p-3 font-weight-normal d-flex align-items-center cursor-pointer"
+                    (click)="clientInfo.accountStatus = null">All
+                    <mat-chip-list class="ml-1">
+                        <mat-chip class="px-2 py-0 chip" (click)="clientInfo.accountStatus = null" [ngClass]="{'bg-primary': clientInfo.accountStatus == null}">
+                            {{count.total}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </span>
+
+                <span [ngClass]="{'text-white search-tabs': clientInfo.accountStatus==3}" class="text-muted p-3 font-weight-normal d-flex align-items-center cursor-pointer ml-2"
+                    (click)="clientInfo.accountStatus=3">Active
+                    <mat-chip-list class="ml-1">
+                        <mat-chip class="px-2 py-0 chip" (click)="clientInfo.accountStatus=3" [ngClass]="{'bg-primary': clientInfo.accountStatus==3}">
+                            {{count.activeCount}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </span>
+
+                <span [ngClass]="{'text-white search-tabs': clientInfo.accountStatus==0}" class="text-muted p-3 font-weight-normal d-flex align-items-center cursor-pointer ml-2"
+                    (click)="clientInfo.accountStatus=0">Trial
+                    <mat-chip-list class="ml-1">
+                        <mat-chip class="px-2 py-0 chip" (click)="clientInfo.accountStatus=0" [ngClass]="{'bg-primary': clientInfo.accountStatus==0}">
+                            {{count.trialCount}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </span>
+
+                <span [ngClass]="{'text-white search-tabs': clientInfo.accountStatus==1}" class="text-muted p-3 font-weight-normal d-flex align-items-center cursor-pointer ml-2"
+                    (click)="clientInfo.accountStatus=1">On Hold
+                    <mat-chip-list class="ml-1">
+                        <mat-chip class="px-2 py-0 chip" (click)="clientInfo.accountStatus=1" [ngClass]="{'bg-primary': clientInfo.accountStatus==1}">
+                            {{count.onHoldCount}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </span>
+
+                <span [ngClass]="{'text-white search-tabs': clientInfo.accountStatus==2}" class="text-muted p-3 font-weight-normal d-flex align-items-center cursor-pointer ml-2"
+                    (click)="clientInfo.accountStatus=2">Pending Training
+                    <mat-chip-list class="ml-1">
+                        <mat-chip class="px-2 py-0 chip" (click)="clientInfo.accountStatus=2" [ngClass]="{'bg-primary': clientInfo.accountStatus==2}">
+                            {{count.pendingTrainingCount}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </span>
+                <span [ngClass]="{'text-white search-tabs': clientInfo.accountStatus==4}" class="text-muted p-3 font-weight-normal d-flex align-items-center cursor-pointer ml-2"
+                    (click)="clientInfo.accountStatus=4">Cancelled
+                    <mat-chip-list class="ml-1">
+                        <mat-chip class="px-2 py-0 chip" (click)="clientInfo.accountStatus=4" [ngClass]="{'bg-primary': clientInfo.accountStatus==4}">
+                            {{count.cancelledCount}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </span>
+            </div>
+
+
+            <div class="p-relative search-cntr" style="width: 750px;">
+                <input type="text" (keyup)="searchLocations($event)" maxlength="100" class="p-3" id="clientSearchInput" [matAutocomplete]="auto"
+                    [(ngModel)]="clientInfo.searchText" placeholder="Search by Client Code or DBA">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of searchData" (onSelectionChange)="viewAccount(option.id)" [value]="option.dba">
+                        <span class="text-capitalize">
+                            {{option.dba}}
+                            <small class="d-block text-muted">{{option.addressLine1}}
+                                <span *ngIf="option.addressLine2">, {{option.addressLine2}}</span>
+                            </small>
+                            <small class="status-text">
+                                <small *ngIf="option.accountStatus == 0">TRIAL</small>
+                                <small *ngIf="option.accountStatus == 3">ACTIVE</small>
+                                <small *ngIf="option.accountStatus == 1">ON HOLD</small>
+                                <small *ngIf="option.accountStatus == 2">PENDING TRAINING</small>
+                                <small *ngIf="option.accountStatus == 4">CANCELLED</small>
+                            </small>
+                        </span>
+
+                    </mat-option>
+                    <mat-option *ngIf="clientInfo.searchText && noResults">
+                        <small class="text-muted">
+                            NO RESULTS FOUND
+                        </small>
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-progress-bar class="search-loader" *ngIf="searchLoader" mode="indeterminate"></mat-progress-bar>
+            </div>
+
+            <div class=" d-flex align-items-center d-flex justify-content-center mt-5">
+                <div class="d-flex flex-column">
+                    <h4 class="text-white font-weight-bold mb-0"> {{count.total}}</h4>
+                    <span class="text-white ">LOCATIONS</span>
+                </div>
+                <add-location-btn [parent]="'search'" (locationAddedChange)="getClientCount()"></add-location-btn>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12 mb-2 text-center">
+            <h6 class="text-muted font-weight-normal">RECENTLY ADDED LOCATIONS</h6>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 d-flex" *ngFor="let client of clientsList">
+            <div class="card p-3 py-4 d-flex text-center cursor-pointer" (click)="viewAccount(client.id)">
+                <p class="text-muted mb-0">
+                    <small *ngIf="client.accountStatus == 0">TRIAL</small>
+                    <small *ngIf="client.accountStatus == 3">ACTIVE</small>
+                    <small *ngIf="client.accountStatus == 1">ON HOLD</small>
+                    <small *ngIf="client.accountStatus == 2">PENDING TRAINING</small>
+                    <small *ngIf="client.accountStatus == 4">CANCELLED</small>
+                </p>
+                <h5 class="font-weight-bold text-info text-uppercase break-word">
+                    {{client.dba}}
+                </h5>
+                <p class="text-muted mb-0 break-word">
+                    <small>Client Code: </small>{{client.code}}</p>
+            </div>
+        </div>
+    </div>
+</div>

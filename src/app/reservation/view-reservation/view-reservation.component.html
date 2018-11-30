@@ -1,0 +1,136 @@
+<div>
+    <div class="row m-0" [hidden]="showWaitlist">
+        <div class="col-md-8 px-4 dialog-divider dialog-scrollable-content has-action-footer">
+            <div class="row pb-3 pt-4">
+                <div class="col-12" (click)="data.view = 'calendar-edit'; data.type = null;">
+                    <h5 class="text-primary pb-2  font-weight-bold" *ngIf="data.guestModel.isEvent==false">
+                        Regular
+                    </h5>
+                    <h5 class="text-primary pb-2  font-weight-bold" *ngIf="data.guestModel.isEvent==true">
+                        Event
+                    </h5>
+                    <span class="pr-2 h4 mt-3 text-uppercase">
+                        <i class="icon-calendar mr-2"></i>
+                        <span class="font-weight-500">{{this.userDetails.reservationTime | date:'dd MMM yyyy'}}</span>
+                        <button class="btn bg-primary">{{this.userDetails.reservationTime | date:'hh:mm aaa'}}</button>
+                    </span>
+                    <p class="text-muted mt-2 mb-0">Reservation made on {{this.userDetails.createdDate | date:'dd MMMM yyyy' : timezone}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr class="w-100" />
+                </div>
+            </div>
+            <div class="row py-4">
+                <div class="col-12 font-weight-bold">
+                    <user-info (click)="editparty()" [userDetails]="userDetails"></user-info>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr class="w-100" />
+                </div>
+            </div>
+            <div class="row mb-4">
+                <!-- <div class="col-12 pt-5 d-flex align-items-center">
+                            <button class="circleToggle party-arrival" (click)="data.waitparty.waitListType.id == 2 && confirmPartyArrival(userDetails)">
+                                <i class="material-icons md-36 p-2">directions_run</i>
+                            </button>
+                            <p class="ml-2 mb-0 text-muted font-weight-bold d-flex align-items-center">PARTY ARRIVED</p>
+                        </div> -->
+                <div class="col-12 pt-4">
+                    <mat-button-toggle-group class="d-flex" #group="matButtonToggleGroup" (change)="onSelectionChange(group.value,userDetails)">
+
+                        <mat-button-toggle class="circleToggle party-arrived" [checked]="userDetails.availabilityStatus.id==1" value="partyArrived">
+                            <i class="material-icons md-36">directions_run</i>
+                        </mat-button-toggle>
+                        <p class="ml-2 mb-0 text-muted font-weight-bold d-flex align-items-center">PARTY ARRIVED</p>
+
+                        <mat-button-toggle class="circleToggle party-called ml-4" [checked]="userDetails.availabilityStatus.id==2" value="partyCalled">
+                            <i class="material-icons md-36">phone_callback</i>
+                        </mat-button-toggle>
+                        <p class="ml-2 mb-0 text-muted font-weight-bold d-flex  align-items-center">PARTY CALLED</p>
+
+                        <mat-button-toggle class="circleToggle partially-arrived ml-4" [checked]="userDetails.availabilityStatus.id==3" value="partiallyArrived">
+                            <i class="material-icons md-36">people</i>
+                        </mat-button-toggle>
+                        <p class="ml-2 mb-0 text-muted  font-weight-bold d-flex align-items-center">PARTIALLY ARRIVED</p>
+                    </mat-button-toggle-group>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4 pr-0 guest-msg-his-tabs-cntr">
+            <view-tabs (tabChange)="selectedTabChange($event)" [visitHistory]="userDetails.visitHistory" [type]="'Reservation'" [guestId]="userDetails.guest ? userDetails.guest.id : null"></view-tabs>
+            <div class="d-flex align-items-end px-3 message-type-field" *ngIf="tab">
+                <input matInput [(ngModel)]="message.messageText" placeholder="Please enter a message.">
+                <i class="material-icons cursor-pointer"  *ngIf="message.messageText && checkEmptyString()" (click)="messageSend()">
+                    send
+                </i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<select-waitlist [hidden]="!showWaitlist" [(selectedID)]="selectedWaitlistID" (selectedIDChange)="confirmMoveToWaitlist($event)"></select-waitlist>
+
+<div class="dialog-footer text-center d-flex justify-content-between">
+    <div class="col-md-2">
+        <button class="circle p-3 bg-white" [ngClass]="{'opacity-70' : !data.today}" (click)="data.today && seatParty(userDetails.reservationID, userDetails.availabilityStatus.id, userDetails)">
+            <i class="material-icons md-42 text-warning">
+                fullscreen
+            </i>
+        </button>
+        <p>
+            <small>SEAT PARTY</small>
+        </p>
+    </div>
+    <div class="col-md-2">
+        <button *ngIf="modules.hasModuleTable" class="circle p-3 bg-white" (click)="suggestTable(userDetails.reservationID)">
+            <i class="material-icons md-42 text-info" *ngIf="!userDetails.suggestedTableName">
+                scatter_plot
+            </i>
+            <span class="text-dark font-weight-500" *ngIf="userDetails.suggestedTableName">
+                {{userDetails.suggestedTableName}}
+            </span>
+        </button>
+        <button *ngIf="!modules.hasModuleTable" [disabled]="true" class="circle p-3 bg-white">
+            <i class="material-icons md-42 text-info">
+                scatter_plot
+            </i>
+        </button>
+        <p [ngClass]="{'text-extra-muted': !modules.hasModuleTable}">
+            <small>SUGGESTED TABLE</small>
+        </p>
+    </div>
+
+    <div class="col-md-2 ">
+        <button *ngIf="modules.hasModuleWaitList" class="circle p-3 bg-white" [ngClass]="{'moveToWaitlistBtn' : showWaitlist, 'opacity-70' : !data.today}" (click)="data.today && showWaitlist = !showWaitlist">
+            <i class="material-icons md-42" [ngClass]="{'moveToWaitlistBtn':showWaitlist, 'text-warning': !showWaitlist}">history</i>
+        </button>
+        <button *ngIf="!modules.hasModuleWaitList" class="circle p-3 bg-white" [disabled]="true" [ngClass]="{'moveToWaitlistBtn' : showWaitlist, 'opacity-70' : !data.today}">
+            <i class="material-icons md-42" [ngClass]="{'moveToWaitlistBtn':showWaitlist, 'text-warning': !showWaitlist}">history</i>
+        </button>
+        <p [ngClass]="{'text-extra-muted': !modules.hasModuleWaitList}">
+            <small>MOVE TO WAIT LIST</small>
+        </p>
+    </div>
+
+    <div class="col-md-2">
+        <button class="circle p-3 bg-white" [ngClass]="{'opacity-70' : !data.today}" (click)="data.today && confirmNoShow()">
+            <i class="material-icons md-42 text-danger">block</i>
+        </button>
+        <p>
+            <small>NO SHOW</small>
+        </p>
+    </div>
+    <div class="col-md-2 ">
+        <button class="circle p-3 bg-white" (click)="confirmDelete()">
+            <i class="material-icons md-42 text-danger">delete</i>
+        </button>
+        <p>
+            <small>DELETE</small>
+        </p>
+    </div>
+</div>

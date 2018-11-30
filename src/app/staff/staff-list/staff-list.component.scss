@@ -1,0 +1,59 @@
+@import "../../../scss/_module-variables.scss";
+
+:host ::ng-deep .tab-content {
+  margin-left: 0;
+  margin-right: 15px;
+  .tab-pane {
+    padding: 20px 0 0 0;
+  }
+}
+
+//Target child component style
+:host ::ng-deep .nav-tabs {
+  margin-left: -15px;
+}
+
+.list-items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    padding: 15px 0;
+    //border-bottom: darken($gray-lighter, 2%) solid 1px;
+    h6 {
+      font-weight: 700;
+    }
+    p {
+      margin-bottom: 0;
+      font-weight: 500;
+      line-height: 14px;
+    }
+    &.active {
+      color: $brand-primary;
+    }
+  }
+}
+
+.card.bg-light {
+  background: darken(#fff, 5%);
+  box-shadow: none;
+}
+
+.material-icons.add-new {
+  font-size: 60px;
+  margin-bottom: 14px;
+}
+
+.table.table-responsive {
+  //height: calc(100% - #{$inline-header-height});
+  max-height: calc(100% - #{$inline-header-height});
+  tr {
+    td,
+    th {
+      vertical-align: middle;
+    }
+    &:first-child td {
+      border-top: none;
+    }
+  }
+}

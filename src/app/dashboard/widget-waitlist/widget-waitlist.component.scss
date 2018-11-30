@@ -1,0 +1,100 @@
+@import "../../../scss/_module-variables.scss";
+
+$occupancy-card-height: 190px;
+$avl-tables-card-height: 170px;
+$reset-btn-cntr-height: 50px;
+$rotation-cntr-height: 210px;
+$card-inbetween-space: 230px;
+$list-card-header-height: 120px;
+
+.card {
+  h4 {
+    margin: 0;
+    font-weight: bold;
+  }
+  .card-right-section {
+    border-left: darken($body-bg, 5%) solid 1px;
+    background: lighten($body-bg, 1.5%);
+    position: relative;
+  }
+}
+
+.list-card-header {
+  max-height: $list-card-header-height;
+  min-height: 100px;
+}
+
+.average-wait-time-cntr {
+  max-height: calc(
+    (100vh - #{$navbar-height}) / 2 - #{$list-card-header-height} - 85px
+  ) !important;
+  height: calc(
+    (100vh - #{$navbar-height}) / 2 - #{$list-card-header-height} - 85px
+  ) !important;
+  min-height: 245px !important;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.average-wait-time .h5 {
+  line-height: 6px !important;
+}
+
+.link-tab-list {
+  li {
+    .tab-label {
+      position: relative;
+      padding-bottom: 16px;
+      &::after {
+        content: "";
+        height: 2px;
+        width: 100px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+    }
+  }
+  &.waitlist-data-tabs {
+    li.active {
+      color: $brand-waitlist;
+      .text-muted {
+        color: $brand-waitlist !important;
+      }
+      .tab-label {
+        &::after {
+          background: $brand-waitlist;
+        }
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  .scrollable-content-waitlist {
+    max-height: calc(
+      (100vh - #{$navbar-height}) / 2 - #{$list-card-header-height} - 45px
+    ) !important;
+    height: calc(
+      (100vh - #{$navbar-height}) / 2 - #{$list-card-header-height} - 45px
+    ) !important;
+    min-height: 265px !important;
+    .table-responsive {
+      tr:first-child {
+        td {
+          border-top: 0 !important;
+        }
+      }
+    }
+  }
+  add-to-waitlist-btn {
+    button {
+      margin-top: -5px;
+    }
+  }
+}
+
+.list-container {
+  max-height: 295px;
+  overflow: hidden;
+}

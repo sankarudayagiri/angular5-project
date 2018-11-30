@@ -1,0 +1,26 @@
+<div class="card avl-tables-card pt-4 cursor-pointer" [ngClass]="{'align-items-center justify-content-center':avlTblesLoading}">
+    <widget-loader *ngIf="avlTblesLoading" [module]="'tables'"></widget-loader>
+    <div class="row m-0" *ngIf="!avlTblesLoading">
+        <div class="col-10 px-4">
+            <h6 class="font-weight-500">
+                <img src="assets/img/table-widget-icon.png" width="40" class="mr-2"> AVAILABLE TABLES</h6>
+        </div>
+
+        <swiper class="col-12 p-0 mb-2" [config]="config">
+            <div class="items notextselect d-inline-block" *ngFor="let item of availableTables">
+                <h4 class="text-primary">{{item.totalTableCount}}</h4>
+                <small class="text-muted">{{item.numberOfTop}} TOPS</small>
+            </div>
+        </swiper>
+        <div class="col-12 text-extra-muted ml-2 mt-1 ls-2" *ngIf="!selectedFloorPlanId">
+            <small>NO FLOOR PLANS CREATED</small>
+        </div>
+
+        <div class="col-12 mt-3 py-2 info-bg bottom-align d-flex align-items-center" *ngIf="currentUser.role != 'Host'">
+            <small>WANT TO UPDATE TABLE TURNOVER TIME?</small>
+            <button class="btn btn-sm btn-outline-success pull-right ml-2" [routerLink]="['/settings']">
+                UPDATE
+            </button>
+        </div>
+    </div>
+</div>

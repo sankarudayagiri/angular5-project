@@ -1,0 +1,70 @@
+<div class="p-3">
+    <!-- <h6 class="cursor-pointer">GUEST FEDBACK</h6> -->
+    <ul class="link-tab-list mt-3 ml-2">
+        <li>
+            <a class="text-muted"  [routerLink]="['/admin/feedback/guest-feedback']">GUEST FEDBACK</a>
+        </li>
+        <li>
+            <a routerLinkActive="active" [routerLink]="['/admin/feedback/server-ratings']">SERVER RATINGS</a>
+        </li>
+    </ul>
+    <hr/>
+
+    <h6 class="font-weight-bold">Top 5 servers</h6>
+    <div class="row ">
+        <div class="col-sm-2 d-flex" *ngFor="let server of servers">
+            <div class="card cursor-pointer mt-4">
+                <h6 class=" ratings mt-2 ml-2">
+                    <i class="material-icons icon-ratings ml-3">
+                        star_rate
+                    </i>
+                    <span class="text-muted">/ {{server.totalFeedbackCount}} </span>
+                </h6>
+
+                <div class="text-center p-2">
+                        <i class="material-icons smilies">
+                                sentiment_very_satisfied
+                            </i>
+                    <p class="font-weight-bold">{{server.name}}</p>
+                    <h6 class="phone-icon">
+                        <i class="material-icons">
+                            local_phone
+                        </i>
+                        <span class="text-muted"> {{server.phoneNumber}}</span>
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <h6 class="font-weight-bold mt-5">Bottom 5 servers</h6>
+    <div class="row ">
+        <div class="col-sm-2 d-flex" *ngFor="let rate of serverratings">
+            <div class="card cursor-pointer mt-4">
+                <h6 class=" ratings mt-2 ml-2">
+                    <i class="material-icons icon-ratings ml-3">
+                        star_rate
+                    </i>
+                    <span class="text-muted">/{{rate.totalFeedbackCount}} </span>
+                </h6>
+
+                <div class="text-center p-2">
+                        <i class="material-icons smilies">
+                                sentiment_satisfied_alt
+                                </i>
+                        <!-- <i class="material-icons smilies">
+                                sentiment_very_satisfied
+                            </i> -->
+                    <p class="font-weight-bold">{{rate.name}}</p>
+                    <h6 class="phone-icon">
+                        <i class="material-icons">
+                            local_phone
+                        </i>
+                        <span class="text-muted"> {{rate.phoneNumber}}</span>
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

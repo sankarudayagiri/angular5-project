@@ -1,0 +1,41 @@
+<div class=" p-4">
+    <div class="row">
+        <div class="col-md-3 d-flex">
+            <div class="card p-4 pt-5 text-center bg-primary cursor-pointer" (click)="openDialog(null)">
+                <i class="material-icons add-new text-muted">add</i>
+                <h6 class="font-weight-bold text-uppercase">ADD USER</h6>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-3 d-flex" *ngFor="let user of users; let index = index;">
+            <!-- <div class="card text-center p-2" routerLinkActive="active" [routerLink]="['/admin/users/id']"> -->
+            <div class="card text-center p-4" (click)="openDialog(user)">
+                <!-- <i class="fa fa-trash-o delete-icon cursor-pointer text-danger m-1"></i> -->
+                <span *ngIf="index != showDeleteIndex" class="more-options d-flex align-content-center p-0 cursor-pointer" click-stop-propagation
+                    (click)="showDeleteConfirm(index)">
+                    <i class="fa fa-trash-o delete-icon cursor-pointer text-danger m-1"></i>
+                </span>
+
+
+                <div class="display-name d-flex align-items-center justify-content-center lg mx-auto my-3">
+                    <p class="m-0">{{user.isHost ? 'HOST' : 'ADMIN'}}</p>
+                </div>
+                <h6 class="font-weight-bold mx-auto">{{user.userName}}</h6>
+                <div class="text-muted mx-auto mb-3 mt-1" *ngIf="user.email">
+                    <span class="icon-envelope"></span>
+                    <h6 class=" ml-1 text-muted d-inline ">{{user.email}}</h6>
+                </div>
+                <!-- <h6 class="text-muted mx-auto" type="password">{{}}</h6> -->
+
+                <div class="more-options-card" [ngClass]="index === showDeleteIndex ? 'options-enabled' : ''" click-stop-propagation>
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <div class="p-2">
+                            <p>Delete user? This operation cannot be undone.</p>
+                            <button class="btn btn-primary" (click)="showDeleteIndex = null">Cancel</button>
+                            <button class="btn btn-danger" (click)="deleteUser(user.id, index)">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,160 @@
+<div class="row m-0">
+    <div class="col-md-4 p-0 fh-container has-header">
+        <ul class="link-tab-list px-4">
+            <li>
+                <a [routerLink]="['/staff/shift']">SHIFT</a>
+            </li>
+            <li>
+                <a routerLinkActive="active" [routerLink]="['/staff/shift-layouts']">SHIFT LAYOUTS</a>
+            </li>
+            <li>
+                <a [routerLink]="['/staff/staff-list']">STAFF</a>
+            </li>
+        </ul>
+        <div class="px-4 scrollable-content scrollbar no-btn-container">
+            <ul class="list-items mt-2" *ngIf="floorPlans && floorPlans.length > 0">
+                <li *ngFor="let plan of floorPlans" class="cursor-pointer" [ngClass]="{'active' : selectedFloorPlan.layoutID == plan.layoutID}"
+                    (click)="setSelected(plan);getSectionLayoutsList(); addNewShiftLayout = false; editShiftLayoutName = false; sectionLayoutName = null">
+                    <p class="text-uppercase">{{plan.layoutName}} </p>
+                    <small>
+                        <span class="text-muted">TABLE</span>: {{plan.totalTables}} &nbsp; | &nbsp;
+                        <span class="text-muted">GUEST</span>: {{plan.totalCovers}}</small>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8 p-0 bg-white fh-container has-header">
+        <div class="col-12 p-0 h-100">
+            <div class="header d-flex align-items-center" *ngIf="floorPlans && floorPlans.length > 0">
+                <div class="row m-0 px-2 w-100">
+                    <div class="col-md-7">
+                        <h6 class="font-weight-500">{{selectedFloorPlan ? selectedFloorPlan.layoutName : ''}}</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="scrollable-content scrollbar no-btn-container" *ngIf="floorPlans && floorPlans.length > 0 && !addNewShiftLayout && !editShiftLayoutName">
+                <div class="row m-0 px-2 pt-4">
+                    <div class="col-md-5 col-lg-4 d-flex">
+                        <!-- <div class="card p-4 bg-light text-center cursor-pointer" (click)="addNewShiftLayout = true"> -->
+                        <div class="card p-4 bg-light text-center cursor-pointer" (click)="addNewShiftLayout = true ; sectionLayoutName=''">
+                            <i class="material-icons add-new text-muted text-primary">add</i>
+                            <h6 class="font-weight-normal text-uppercase text-primary">ADD SHIFT LAYOUT</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-lg-4 d-flex" *ngFor="let sectionLayout of sectionLayouts; let index = index;">
+                        <div class="card p-4 bg-light cursor-pointer" (click)="gotoShiftLayout(sectionLayout.isRotationOn, sectionLayout.shiftLayoutID, selectedFloorPlan.layoutName); showEditWarning = sectionLayout.isRotationOn ? true : false">
+                            <span *ngIf="sectionLayout.shiftLayoutID != optionsEnabled && sectionLayout.shiftLayoutID != showEditWarningID" class="more-options d-flex align-content-center p-0 cursor-pointer"
+                                (click)="enableOptions(sectionLayout.shiftLayoutID); showDeleteConfirm = false; showResetConfirm = false; showEditWarning = false; showEditWarningID = null"
+                                click-stop-propagation>
+                                <i class="material-icons">
+                                    more_horiz
+                                </i>
+                            </span>
+                            <span *ngIf="sectionLayout.shiftLayoutID == optionsEnabled && sectionLayout.shiftLayoutID != showEditWarningID" class="more-options d-flex align-content-center p-0 cursor-pointer"
+                                (click)="optionsEnabled = null; showDeleteConfirm = false; showResetConfirm = false;" click-stop-propagation>
+                                <i class="material-icons">
+                                    close
+                                </i>
+                            </span>
+                            <h5 class="font-weight-normal mt-2 text-uppercase">{{sectionLayout.shitftLayoutName}}</h5>
+                            <small class="text-uppercase text-muted">{{sectionLayout.createdDate | date : 'mediumDate'}}</small>
+                            <div class="text-right">
+                                <i class="material-icons text-muted">
+                                    border_all
+                                </i>
+                                <h5 class="font-weight-bold mb-0">{{sectionLayout.totalSections | zeroPadding}}</h5>
+                                <small class="text-muted">SECTIONS</small>
+                            </div>
+
+                            <div class="more-options-card" [ngClass]="sectionLayout.shiftLayoutID == optionsEnabled ? 'options-enabled' : ''" click-stop-propagation>
+                                <div class="d-flex align-items-center justify-content-center mb-3">
+
+                                    <div class="button-row text-center" *ngIf="!showDeleteConfirm && !showResetConfirm;">
+                                        <button mat-mini-fab color="" matTooltip="Edit Name" (click)="showEditShiftLayoutName(sectionLayout.shiftLayoutID, sectionLayout.shitftLayoutName)">
+                                            <mat-icon class="text-primary md-18">format_color_text</mat-icon>
+                                        </button>
+
+                                        <button mat-mini-fab color="" class="mx-2" matTooltip="Edit Shift Layout" (click)="gotoShiftLayout(sectionLayout.isRotationOn, sectionLayout.shiftLayoutID, selectedFloorPlan.layoutName); showEditWarning = sectionLayout.isRotationOn ? true : false">
+                                            <mat-icon class="text-success md-18">format_color_fill</mat-icon>
+                                        </button>
+
+                                        <button mat-mini-fab color="" class="mr-2" matTooltip="Delete Shift Layout" (click)="showDeleteConfirm = true">
+                                            <mat-icon class="text-danger md-18">delete_outline</mat-icon>
+                                        </button>
+                                        <button mat-mini-fab color="" matTooltip="Reset Shift Layout" (click)="showResetConfirm = true">
+                                            <mat-icon class="text-danger md-18">replay</mat-icon>
+                                        </button>
+                                    </div>
+
+                                    <div class="p-2 text-center" *ngIf="(showDeleteConfirm || showResetConfirm) && !sectionLayout.isRotationOn">
+                                        <p>Are you sure you want to
+                                            <span *ngIf="showDeleteConfirm">Delete</span>
+                                            <span *ngIf="showResetConfirm">Reset</span> this map? All tables on this map only will revert to unassigned status. This operation cannot be undone.</p>
+                                        <button class="btn btn-primary" (click)="showDeleteConfirm = false;showResetConfirm = false;">NO</button>
+                                        <button class="btn btn-danger" *ngIf="showDeleteConfirm" (click)="deleteShiftLayout(sectionLayout.shiftLayoutID, index)">DELETE</button>
+                                        <button class="btn btn-danger" *ngIf="showResetConfirm" (click)="resetShiftLayout(sectionLayout.shiftLayoutID)">RESET</button>
+                                    </div>
+
+                                    <div class="p-2 text-center" *ngIf="showDeleteConfirm && sectionLayout.isRotationOn">
+                                        <p class="text-danger mt-2">Sorry! You cannot delete. This Shift Layout is currently being used.</p>
+                                    </div>
+                                    <div class="p-2 text-center" *ngIf="showResetConfirm && sectionLayout.isRotationOn">
+                                        <p class="text-danger mt-2">Sorry! You cannot reset. This Shift Layout is currently being used.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="more-options-card" [ngClass]="sectionLayout.shiftLayoutID == showEditWarningID ? 'options-enabled' : ''" *ngIf="showEditWarning">
+                                <div class="d-flex align-items-center justify-content-center mb-3">
+                                    <div class="p-2 text-center">
+                                        <p>Floor Plan is currently being used. You cannot Edit now.</p>
+                                        <button class="btn btn-primary" (click)="showEditWarning = false; showEditWarningID = null" click-stop-propagation>CLOSE</button>
+                                        <!-- <button class="btn btn-success" (click)="gotoPlan(false, layout.layoutID, layout.layoutName)">EDIT</button> -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="scrollable-content text-center d-flex align-items-center" *ngIf="floorPlans && floorPlans.length < 1 && !addNewShiftLayout && !editShiftLayoutName">
+                <div class="w-100 text-center">
+                    <h6 class="text-muted">YOU HAVE NO FLOOR PLANS ENABLED</h6>
+                    <button class="btn btn-lg btn-primary px-4" [routerLink]="['/admin/floor-plan/plan-detail', '', 'NEW FLOOR']" *ngIf="currentUser.role == 'ClientAdmin' || currentUser.role == 'JtechAdmin'">+
+                        <small>CREATE NEW</small>
+                    </button>
+                    <p *ngIf="currentUser.role == 'Host'">Please login as Admin or ask Admin to create a new Floor Plan</p>
+                </div>
+            </div>
+
+            <div class="scrollable-content d-flex justify-content-center align-items-center" *ngIf="addNewShiftLayout || editShiftLayoutName">
+                <div class="row">
+                    <form name="form" (ngSubmit)="f.form.valid && createSectionLayout(addNewShiftLayout ? 'new' : 'edit')" #f="ngForm" novalidate>
+                        <div class="col-12">
+                            <mat-form-field class="col-10 p-0" [ngClass]="{'mat-form-field-invalid' : errorMessage}">
+                                <input matInput maxlength="50" text='' name="sectionname" #sectionname="ngModel" class="h3 font-weight-bold text-uppercase"
+                                    autocomplete="off" placeholder="Layout Name" [(ngModel)]="sectionLayoutName" required>
+                                <mat-error>Please enter the shift layout name.</mat-error>
+                            </mat-form-field>
+                            <div *ngIf="errorMessage && sectionname.valid" class="help-block custom-validator text-danger">
+                                <small>{{errorMessage}}</small>
+                            </div>
+                        </div>
+                        <div class="col-12 pt-4">
+                            <div class="mb-5">
+                                <span class="btn btn-primary mr-1" (click)="addNewShiftLayout = false; editShiftLayoutName = false; sectionLayoutName = null; optionsEnabled = null">CANCEL</span>
+                                <button class="btn btn-success">
+                                    <span *ngIf="addNewShiftLayout">ADD SHIFT LAYOUT</span>
+                                    <span *ngIf="editShiftLayoutName">UPDATE NAME</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

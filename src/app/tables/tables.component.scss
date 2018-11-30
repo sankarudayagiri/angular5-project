@@ -1,0 +1,300 @@
+@import "../../scss/_module-variables.scss";
+
+$occupancy-card-height: 185px;
+$avl-tables-card-height: 170px;
+$reset-btn-cntr-height: 50px;
+$card-inbetween-space: 175px;
+$list-card-header-height: 120px;
+$server-rotation-cntr-height: 180px;
+
+:host ::ng-deep {
+  .tab-content {
+    height: calc(
+      100vh - #{$navbar-height + $inline-header-height + $inline-header-height +
+        $server-rotation-cntr-height}
+    ) !important;
+    margin-left: 0;
+    margin-top: 1px;
+    .tab-pane {
+      padding: 0;
+    }
+  }
+  .tab-container {
+    height: calc(
+      100vh - #{$navbar-height + $inline-header-height + $inline-header-height +
+        $server-rotation-cntr-height}
+    ) !important;
+    display: block;
+  }
+  &.full-height-panel {
+    .tab-content {
+      height: calc(
+        100vh - #{$navbar-height + $inline-header-height}
+      ) !important;
+    }
+    .tab-container {
+      height: calc(
+        100vh - #{$navbar-height + $inline-header-height}
+      ) !important;
+    }
+  }
+}
+// Target child component style
+:host ::ng-deep .nav-tabs {
+  .nav-item.active .nav-link {
+    background: transparent;
+    border-color: transparent;
+    color: $brand-reservation;
+  }
+}
+:host ::ng-deep .nav-tabs {
+  .nav-item {
+    .nav-link {
+      text-align: center;
+      text-transform: uppercase;
+      margin-right: 0;
+      padding: 14px 20px;
+      span {
+        font-size: 11px;
+      }
+    }
+    &.wait-list {
+      a {
+        &:hover {
+          color: $brand-waitlist;
+        }
+        &.active {
+          color: $brand-waitlist;
+          border-bottom: $brand-waitlist solid 2px;
+        }
+      }
+    }
+    &.reservation {
+      a {
+        &:hover {
+          color: $brand-reservation;
+        }
+        &.active {
+          color: $brand-reservation;
+          border-bottom: $brand-reservation solid 2px;
+        }
+      }
+    }
+    &.seated-guests {
+      a {
+        &:hover {
+          color: $brand-tables;
+        }
+        &.active {
+          color: $brand-tables;
+          border-bottom: $brand-tables solid 2px;
+        }
+      }
+    }
+  }
+}
+.text-primary {
+  color: $brand-reservation !important;
+}
+.bg-primary {
+  background: $brand-reservation !important;
+}
+.btn-primary {
+  background: $brand-reservation !important;
+  border-color: $brand-reservation !important;
+}
+.floor-plan-cotainer {
+  position: relative;
+  opacity: 0;
+  &.plan-rendered {
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+  }
+}
+.table-view-component {
+  background: #ececf4;
+}
+.aside-menu {
+  top: $navbar-height + $inline-header-height;
+}
+.table-status-bar {
+  height: $inline-header-height;
+  padding: 7px;
+  .sections-container {
+    width: calc(
+      100vw - #{$sidebar-minimized-width + $clock-display-width +
+        $sidebar-minimized-width + 25}
+    );
+    .sections {
+      position: relative;
+      padding: 0 70px;
+      min-height: $inline-header-height - 14;
+      background: lighten($brand-dark, 8%);
+      .icon-cntr {
+        position: absolute;
+        text-align: center;
+        font-size: 2rem;
+        left: 0;
+        top: 0;
+        min-width: 60px;
+        max-width: 60px;
+        height: 100%;
+        background: lighten($brand-dark, 12%);
+        padding: 5px;
+      }
+      .add-btn-cntr {
+        right: 5px;
+        position: absolute;
+      }
+    }
+  }
+}
+.clock-display-cntr {
+  min-width: $clock-display-width;
+}
+.bg-dark {
+  background: lighten($brand-dark, 5%);
+}
+.rotation-container {
+  position: relative;
+  bottom: -4px;
+  .rotation-list {
+    margin: 0;
+    padding: 0;
+    li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-radius: 40px;
+      background: #fff;
+      box-shadow: 3px 3px 3px rgba($gray, 0.2);
+      transition: all 0.3s ease-in-out;
+      max-width: 40px;
+      width: 40px;
+      span.display-name {
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        min-height: 40px;
+        max-height: 40px;
+        display: block;
+        overflow: hidden;
+        padding-top: 8px;
+        box-shadow: 2px 2px 2px rgba($gray, 0.1);
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+        &:hover {
+          box-shadow: 3px 3px 3px rgba($gray, 0.2);
+        }
+      }
+      span.next-table {
+        padding-top: 10px;
+        min-width: 60px;
+        opacity: 0;
+        min-height: 40px;
+        h6 {
+          font-weight: 500;
+          margin-bottom: 0;
+          margin-top: 2px;
+        }
+      }
+      &.selected {
+        max-width: inherit;
+        width: 100px;
+        span.next-table {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+:host ::ng-deep {
+  .scrollable-content-waitlist,
+  .scrollable-content-seatedguest,
+  .scrollable-content-reservation {
+    overflow-x: hidden !important;
+    max-height: calc(
+      100vh - #{$navbar-height + $inline-header-height + $inline-header-height +
+        $inline-header-height + $server-rotation-cntr-height - 4}
+    ) !important;
+    height: calc(
+      100vh - #{$navbar-height + $inline-header-height + $inline-header-height +
+        $inline-header-height + $server-rotation-cntr-height - 4}
+    ) !important;
+    .table-responsive {
+      tr:first-child {
+        td {
+          border-top: 0 !important;
+        }
+      }
+      tr {
+        td {
+          line-height: 1;
+          padding: 0.8rem 0.5rem;
+        }
+        td:first-child {
+          padding-left: 12px !important;
+        }
+        .reservation-time {
+          h4 {
+            font-size: 1.2rem !important;
+          }
+        }
+        .party-desc {
+          max-width: 140px;
+          min-width: 140px;
+          .notes {
+            font-size: 80%;
+            color: $gray;
+          }
+          .star-icon {
+            font-size: 18px;
+          }
+          > div {
+            padding-left: 1rem !important;
+          }
+        }
+        td:last-child {
+          padding-left: 1rem !important;
+          min-width: 65px;
+        }
+      }
+    }
+  }
+  &.full-height-panel {
+    .scrollable-content-waitlist,
+    .scrollable-content-seatedguest,
+    .scrollable-content-reservation {
+      max-height: calc(
+        100vh - #{$navbar-height + $inline-header-height + $inline-header-height}
+      ) !important;
+      height: calc(
+        100vh - #{$navbar-height + $inline-header-height + $inline-header-height}
+      ) !important;
+    }
+  }
+}
+.server-rotation-cntr {
+  background: lighten($brand-dark, 8%);
+}
+aside {
+  &.panel-pinned {
+    margin-right: 0 !important;
+    .panel-pin {
+      transform: rotate(-45deg);
+      transform-origin: center;
+    }
+  }
+}
+.svg-parent-cntr {
+  &.panel-pinned {
+    margin-right: $aside-menu-width;
+  }
+}
+.panel-pin {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}

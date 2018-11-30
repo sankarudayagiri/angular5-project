@@ -1,0 +1,21 @@
+@import "../../../scss/_module-variables.scss";
+
+.sidebar {
+  width: 60px;
+  .sidebar-nav {
+    position: fixed;
+    z-index: 9;
+    height: calc(100vh - 60px);
+    background: #fff;
+    box-shadow: 0 0 8px rgba($gray, 0.15);
+  }
+}
+
+.counter {
+  margin-right: 195px;
+  border-radius: 30px;
+  position: fixed;
+  left: 35px;
+  padding: 2px 5px;
+  margin-top: -10px;
+}

@@ -1,0 +1,169 @@
+<div class="sidebar vh-100" *ngIf="showSidebar">
+  <nav class="sidebar-nav">
+    <ul class="nav">
+      <li *ngIf="superAdmin || clientAdmin" class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
+        <a class="nav-link nav-dropdown-toggle" routerLinkActive="active" [routerLink]="['/admin']" appNavDropdownToggle>
+          <i class="material-icons md-24">
+            account_circle
+          </i> Account</a>
+        <ul class="nav-dropdown-items">
+
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin/pagers']">
+              <i class="material-icons md-24">
+                nfc
+              </i>
+              Pagers</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'disabled' : !modules.hasModuleReservations}" routerLinkActive="active" [routerLink]="['/admin/reservation-rules']">
+              <i class="material-icons md-24">
+                event
+              </i> Reservation Rules</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'disabled' : !modules.hasModuleTable}" routerLinkActive="active" [routerLink]="['/admin/floor-plan']">
+              <i class="material-icons md-24">
+                widgets
+              </i>
+              Floor Plans</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'disabled' : !modules.hasModuleWaitList || !modules.hasModuleTapAheadSeating}" routerLinkActive="active" [routerLink]="['/admin/tap-ahead']">
+              <i class="material-icons md-24">
+                touch_app
+              </i>
+              Tap Ahead Settings</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin/blast']">
+              <i class="material-icons md-24">
+                card_giftcard
+              </i>
+              Blast</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin/users']">
+              <i class="material-icons md-24">
+                perm_identity
+              </i>
+              Users</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin/customization']">
+              <i class="material-icons md-24">
+                tune
+              </i>
+              Customization</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin/profile-settings']">
+              <i class="material-icons md-24">
+                settings
+              </i> Profile Settings</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'disabled' : !modules.hasModuleServerRatings}" routerLinkActive="active" [routerLink]="['/admin/feedback']">
+              <i class="material-icons md-24">
+                feedback
+              </i> Feedback</a>
+          </li>
+
+          <li class="nav-item" *ngIf="superAdmin">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin/account-settings']">
+              <i class="material-icons md-24">
+                account_balance_wallet
+              </i> Account Settings</a>
+          </li>
+
+          <!-- <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/staff/staff-list']">
+                <i class="material-icons md-24">
+                  people
+                </i>
+                Staff</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/staff/shift-layouts']">
+                  <i class="material-icons md-24">
+                    border_all
+                  </i>
+                  Shift Layouts</a>
+              </li> -->
+
+          <!-- <li class="nav-item">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin/feedback']">
+                <i class="material-icons md-24">
+                  perm_identity
+                </i>
+                Feedback</a>
+            </li> -->
+
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'disabled' : !modules.hasModuleTable}" routerLinkActive="active" [routerLink]="['/dashboard']">
+          <i class="icon-speedometer"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'disabled' : !modules.hasModuleTable}" routerLinkActive="active" [routerLink]="['/tables']">
+          <i class="icon-frame"></i> Tables
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'disabled' : !modules.hasModuleWaitList}" routerLinkActive="active" [routerLink]="['/waitlist']">
+          <small class="counter bg-dark" *ngIf="badge && badge.waitListsCount > 0 && modules.hasModuleWaitList">{{badge.waitListsCount}}</small>
+          <i class="icon-clock"></i> Wait List </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'disabled' : !modules.hasModuleReservations}" routerLinkActive="active" [routerLink]="['/reservation']">
+          <small class="counter bg-dark" *ngIf="badge && badge.reservationsCount > 0 && modules.hasModuleReservations">{{badge.reservationsCount}}</small>
+          <i class="icon-event"></i> Reservation
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'disabled' : !modules.hasModuleTable}" routerLinkActive="active" [routerLink]="['/staff']">
+          <i class="icon-people"></i> Staff </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['/settings']">
+          <i class="icon-settings"></i> Settings </a>
+      </li>
+
+      <li class="nav-item " (click)="NotesService.openNotesPanel = !this.NotesService.openNotesPanel" NotesPanelToggler>
+        <a class="nav-link">
+          <i class="icon-note"></i>Notes
+        </a>
+      </li>
+
+      <li class="nav-item " (click)="NotificationService.openNotificationPanel=!NotificationService.openNotificationPanel" NotificationPanelToggler>
+        <a class="nav-link">
+          <small class="counter bg-dark" *ngIf="badge && badge.notificationsCount > 0">{{badge.notificationsCount}}</small>
+          <i class="icon-bell"></i>Notifications
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['/help']">
+          <i class="material-icons md-24">
+            help_outline
+          </i>
+          Help</a>
+      </li>
+    </ul>
+  </nav>
+</div>

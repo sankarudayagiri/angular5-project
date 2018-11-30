@@ -1,0 +1,72 @@
+@import "../../../scss/_module-variables.scss";
+
+:host ::ng-deep .tab-content {
+  margin-left: 0;
+  margin-right: 15px;
+  .tab-pane {
+    padding: 20px 0 0 0;
+  }
+}
+
+//Target child component style
+:host ::ng-deep .nav-tabs {
+  margin-left: -15px;
+}
+
+.staff-layout-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    padding: 10px 0;
+    h6 {
+      font-weight: 700;
+    }
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.card.bg-light {
+  background: darken(#fff, 5%);
+  box-shadow: none;
+}
+
+.material-icons.add-new {
+  font-size: 60px;
+  margin-bottom: 14px;
+}
+
+input.h3 {
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.floor-plan-cotainer {
+  //overflow: hidden;
+  position: relative;
+  opacity: 0;
+  &.plan-rendered {
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+  }
+}
+
+.section-card {
+  background: darken(#fff, 1%);
+  .color-bar {
+    position: absolute;
+    width: 4px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: $gray-light;
+  }
+  &.selected {
+    background: #fff;
+    .color-bar {
+      width: 8px;
+    }
+  }
+}

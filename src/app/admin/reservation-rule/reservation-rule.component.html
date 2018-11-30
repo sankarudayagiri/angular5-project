@@ -1,0 +1,246 @@
+<div class="reservation-rule-container px-3 py-4">
+  <div class="no-rule-cntr" [hidden]="showLoading" *ngIf="!rules.length">
+    <h6>YOU HAVE NO RULES CREATED</h6>
+    <button class="btn btn-lg btn-primary" (click)="createNewRule()">+
+      <small>CREATE NEW RULE</small>
+    </button>
+  </div>
+  <form #f="ngForm">
+    <div class="col-12 pl-0" *ngIf="rules.length">
+      <P>
+        DAILY RESERVATION RULES
+        <span class="badge badge-pill badge-primary">{{rules.length}} Rule(s)</span>
+      </P>
+    </div>
+    <div class="card" *ngFor="let rule of rules;let index = index;">
+      <div class="p-4 p-md-3">
+        <div class="row m-0">
+          <div class="col-md-2 pr-0 p-md-0">
+            <p class="text-muted">Allow</p>
+            <div class="allow-count">
+              <number-stepper [(modelValue)]="rule.totalAllowed" [minValue]="0" [maxValue]="999"></number-stepper>
+            </div>
+            <div class="rule-parties pt-2">
+              <mat-radio-group>
+                <mat-radio-button value="Parties" class="radioContent" [checked]="rule.isParty" (click)="rule.isParty = true">
+                  <small>Parties</small>
+                </mat-radio-button>
+                <mat-radio-button value="Covers" class="radioContent ml-2" [checked]="!rule.isParty" (click)="rule.isParty = false">
+                  <small>Guests</small>
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="col-md-4 pl-4">
+            <div class="row">
+              <!-- <span>{{errorMessage}}</span> -->
+              <div class="col-6">
+                <p class="text-muted">From</p>
+                <time-picker [(time)]="rule.fromTime" (timeChange)="compareTwoDates(rule)" [error]="rule.error"></time-picker>
+              </div>
+              <div class="col-6">
+                <p class="text-muted">To</p>
+                <time-picker [(time)]="rule.toTime" (timeChange)="compareTwoDates(rule)" [error]="rule.error"></time-picker>
+              </div>
+              <div class="col-12 timepicker-error-message">
+                <small *ngIf="rule.error" class="text-danger">To time should be greater than From time.</small>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 mt-2">
+                <mat-radio-group>
+                  <mat-radio-button value="0" [checked]="!rule.interval" (change)="rule.timeSlot = false" class="mr-3">
+                    <small>RANGE</small>
+                  </mat-radio-button>
+                  <mat-radio-button value="30" [checked]="rule.interval" (change)="rule.timeSlot = true; rule.interval = rule.interval ? rule.interval : 30;">
+                    <small>TIME SLOT</small>
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div class="recurence-timeSlots" [hidden]="!rule.timeSlot">
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+                  <mat-button-toggle value="15" name="{{'rule.interval' + index}}" [checked]="rule.interval==15" (click)="rule.interval = 15">15
+                    <small>min</small>
+                  </mat-button-toggle>
+                  <mat-button-toggle value="30" name="{{'rule.interval' + index}}" [checked]="rule.interval==30" (click)="rule.interval = 30">30
+                    <small>min</small>
+                  </mat-button-toggle>
+                  <mat-button-toggle value="60" name="{{'rule.interval' + index}}" [checked]="rule.interval==60" (click)="rule.interval = 60">60
+                    <small>min</small>
+                  </mat-button-toggle>
+                  <mat-button-toggle value="120" name="{{'rule.interval' + index}}" [checked]="rule.interval==120" (click)="rule.interval = 120">120
+                    <small>min</small>
+                  </mat-button-toggle>
+                </mat-button-toggle-group>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 p-md-0">
+            <p class="text-muted">Recurrence</p>
+            <div class="recurrence-type mt-3 mb-2">
+              <mat-radio-group>
+                <mat-radio-button value="0" [checked]="rule.recurrenceType == 0" (change)="rule.recurrenceType = 0; rule.specificDateError = false;"
+                  class="mr-3">Repeat</mat-radio-button>
+                <mat-radio-button value="1" [checked]="rule.recurrenceType == 1" (change)="rule.recurrenceType = 1; rule.ruleSpecificDates.length > 0 ? rule.specificDateError = false : rule.specificDateError = true"
+                  class="mr-3">Specific Date</mat-radio-button>
+                <mat-radio-button value="2" [checked]="rule.recurrenceType == 2" (change)="rule.recurrenceType = 2; rule.dateForToday = date; rule.specificDateError = false;">Today</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="recurrence-days" [hidden]="rule.recurrenceType != 0">
+              <button [ngClass]="{'bg-primary': rule.isSunday}" (click)="rule.isSunday = !rule.isSunday" mat-mini-fab>SU</button>
+              <button [ngClass]="{'bg-primary': rule.isMonday}" (click)="rule.isMonday = !rule.isMonday" mat-mini-fab day-selection>MO</button>
+              <button [ngClass]="{'bg-primary': rule.isTuesday}" (click)="rule.isTuesday = !rule.isTuesday" mat-mini-fab day-selection>TU</button>
+              <button [ngClass]="{'bg-primary': rule.isWednesday}" (click)="rule.isWednesday = !rule.isWednesday" mat-mini-fab day-selection>WE</button>
+              <button [ngClass]="{'bg-primary': rule.isThursday}" (click)="rule.isThursday = !rule.isThursday" mat-mini-fab day-selection>TH</button>
+              <button [ngClass]="{'bg-primary': rule.isFriday}" (click)="rule.isFriday = !rule.isFriday" mat-mini-fab day-selection>FR</button>
+              <button [ngClass]="{'bg-primary': rule.isSaturday}" (click)="rule.isSaturday = !rule.isSaturday" mat-mini-fab day-selection>SA</button>
+            </div>
+            <div class="recurrence-days" *ngIf="rule.recurrenceType == 1">
+
+              <!-- <div class="date-list">
+                  <div *ngFor="let e of events;let j = index;"   ><span class="text-center"  > {{e | date}}</span></div>
+                </div> -->
+              <div class="date-list mr-2">
+                <div class="p-0">
+                  <input matInput name="{{'rule.ruleSpecificDates' + index}}" [matDatepicker]="picker" (dateChange)="addEvent($event,index, rule.id)">
+                  <mat-datepicker #picker></mat-datepicker>
+                  <button class="btn btn-sm btn-outline-primary" (click)="picker.open()">
+                    <i class="icon icon-event mr-1"></i>Add Date</button>
+                </div>
+                <div *ngFor="let date of rule.ruleSpecificDates;let j=index" class="bg-primary">
+                  <small>{{date.date |date:'dd MMMM '}}
+                    <button type="button" class="close  pb-1 pl-2 " (click)="removeDate(j, index)" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </small>
+                </div>
+              </div>
+              <div>
+                <small class="text-danger" *ngIf="rule.specificDateError">Please add at least one date for this rule</small>
+              </div>
+            </div>
+            <div class="recurrence-days" *ngIf="rule.recurrenceType == 2">
+              <div class="row">
+                <div class="col-sm-6 mt-3">
+                  {{date | date : 'MMM dd, yyyy' : timezone}}
+                </div>
+                <div class="col-sm-6 pl-5">
+                  <mat-form-field class="example-full-width">
+                    <input matInput maxlength="100" placeholder="Special Day" name="{{'rule.specialDay' + index}}" [(ngModel)]="rule.specialDay"
+                      autocomplete="off">
+                  </mat-form-field>
+
+                  <!-- <mat-form-field
+                    [hideRequiredMarker]="options.value.hideRequired"
+                    [floatLabel]="options.value.floatLabel">
+                  <mat-select required>
+                    <mat-option>-- None --</mat-option>
+                    <mat-option value="option">Mothers Day</mat-option>
+                    <mat-option value="option">Fathers Day</mat-option>
+                    <mat-option value="option">Halloween</mat-option>
+                    <mat-option value="option">Thanksgiving</mat-option>
+                    <mat-option value="option">Easter Sunday</mat-option>
+                  </mat-select>
+                  <mat-label> Special Day</mat-label>
+                </mat-form-field> -->
+                </div>
+              </div>
+              <!-- <p class="text-muted">Rule will be enabled only for today</p> -->
+            </div>
+          </div>
+          <div class="col-md-2 pl-md-4">
+            <div class="row">
+              <div class="col-8">
+                <p class="text-muted">
+                  Active
+                </p>
+                <mat-slide-toggle class="toggle-success" name="{{'rule.isActive' + index}}" [checked]="rule.isActive" [(ngModel)]="rule.isActive">
+                </mat-slide-toggle>
+              </div>
+              <div class="col-4">
+                <p class="mb-2">&nbsp;</p>
+                <i class="fa fa-trash-o delete-icon cursor-pointer text-danger m-1" (click)="showDeleteConfirm(index)"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 rule-info px-4 py-2">
+        <div class="row">
+          <div class="col-md-10">
+            <p class="text-muted mb-0">{{rule.totalAllowed}}
+              <span *ngIf="rule.isParty">{{rule.totalAllowed == 1 ? 'Party' : 'Parties'}}</span>
+              <span *ngIf="!rule.isParty">{{rule.totalAllowed == 1 ? 'Guest' : 'Guests'}}</span> Allowed
+              <span *ngIf="rule.timeSlot">Per {{rule.interval}} min</span>
+              <span *ngIf="!rule.timeSlot">Per Rule</span>
+              <span [ngSwitch]="rule.recurrenceType">
+                <span *ngSwitchCase="0" class="selected-values">
+                  <span>on</span>
+                  <span *ngIf="rule.isSunday">Sunday
+                    <span class="comma-seperator">, </span>
+                  </span>
+                  <span *ngIf="rule.isMonday">Monday
+                    <span class="comma-seperator">, </span>
+                  </span>
+                  <span *ngIf="rule.isTuesday">Tuesday
+                    <span class="comma-seperator">, </span>
+                  </span>
+                  <span *ngIf="rule.isWednesday">Wednesday
+                    <span class="comma-seperator">, </span>
+                  </span>
+                  <span *ngIf="rule.isThursday">Thursday
+                    <span class="comma-seperator">, </span>
+                  </span>
+                  <span *ngIf="rule.isFriday">Friday
+                    <span class="comma-seperator">, </span>
+                  </span>
+                  <span *ngIf="rule.isSaturday">Saturday
+                    <span class="comma-seperator">, </span>
+                  </span>
+                  <span>from {{rule.fromTime | date :'h:mm a'}} to {{rule.toTime | date : 'h:mm a'}}.</span>
+                </span>
+                <span *ngSwitchCase="1" class="selected-values">
+                  <span>On</span>
+                  <span *ngFor="let date of rule.ruleSpecificDates;let j=index">
+                    {{date.date |date:'dd MMMM'}}, from {{rule.fromTime | date :'h:mm a'}} to {{rule.toTime | date : 'h:mm a'}}.
+                    <span
+                      class="comma-seperator">, </span>
+                  </span>
+                </span>
+                <span *ngSwitchCase="2">(Rule will be enabled only for today), from {{rule.fromTime | date :'h:mm a'}} to {{rule.toTime | date :
+                  'h:mm a'}}. </span>
+              </span>
+            </p>
+          </div>
+          <div class="col-md-2 text-right">
+            <span *ngIf="rule.error || rule.specificDateError" class="text-danger">
+              <i class="material-icons" [matTooltipPosition]="'left'" matTooltipClass="bg-danger" matTooltip="There are errors in this rule.">
+                warning
+              </i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="more-options-card text-center" [ngClass]="index === showDeleteID ? 'options-enabled' : ''" click-stop-propagation>
+        <div class="d-flex align-items-center justify-content-center mb-3">
+          <div class="p-2">
+            <p>Delete Reservation Rules? This operation cannot be undone.</p>
+            <button class="btn btn-primary" (click)="showDeleteID = null">Cancel</button>
+            <button class="btn btn-danger" (click)="deleteRule(index, rule.id)">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 pl-0">
+      <button class="btn btn-primary" *ngIf="rules.length" (click)="createNewRule()"> + CREATE NEW RULE </button>
+      <button class="btn btn-success pull-right" *ngIf="rules.length" (click)="saveReservationRule()"> SAVE RULES </button>
+      <button class="btn btn-outline-primary pull-right mr-1" *ngIf="rules.length" (click)="discardChanges()"> DISCARD CHANGES </button>
+    </div>
+  </form>
+</div>

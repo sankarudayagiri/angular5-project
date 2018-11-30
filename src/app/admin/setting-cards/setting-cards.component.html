@@ -1,0 +1,207 @@
+<div class="p-4">
+    <div class="row admin-setting-cards d-flex">
+        <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex">
+            <div class="card text-center cursor-pointer" routerLinkActive="active" [routerLink]="['/admin/pagers']">
+                <i class="material-icons watermark-icon">
+                    nfc
+                </i>
+                <div class="content">
+                    <div class="mb-2">
+                        <i class="material-icons md-48 text-primary">
+                            nfc
+                        </i>
+                    </div>
+                    <h6 class="text-uppercase">Pagers</h6>
+                    <p class="text-muted">Manage Pagers</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex">
+            <div class="card text-center cursor-pointer" [ngClass]="{'disabled' : !modules.hasModuleReservations}" [routerLink]="['/admin/reservation-rules']">
+                <i class="material-icons watermark-icon">
+                    event
+                </i>
+                <div class="content">
+                    <div class="mb-2">
+                        <i class="material-icons md-48 text-primary">
+                            event
+                        </i>
+                    </div>
+                    <h6 class="text-uppercase">Reservation Rules</h6>
+                    <p class="text-muted">Manage Reservation Rules</p>
+                    <small *ngIf="!modules.hasModuleReservations" class="text-muted">NOT SUBSCRIBED</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex">
+            <div class="card text-center cursor-pointer" [ngClass]="{'disabled' : !modules.hasModuleTable}" [routerLink]="['/admin/floor-plan']">
+                <i class="material-icons watermark-icon">
+                    widgets
+                </i>
+                <div class="content">
+                    <div class="mb-2">
+                        <i class="material-icons md-48 text-primary">
+                            widgets
+                        </i>
+                    </div>
+                    <h6 class="text-uppercase">Floor plans</h6>
+                    <p class="text-muted">Manage Floor Plans</p>
+                    <small *ngIf="!modules.hasModuleTable" class="text-muted">NOT SUBSCRIBED</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex">
+            <div class="card text-center cursor-pointer" [ngClass]="{'disabled' : !modules.hasModuleWaitList || !modules.hasModuleTapAheadSeating}"
+                [routerLink]="['/admin/tap-ahead']">
+                <i class="material-icons watermark-icon">
+                    touch_app
+                </i>
+                <div class="content">
+                    <div class="mb-2">
+                        <i class="material-icons md-48 text-primary">
+                            touch_app
+                        </i>
+                    </div>
+                    <h6 class="text-uppercase">Tap Ahead Settings</h6>
+                    <p class="text-muted">Manage Tap Ahead Settings</p>
+                    <small *ngIf="!modules.hasModuleWaitList || !modules.hasModuleTapAheadSeating" class="text-muted">NOT SUBSCRIBED</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex">
+            <div class="card text-center cursor-pointer" [routerLink]="['/admin/blast']">
+                <i class="material-icons watermark-icon">
+                    card_giftcard
+                </i>
+                <div class="content">
+                    <div class="mb-2">
+                        <i class="material-icons md-48 text-primary">
+                            card_giftcard
+                        </i>
+                    </div>
+                    <h6 class="text-uppercase">Blast</h6>
+                    <p class="text-muted">Manage Blast</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex">
+            <div class="card text-center cursor-pointer" [routerLink]="['/admin/users']">
+                <i class="material-icons watermark-icon">
+                    perm_identity
+                </i>
+                <div class="content">
+                    <div class="mb-2">
+                        <i class="material-icons md-48 text-primary">
+                            perm_identity
+                        </i>
+                    </div>
+                    <h6 class="text-uppercase">Users</h6>
+                    <p class="text-muted">Manage Users</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex">
+            <div class="card text-center cursor-pointer" [routerLink]="['/staff/staff-list']">
+                <div class="content">
+                    <div class="mb-2">
+                        <i class="material-icons md-48 text-primary">
+                            people
+                        </i>
+                    </div>
+                    <h6 class="text-uppercase">Staff</h6>
+                    <p class="text-muted">Manage Staff</p>
+                </div>
+            </div>
+        </div> -->
+        <!-- 
+        <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex">
+            <div class="card text-center cursor-pointer" [routerLink]="['/staff/shift-layouts']">
+                <div class="content">
+                    <div class="mb-2">
+                        <i class="material-icons md-48 text-primary">
+                            border_all
+                        </i>
+                    </div>
+                    <h6 class="text-uppercase">Shift Layouts</h6>
+                    <p class="text-muted">Manage Shift Layouts</p>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex">
+            <div class="card text-center cursor-pointer" [routerLink]="['/admin/customization']">
+                <i class="material-icons watermark-icon">
+                    tune
+                </i>
+                <div class="content">
+                    <div class="mb-2">
+                        <i class="material-icons md-48 text-primary">
+                            tune
+                        </i>
+                    </div>
+                    <h6 class="text-uppercase">Customization</h6>
+                    <p class="text-muted">Customization</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex">
+            <div class="card text-center cursor-pointer" [routerLink]="['/admin/profile-settings']">
+                <i class="material-icons watermark-icon">
+                    settings
+                </i>
+                <div class="content">
+                    <div class="mb-2">
+                        <i class="material-icons md-48 text-primary">
+                            settings
+                        </i>
+                    </div>
+                    <h6 class="text-uppercase">Profile Settings</h6>
+                    <p class="text-muted">Manage Profile Settings</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex">
+            <div class="card text-center cursor-pointer" [ngClass]="{'disabled' : !modules.hasModuleServerRatings}" [routerLink]="['/admin/feedback']">
+                <i class="material-icons watermark-icon">
+                    feedback
+                </i>
+                <div class="content">
+                    <div class="mb-2">
+                        <i class="material-icons md-48 text-primary">
+                            feedback
+                        </i>
+                    </div>
+                    <h6 class="text-uppercase">Feedback</h6>
+                    <p class="text-muted">Manage User Feedback</p>
+                    <small *ngIf="!modules.hasModuleServerRatings" class="text-muted">NOT SUBSCRIBED</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex" *ngIf="currentUser.role == 'JtechAdmin'">
+            <div class="card jtech-card text-center cursor-pointer" routerLinkActive="active" [routerLink]="['/admin/account-settings']">
+                <i class="material-icons watermark-icon">
+                    account_balance_wallet
+                </i>
+                <div class="content">
+                    <div class="mb-2">
+                        <i class="material-icons md-48 text-primary">
+                            account_balance_wallet
+                        </i>
+                    </div>
+                    <h6 class="text-uppercase">Account Settings</h6>
+                    <p class="text-muted">Manage Account Settings</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

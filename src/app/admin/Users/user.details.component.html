@@ -1,0 +1,82 @@
+<div>
+    <form name="form" (ngSubmit)="f.form.valid && validPassword && updateUser(userDetail.id)" #f="ngForm" novalidate>
+        <h6 mat-dialog-title class="dialog-header text-center pb-4 font-weight-bold">
+            {{data.user==null? 'ADD USER' : 'EDIT USER'}}
+
+            <i class="material-icons pull-right close cursor-pointer" (click)="onNoClick()">
+                clear
+            </i>
+        </h6>
+
+        <div class="display-name d-flex align-items-center justify-content-center lg mx-auto my-5">
+            <p class="m-0">{{userDetail.isHost ? 'HOST' : 'ADMIN'}}</p>
+        </div>
+
+        <div class="row text-center justify-content-center my-5 mx-2">
+            <div class="col-lg-3 col-sm-4">
+                <div class="form-group text-left">
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : matCustomError}">
+                        <input (focus)="usernameValid=true;matCustomError=null" matInput autocomplete="off" #username="ngModel" maxlength="100" [trimSpace] [readonly]="userEditMode"
+                            minlength="1" name="user-name" placeholder="Username" [(ngModel)]="userDetail.userName" required>
+                        <mat-error>Please enter a Username.</mat-error>
+                    </mat-form-field>
+                    <mat-custom-error *ngIf="!usernameValid" [field]="'UserName'" [(matCustomError)]="matCustomError" [errorData]="errorMessages"></mat-custom-error>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-4 p-relative">
+                <mat-form-field [color]="passwordStrengthColor">
+                    <input matInput (focus)="showPasswordStrength = true" (blur)="showPasswordStrength = false" autocomplete="off" #password="ngModel" maxlength="50"
+                        placeholder="Password" name="password" type="password" [(ngModel)]="userDetail.password" required>
+                    <mat-error>Please enter a valid Password.</mat-error>
+                </mat-form-field>
+                <div class="password-strength-cntr">
+                    <mat-password-strength #passwordComponent [enableUpperCaseLetterRule]="false" (onStrengthChanged)="onStrengthChanged($event)" [password]="password.value">
+                    </mat-password-strength>
+                    <mat-password-strength-info *ngIf="showPasswordStrength" [passwordComponent]="passwordComponent">
+                        </mat-password-strength-info>
+                </div>
+                <div *ngIf="f.submitted && userDetail.password && !validPassword" class="help-block text-left">Please enter a valid Password.</div>
+            </div>
+            <div class="col-lg-3 col-sm-4">
+                <mat-form-field>
+                    <input matInput autocomplete="off" maxlength="50" pattern="[a-zA-Z0-9.@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+" placeholder="Email"
+                        name="email" [email]="userDetail.email != null && userDetail.email != ''" [(ngModel)]="userDetail.email"
+                        [required]="userDetail.isClientAdmin">
+                    <mat-error>Please enter a valid Email address.</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row my-5 d-flex justify-content-center">
+            <div class="col-md-6 text-center">
+                <!-- <mat-radio-group [(ngModel)]="userRole" name="user-role">
+                    <mat-radio-button color="primary" name="user-role" class="mx-5" [value]="'isHost'">
+                        Host
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" name="user-role" class="mx-5" [value]="'isClientAdmin'">
+                        ClientAdmin
+                    </mat-radio-button>
+                </mat-radio-group> -->
+
+                <mat-button-toggle-group class="d-flex justify-content-center" #group="matButtonToggleGroup" (change)="onSelectionChange(group.value)">
+                    <mat-button-toggle class="circle" [checked]="userDetail.isHost" value="isHost">
+                        <i class="material-icons p-1 mt-3">person</i>
+                    </mat-button-toggle>
+                    <p class="ml-2 mb-0 text-muted font-weight-bold d-flex align-items-center">HOST</p>
+
+                    <mat-button-toggle class="circle ml-5" [checked]="userDetail.isClientAdmin" value="isClientAdmin">
+                        <i class="material-icons p-1  mt-3">vpn_key</i>
+                    </mat-button-toggle>
+                    <p class="ml-2 mb-0 text-muted font-weight-bold d-flex align-items-center">ADMIN</p>
+                </mat-button-toggle-group>
+            </div>
+        </div>
+
+        <div class="text-center dialog-footer">
+            <button class="btn btn-primary btn-lg">
+                <small>DONE</small>
+            </button>
+        </div>
+
+    </form>
+</div>

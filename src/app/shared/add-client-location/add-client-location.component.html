@@ -1,0 +1,29 @@
+<h6 mat-dialog-title class="text-center pb-4 font-weight-bold">
+    <i class="material-icons pull-right close cursor-pointer p-4" (click)="onNoClick()">
+        clear
+    </i>
+</h6>
+<div class="d-flex justify-content-center align-items-center" style="height:85vh;">
+    <div class="add-location-container">
+        <form name="form" (ngSubmit)="f.form.valid && createLocation()" #f="ngForm" novalidate>
+            <div class="d-flex flex-column">
+                <h4 class="font-weight-bold">ADD NEW LOCATION</h4>
+                <mat-form-field class="mt-4" [ngClass]="{'mat-form-field-invalid' : matCustomError}">
+                    <input matInput placeholder="Client Code" maxlength="20" #clientcode="ngModel" name="clientcode" [(ngModel)]="clientLocationData.code" autocomplete="client-code"
+                        required>
+                    <mat-error >Please enter Client Code.</mat-error>
+                </mat-form-field>
+                <mat-custom-error *ngIf="clientcode.valid" [field]="'Code'" [(matCustomError)]="matCustomError" [errorData]="errorMessages"></mat-custom-error>
+
+                <mat-form-field class=" mt-3">
+                    <input matInput placeholder="DBA" name="dba" maxlength="20"[(ngModel)]="clientLocationData.dba" autocomplete="client-dba" required>
+                    <mat-error >Please enter DBA.</mat-error>
+                </mat-form-field>
+                <div class="d-flex flex-row ml-4 my-4">
+                    <span class="btn btn-primary mr-3" (click)="onNoClick()">CANCEL </span>
+                    <button class="btn btn-success">DONE </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

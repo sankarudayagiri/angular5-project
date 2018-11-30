@@ -1,0 +1,24 @@
+
+//Base Amount
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+:host ::ng-deep {
+  .mat-form-field-underline {
+    background-color: rgba(0, 0, 0, 0.14);
+  }
+  .mat-slide-toggle-content{
+    overflow:inherit;
+  }
+}
+
+.card{
+  .rule-info {
+    background: #f9f9f9;
+  }
+}

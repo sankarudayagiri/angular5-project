@@ -1,0 +1,32 @@
+.overlay {
+  position: fixed;
+  width: 300px;
+  // height: calc(100vh - 60px);
+  top: 55px;
+  left: -300px;
+  right: 0;
+  bottom: 0;
+  background-color: #f1f3f5;
+  z-index: 12;
+  cursor: pointer;
+  box-shadow: 5px 0 8px rgba(96, 125, 139, 0.15);
+  transition: all 0.3s ease-in-out;
+  &.panelOpen {
+    left: 60px;
+  }
+}
+.notificationMsgBox {
+  // border: 1px solid black;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 0 2px rgba(96, 125, 139, 0.15);
+}
+.notificationContainer {
+  height: calc(100vh - 150px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+// ::-webkit-scrollbar {
+//     width: 0px;  /* remove scrollbar space */
+//     background: transparent;  /* optional: just make scrollbar invisible */
+// }

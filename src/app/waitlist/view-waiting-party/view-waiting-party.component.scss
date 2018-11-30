@@ -1,0 +1,105 @@
+@import "../../../scss/_module-variables.scss";
+.circle {
+  outline: none;
+  border: none;
+  border-radius: 50px;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+}
+.mat-progress-bar {
+  display: block;
+  height: 15px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+
+:host ::ng-deep {
+  mat-progress-bar {
+    .mat-button-toggle-group {
+      box-shadow: none !important;
+    }
+    .mat-progress-bar-buffer {
+      //background-color: rgb(251, 113, 74) !important;
+      background-color: $gray-lighter !important;
+    }
+    .mat-progress-bar-fill::after {
+      background: $brand-waitlist;
+      border-radius: 40px;
+    }
+    &.wait-time-reached {
+      .mat-progress-bar-fill::after {
+        background: $brand-danger;
+      }
+    }
+  }
+  
+}
+::ng-deep {.cdk-overlay-pane.full-size-dialog{
+  position: relative !important;
+    }}
+
+.circleToggle {
+  outline: none;
+  padding-top: 5px;
+  border: $brand-waitlist solid 3px;
+  border-radius: 50px;
+  height: 70px;
+  width: 70px;
+  min-width: 70px;
+  background: #fff;
+  margin-right: 4px;
+  color: $gray;
+  &.party-arrival {
+    border-color: $brand-tables;
+    color: $brand-tables;
+  }
+  &.med-priority {
+    border-color: $brand-waitlist;
+    color: $brand-waitlist;
+  }
+  &.hg-priority {
+    border-color: $brand-danger;
+    color: $brand-danger;
+  }
+  &.bg-waitlist {
+    background: $brand-waitlist;
+    color: #fff;
+  }
+  &.selected {
+    background: $brand-danger;
+    color: #fff;
+    &.party-arrival {
+      background: $brand-tables;
+    }
+    &.med-priority {
+      background: $brand-waitlist;
+    }
+    &.hg-priority {
+      background: $brand-danger;
+    }
+  }
+}
+.mat-button-toggle-group {
+  box-shadow: none;
+}
+
+.view-tabs {
+  position: relative;
+  top: 10px;
+}
+.moveToWaitlistBtn{
+  background: $brand-waitlist;
+  color:white
+}
+.wrap{
+  word-wrap: break-word;
+}
+
+.btn.disabled,
+.btn-danger:disabled,
+.btn-info:disabled,
+i.disabled, button.circle:disabled {
+  opacity: 0.4;
+}

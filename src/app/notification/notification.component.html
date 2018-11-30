@@ -1,0 +1,30 @@
+<div class="overlay" id="notification" [ngClass]="panelClass" click-stop-propagation>
+  <div class="p-3 bg-primary">
+    <h5 class=" font-weight-bold ">NOTIFICATIONS</h5>
+  </div>
+  <div class="px-4 mt-2 scrollable-content scrollbar d-flex align-items-center" [ngClass]="{ 'd-flex align-items-center': notificationData?.length == 0 }">
+    <div class="mb-3">
+      <h5 class="font-weight-normal" *ngIf="notificationData?.length > 0">
+        Today
+      </h5>
+    </div>
+    <div *ngFor="let notification of notificationData">
+      <div class="row p-3  mb-3 notificationMsgBox font-weight-normal">
+        <div class="row w-100 d-flex justify-content-end">
+          <span class="text-primary">
+            {{ notification.createdDate | timeAgo }}</span>
+        </div>
+
+        <div class=" row mt-2 d-flex align-items-center">
+          <div class="col-md-2">
+            <h3 class="icon-like"></h3>
+          </div>
+          <div class="col-md-10">{{ notification.notificationText }}</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <span class="text-muted font-weight-normal" *ngIf="notificationData?.length == 0">No new notifications for today</span>
+    </div>
+  </div>
+</div>

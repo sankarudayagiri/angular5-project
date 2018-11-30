@@ -1,0 +1,212 @@
+<div class="general-setting-container p-4">
+  <form name="form" (ngSubmit)="scrolltoTop(f.form.valid); f.form.valid && !invalidCountry && !invalidState && saveGeneralSettings()"
+    #f="ngForm" novalidate>
+    <h6 class="font-weight-bold">Company Info </h6>
+    <div class="card mt-3">
+      <div class="px-4 py-4">
+        <div class="row">
+          <div class="col-md-3">
+            <mat-form-field>
+              <input matInput maxlength="100" placeholder="Company" name="companyname" autocomplete="company-name" [(ngModel)]="generalSettings.company"
+                required>
+              <mat-error >Please enter Company Name.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <input maxlength="20" placeholder="DBA" autocomplete="dba" name="dba" matInput [(ngModel)]="generalSettings.dba" required>
+              <mat-error>Please enter DBA.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-3">
+            <mat-form-field>
+              <mat-select placeholder="Time Zone" [(ngModel)]="generalSettings.timeZonesID" name="timezone">
+                <mat-option *ngFor="let timeZone of timeZones" [value]="timeZone.timeZoneName">
+                  {{timeZone.timeZoneName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-3">
+            <mat-form-field>
+              <input maxlength="200" autocomplete="address-level1" name="address1" placeholder="Address 1" matInput [(ngModel)]="generalSettings.addressLine1">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <input maxlength="200" autocomplete="address-level2" name="address2" placeholder="Address 2" matInput [(ngModel)]="generalSettings.addressLine2">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field [ngClass]="{'mat-form-field-invalid' : invalidCountry}">
+              <input (ngModelChange)="validateCountry(generalSettings.country)" (blur)="validateCountry(generalSettings.country)" maxlength="100"
+                name="country" placeholder="Country" autocomplete="off" matInput [matAutocomplete]="auto" [(ngModel)]="generalSettings.country">
+              <span matPrefix>({{codeValue}}) &nbsp;</span>
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getCountryCode();validateCountry(generalSettings.country)">
+                <mat-option *ngFor="let option of countryName | filter : generalSettings.country : 'countryName': 'countryCode'" [value]="option.countryName">
+                  {{option.countryName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <div *ngIf="invalidCountry" class="help-block text-danger custom-validator">
+                <mat-error class="invalid-countrycode"> Please select a valid country.</mat-error>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-3">
+            <mat-form-field [ngClass]="{'mat-form-field-invalid' : invalidState}">
+              <input maxlength="100" name="state" placeholder="State" autocomplete="off" matInput [matAutocomplete]="autoState" [(ngModel)]="generalSettings.state"
+                (ngModelChange)="validateState(generalSettings.state)">
+              <mat-autocomplete #autoState="matAutocomplete">
+                <mat-option *ngFor="let option of state | filter : generalSettings.state" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <div *ngIf="invalidState" class="help-block text-danger custom-validator">Please select valid State.</div>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <input maxlength="100" autocomplete="city" name="city" placeholder="City" matInput [(ngModel)]="generalSettings.city">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <input maxlength="20" autocomplete="zip" name="zip" placeholder="Zip" matInput [(ngModel)]="generalSettings.zipcode">
+            </mat-form-field>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <h6 class="font-weight-bold">Contacts </h6>
+    <div class="card mt-3">
+      <div class="px-4 py-4">
+        <div class="row">
+          <div class="col-md-3">
+            <mat-form-field>
+              <input maxlength="100" autocomplete="corporate" name="corporate" placeholder="Corporate" matInput [(ngModel)]="generalSettings.corporateContact">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <input autocomplete="corporate-phone" maxlength="12" [(input)]="generalSettings.corporatePhone" [minlength]="8" name="corporatephone"
+                placeholder="Phone" matInput [(ngModel)]="generalSettings.corporatePhone" [numbersOnly]>
+              <mat-error>Please enter valid Phone number.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <input autocomplete="corporate-email" name="corporateemail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" [email]="generalSettings.corporateEmail != null && generalSettings.corporateEmail != ''"
+                placeholder="Email" matInput [(ngModel)]="generalSettings.corporateEmail">
+              <mat-error>
+                Please enter a valid Email address.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-3">
+            <mat-form-field>
+              <input maxlength="100" autocomplete="site-contact" name="sitecontact" placeholder="Site / GM" matInput [(ngModel)]="generalSettings.siteContact"
+                required>
+              <mat-error >Please enter Site / GM name.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <input autocomplete="site-phone" maxlength="12" [minlength]="8" name="sitephone" placeholder="Phone" matInput [(input)]="generalSettings.sitePhone"
+                [(ngModel)]="generalSettings.sitePhone" [numbersOnly] required>
+              <mat-error>Please enter valid Phone number.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <input autocomplete="site-email" maxlength="100" name="siteemail" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"
+                matInput [email]="generalSettings.siteEmail != null && generalSettings.siteEmail != ''" [(ngModel)]="generalSettings.siteEmail"
+                required>
+              <mat-error>
+                  Please enter a valid Email address.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-3">
+            <mat-form-field>
+              <input maxlength="100" autocomplete="regional-contact" name="regionalcontact" placeholder="Regional Vice President" matInput
+                [(ngModel)]="generalSettings.regionalContact">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <input autocomplete="regional-phone" maxlength="12" [minlength]="8" name="regionalphone" placeholder="Phone" matInput [(input)]="generalSettings.regionalPhone"
+                [(ngModel)]="generalSettings.regionalPhone" [numbersOnly]>
+              <mat-error>Please enter valid Phone number.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <input autocomplete="regional-email" maxlength="100" name="regional-email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"
+                placeholder="Email" matInput [email]="generalSettings.regionalEmail != null && generalSettings.regionalEmail != ''"
+                [(ngModel)]="generalSettings.regionalEmail">
+              <mat-error>
+                  Please enter a valid Email address.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-3">
+            <mat-form-field>
+              <input maxlength="100" autocomplete="director-contact" name="directorcontact" placeholder="Director Of Operations" matInput
+                [(ngModel)]="generalSettings.directorContact">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <input autocomplete="director-phone" maxlength="12" [minlength]="2" name="directorphone" placeholder="Phone" matInput [(ngModel)]="generalSettings.directorPhone"
+                [(input)]="generalSettings.directorPhone" [numbersOnly]>
+              <mat-error>Please enter valid .</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field>
+              <input autocomplete="director-email" maxlength="100" name="directoremail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"
+                placeholder="Email" matInput [email]="generalSettings.directorEmail != null && generalSettings.directorEmail != ''"
+                [(ngModel)]="generalSettings.directorEmail">
+              <mat-error>
+                  Please enter a valid Email address.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-3">
+            <mat-form-field>
+              <input autocomplete="feedback-phone" maxlength="12" [minlength]="8" name="feedbackphone" placeholder="Feedback Phone" matInput
+                [(input)]="generalSettings.feedbackPhone" [(ngModel)]="generalSettings.feedbackPhone" [numbersOnly]>
+              <!-- <mat-error>Please enter valid Phone number.</mat-error> -->
+            </mat-form-field>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-12 p-0 mb-3 text-right">
+      <!-- <a [routerLink]="['/admin/settings']" routerLinkActive="active">
+        <button class="btn btn-primary"> CANCEL </button>
+      </a> -->
+      <button class="btn btn-success ml-1"> SAVE SETTINGS </button>
+    </div>
+  </form>
+</div>

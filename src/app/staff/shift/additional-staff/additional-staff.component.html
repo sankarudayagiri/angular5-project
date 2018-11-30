@@ -1,0 +1,54 @@
+<div>
+    <h6 mat-dialog-title class="dialog-header mb-0 text-center font-weight-bold">
+        ASSIGN OTHER STAFF
+        <i class="material-icons pull-right close cursor-pointer" (click)="onNoClick()">
+            clear
+        </i>
+    </h6>
+    <div class="dialog-scrollable-content">
+        <div class="row m-0 justify-content-center pt-4">
+            <div class="col-md-6 col-sm-10">
+                <div class="card p-3 bg-light" *ngFor="let staff of otherStaff;let index of index" (click)="!staff.isAssigned && selectOtherStaff(staff)">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="server-details pull-left">
+                                <div class="display-name small" click-stop-propagation [style.background]="staff.colorCode">
+                                    <h5 class="font-weight-normal text-uppercase">{{staff.initials}}</h5>
+                                </div>
+                            </div>
+
+                            <div class="section-details">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <h6 class="font-weight-bold text-uppercase" [ngClass]="{'text-muted' : staff.isAssigned, 'text-primary' : staff.className == 'selected'}">{{staff.firstName}} {{staff.lastName}}</h6>
+                                    </div>
+                                    <div class="col-2 assigned-server text-right">
+                                        <i class="material-icons text-muted md-36" [ngClass]="{'text-success': staff.className == 'selected'}" *ngIf="staff.isAssigned || staff.className == 'selected'">
+                                            done
+                                        </i>
+                                    </div>
+                                    <div class="col-12">
+                                        <!-- <p class="mb-0 text-muted">
+                                            <span *ngIf="!staff.isAssigned">NOT ASSIGNED</span>
+                                        </p> -->
+                                        <p class="mb-0 text-muted text-uppercase" [ngClass]="{'text-muted' : staff.isAssigned, 'text-primary' : staff.className == 'selected'}">
+                                            <span *ngIf="!staff.isServer">{{staff.isManager ? "Manager" : staff.isKitchenStaff ? "KitchenStaff" : staff.isOther
+                                                ? "Other" : ""}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center dialog-footer">
+        <button class="btn btn-primary btn-lg px-4" [disabled]="selectedStaff.length < 1" (click)="assignAdditionalStaff()">
+            <small>ASSIGN</small>
+        </button>
+    </div>
+
+</div>

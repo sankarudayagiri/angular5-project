@@ -1,0 +1,143 @@
+<div class="scrollable-content-waitlist d-flex align-items-center" *ngIf="waitlistData && (parent=='tables' && waitlistData.length < 1) || (parent!='tables' && waitlistData[0].length < 1)">
+    <div class="w-100 text-center">
+        <h6 *ngIf="type == 1" class="text-center text-uppercase w-100 font-weight-bold">
+            <span class="text-muted ls-2">NO WAIT</span>
+        </h6>
+        <h6 *ngIf="type == 2 || type == 3" class="text-center w-100 font-weight-bold">
+            <span class="text-muted ls-2">NO RECORDS</span>
+        </h6>
+        <h6 class="mt-4 d-inline-flex" *ngIf="waitlistData.length < 1 && parent=='tables' && !tableID">
+            <span class="font-weight-500 mt-2">Want to Add one?</span>
+            <add-to-waitlist-btn [size]="'mini'"></add-to-waitlist-btn>
+        </h6>
+    </div>
+</div>
+<div class="scrollable-content-waitlist scrollbar table-responsive" [ngClass]="{'no-header' : type != 1}" detect-scroll (onScroll)="handleScroll($event)"
+    [bottomOffset]="2" *ngIf="waitlistData && (parent=='tables' && waitlistData.length > 0) || (parent!='tables' && waitlistData[0].length > 0)">
+    <table class="table table-responsive table-hover mb-0">
+        <tbody class="border-0" *ngFor="let data of waitlistData;" [ngClass]="{'no-top-border':type != 1}">
+            <tr *ngIf="showInterval">
+                <td colspan="12" class="py-3 px-4 group-header">
+                    <h6 class="mb-0">
+                        <span class="text-uppercase font-weight-500">{{data[0].waitListName }}</span>
+                    </h6>
+                </td>
+            </tr>
+            <tr class="bottom-border" *ngFor="let wait of data;let index=index" (click)="type == 1 && !tableID && viewWaitingParty(wait.waitListDataID, wait.waitListID, wait)">
+                <td class="text-left mw-100" (click)="$event.stopPropagation();" [ngClass]="{ 'opacity-70' : type != 1, 'table-name-display' : parent == 'tables'}">
+                    <div class="btn-seat-party d-flex align-items-center cursor-pointer" [ngClass]="{'hg-priority': wait.priority.id == 1 , 'med-priority': wait.priority.id == 2,'text-muted': wait.waitListType.id != 1 || type != 1, 'cursor-default' : type != 1}"
+                        (click)="type == 1 && seatParty(wait.waitListDataID, wait.waitListType.id, wait)">
+                        <span class="w-100">
+                            <i class="material-icons text-center seat-icon " [ngClass]="{'text-muted':wait.waitListType.id != 1 ,'text-waitlist':wait.priority.id != 1 && wait.priority.id != 2}">
+                                exit_to_app
+                            </i>
+                            <div class="text-dark" *ngIf="wait.suggestedTableName && type!=3">{{wait.suggestedTableName}}</div>
+                            <div class="text-dark" *ngIf="wait.seatedTableName">{{wait.seatedTableName}}</div>
+                        </span>
+                    </div>
+                    <!-- <div class="color-bar" [ngClass]="{'hg-priority': wait.priority.id == 1 , 'med-priority': wait.priority.id == 2 }"></div> -->
+                </td>
+                <td class="mw-40 text-right" *ngIf="parent != 'tables'" [ngClass]="{'opacity-70' : type != 1}">
+                    <i class="material-icons" *ngIf="wait.waitListType.id == 1 && !wait.isFromReservation">
+                        directions_walk
+                    </i>
+                    <i class="material-icons" *ngIf="wait.waitListType.id == 2 && !wait.isFromReservation">
+                        local_phone
+                    </i>
+                    <i class="material-icons" *ngIf="wait.waitListType.id == 3">
+                        touch_app
+                    </i>
+                    <i class="icons icon-calendar" *ngIf="wait.isFromReservation"></i>
+                </td>
+                <td class="party-desc pr-0" [ngClass]="{'opacity-70' : type != 1}">
+                    <i class="material-icons star-icon text-warning pull-left" [ngClass]="{'invisible': !wait.isFrequentGuest}">
+                        star
+                    </i>
+                    <div class="pl-4 ml-1">
+                        <small class="text-muted font-xxs waitlist-name" *ngIf="parent=='dashboard'">{{wait.waitListName}}</small>
+                        <h5 class="text-capitalize text-truncate font-weight-normal mb-0">{{wait.guest.description}}</h5>
+                        <div class="party-info text-truncate">
+                            <span *ngIf="parent=='tables'" class="mr-3">
+                                <i class="material-icons" *ngIf="wait.waitListType.id == 1 && !wait.isFromReservation">
+                                    directions_walk
+                                </i>
+                                <i class="material-icons" *ngIf="wait.waitListType.id == 2 && !wait.isFromReservation">
+                                    local_phone
+                                </i>
+                                <i class="icons icon-calendar" *ngIf="wait.isFromReservation"></i>
+                            </span>
+                            <span *ngIf="parent=='dashboard' || parent=='tables'">
+                                <i class="text-muted font-weight-normal icons icon-user"></i>
+                                <span class="h5 font-weight-500">{{wait.adultCovers + wait.childCovers}}</span>
+                            </span>
+                            <span class="text-muted">
+                                <small class="text-uppercase mr-2" *ngIf="wait.notes.customNotes!=null">{{wait.notes.customNotes}}</small>
+                                <span class="text-uppercase notes">
+                                    <small *ngFor="let note of wait.notes.notes" class="mr-2">{{note.description}} </small>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </td>
+                <td class="mw-80" *ngIf="parent == null" [ngClass]="{'opacity-70' : type != 1}">
+                    <i class="icons icon-people mr-1"></i>
+                    <span class="h4 font-weight-normal">{{wait.adultCovers + wait.childCovers}}</span>
+                    <p class="text-muted mb-0">({{wait.adultCovers}}/{{wait.childCovers}})</p>
+                </td>
+                <td class="mw-80 chart-wrapper text-center" *ngIf="type !=2" [ngClass]="{'opacity-70' : type != 1}">
+                    <circle-progress [percent]="wait.percent" [renderOnClick]="false" [radius]="25" [outerStrokeWidth]="3" [innerStrokeWidth]="2" [outerStrokeColor]="wait.percent > 90 ? '#f86c6b' : '#eab46c'"
+                        [innerStrokeColor]="'#f1f1f1'" [title]="wait.spentTime | slice : 0 : 5" [titleFontSize]="14" [subtitleFontSize]="12"
+                        [titleColor]="wait.percent > 90 ? '#f86c6b' : '#eab46c'" [animation]="false" [showUnits]="false" [showSubtitle]="true"
+                        [animationDuration]="1500" [subtitle]="wait.quotedWaitTime | slice : 0 : 5" [space]="-2"></circle-progress>
+                </td>
+                <td class="mw-80 text-center pl-4" *ngIf="type == 1" [ngClass]="{'opacity-70' : type != 1}">
+                    <i class="icons icon-speech "></i>
+                    <small class="badge badge-light text-white" *ngIf="wait.textMessages && wait.textMessages.length > 0">{{wait.textMessages ? wait.textMessages.length : null}}</small>
+                </td>
+                <td class="mw-80 text-center pl-4" *ngIf="type == (2&&3)" [ngClass]="{'opacity-70' : type != 1}">
+                    <i class="icons icon-speech "></i>
+                    <small class="badge badge-light text-white" *ngIf="wait.deleteWaitListDataID==textMessageCount[index]?.waitlistDataID">
+                        {{textMessageCount[index]?.messageCount}}
+                    </small>
+                </td>
+                <td class="mw-100 text-left" *ngIf="parent == null" [ngClass]="{'opacity-70' : type != 1}">
+                    <div class="btn-seat-party d-flex align-items-center text-center bg-light cursor-pointer" *ngIf="!wait.pagerNumber && wait.guestPhoneNumber"
+                        click-stop-propagation (click)="sendMessageToPhone(wait,wait.suggestedTableID, wait.waitListDataID, wait.suggestedTableName);">
+                        <span class="w-100">
+                            <i class="material-icons">
+                                mobile_screen_share
+                            </i>
+                        </span>
+                    </div>
+                    <div class="btn-seat-party d-flex align-items-center text-center bg-light cursor-pointer" *ngIf="!wait.pagerNumber && !wait.guestPhoneNumber">
+                        <span class="w-100">
+                            <!-- <i class="material-icons text-muted">nfc</i> -->
+                            <i class="material-icons">
+                                mobile_screen_share
+                            </i>
+                        </span>
+                    </div>
+                    <div class="display-name pt-3 d-inline-block bg-light cursor-pointer" *ngIf="wait.pagerNumber" (click)="type==3?$event.stopPropagation():sendMessageToPager(wait,wait.pagerNumber, wait.suggestedTableID, wait.waitListDataID, wait.suggestedTableName);">
+                        <h6 class="font-weight-bold my-0">{{wait.pagerNumber}}</h6>
+                        <small *ngIf="wait.pagerCount > 0" class="badge badge-light pager-count text-white">{{wait.pagerCount}}</small>
+                    </div>
+                </td>
+                <td *ngIf="type == 2" class="mw-60 text-center">
+                    <div class="display-name pt-2 d-inline-block bg-waitlist cursor-pointer" matTooltip="Restore Party" (click)="confirmUndoNoShow(wait.waitListDataHistoryID,wait.waitListName)">
+                        <i class="material-icons md-24">
+                            restore
+                        </i>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-center py-3">
+        <div class="spinner" *ngIf="waitlistData && !noResults && scrollReachedBottom">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        <!-- <p class="text-muted mb-0" *ngIf="waitlistData && noResults">NO MORE RESULTS</p> -->
+    </div>
+</div>

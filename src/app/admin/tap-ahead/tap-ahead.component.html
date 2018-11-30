@@ -1,0 +1,79 @@
+<div class="p-4">
+    <form name="form" (ngSubmit)="f.form.valid && !invalidTime &&save()" #f="ngForm" novalidate>
+  <p>TAP AHEAD SEATING RULE</p>
+  <div class="card p-4">
+    <div class="row">
+        <div class="col-md-2">
+            <!-- <p class="text-muted">Logo [Change]</p> -->
+            <div class="default-file-btn d-inline-block">
+                <span class="pull-left text-muted">Logo [ <span class="text-primary">Change</span> ]</span>
+                <input #file type="file" (change)="upload(file.files)" />
+            </div>
+            <div class="bg-image-container" *ngIf="bgImg.src">
+                <img class="logo mt-2"[src]="_DomSanitizer.bypassSecurityTrustUrl(bgImg.src)" />
+            </div>
+          </div>
+      <div class="col-md-2">
+        <p class="text-muted">Max Party Size</p>
+        <div class="allow-count">
+          <number-stepper [(modelValue)]="tapahead.maxPartySize" [minValue]="1" [maxValue]="999"></number-stepper>
+        </div>
+      </div>
+      <div class="col-md-6 pl-4">
+        <div class="row">
+          <div class="col-4">
+            <p class="text-muted">From</p>
+            <time-picker [(time)]="tapahead.from"  (timeChange)="compareTwoDates(tapahead)"></time-picker>
+            <!-- <w-mat-timepicker color="primary" [(userTime)]="exportTime"></w-mat-timepicker> -->
+          </div>
+          <div class="col-4">
+            <p class="text-muted">To</p>
+            <time-picker [(time)]="tapahead.to" [error]="tapahead.error" (timeChange)="compareTwoDates(tapahead)"></time-picker>
+            <!-- <w-mat-timepicker color="primary" [(userTime)]="exportTime"></w-mat-timepicker> -->
+          </div>
+          <div class="col-md-4">
+              <p class="text-muted">Theme</p>
+            <mat-form-field>
+              <mat-select name="theme" [(ngModel)]="tapahead.theme">
+                <mat-option value="Red">Red</mat-option>
+                <mat-option value="Green">Green</mat-option>
+                <mat-option value="Blue">Blue</mat-option>
+                <mat-option value="Grey">Grey</mat-option>
+                <mat-option value="Yellow">Yellow</mat-option>
+                <mat-option value="Orange">Orange</mat-option>
+              </mat-select>
+              <mat-label>
+                  Select Theme
+                </mat-label>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 timepicker-error-message">
+        <small *ngIf="tapahead.error" class="text-danger">{{tapahead.error}}</small>
+      </div>
+    </div>
+  </div>
+  <p>SETTINGS</p>
+  <div class="card p-4">
+    <div class="row">
+      <div class="col-md-9">
+        <p>Paste this code into your website to allow visitors to add themselves to your wait list.</p>
+      </div>
+      <div class="col-md-3">
+        <span>Test link &nbsp; |&nbsp; Copy code
+          <i class="material-icons small">content_copy</i>
+        </span>
+      </div>
+    </div>
+    <div class="px-5 py-4 pr-0 bg-light rounded">
+    </div>
+  </div>
+  <div class="col-md-12 pl-0">
+    <button class="btn btn-success pull-right">+ SAVE SETTINGS </button>
+  </div>
+</form>
+  </div>
+  <!-- </div>
+  </section> -->
+  

@@ -1,0 +1,32 @@
+<i class="material-icons pull-right m-2 close cursor-pointer" *ngIf="parent == 'seat-modal'" (click)="closeSeatFromListPanel()">
+    clear
+</i>
+
+<tabset>
+    <tab customClass="wait-list" *ngIf="panels && panels.showWaitlist && modules.hasModuleWaitList">
+        <ng-template tabHeading>
+            <i class="icon-clock d-block"></i>
+            <span>Waiting</span>
+        </ng-template>
+
+        <wait-list-items [showInterval]="'true'" [waitlistData]="waitlistData" [tableID]="tableID" [parent]="'tables'" [type]="'1'" [noResults]="noWaitlistDataResults"
+            [(scrollReachedBottom)]="scrollReachedBottom" (scrollReachedBottomChange)="getNextWaitListDataSet($event)" [type]="selectedTab"></wait-list-items>
+
+    </tab>
+
+    <tab customClass="reservation" *ngIf="panels && panels.showReservationList && modules.hasModuleReservations">
+        <ng-template tabHeading>
+            <i class="icon-event d-block"></i>
+            <span>Reserved</span>
+        </ng-template>
+        <reservation-list [parent]="'tables'" [tableID]="tableID" [noResults]="noReservationResults" [(scrollReachedBottom)]="reservationScrollReachedBottom"
+            (scrollReachedBottomChange)="getNextReservationSet($event)" [reservationData]="reservations" [type]="'1'"></reservation-list>
+    </tab>
+    <tab customClass="seated-guests" *ngIf="parent != 'seat-modal' && panels && panels.showSeatedList">
+        <ng-template tabHeading>
+            <i class="icon-people d-block"></i>
+            <span>Seated</span>
+        </ng-template>
+        <seated-guest-list *ngIf="parent != 'seat-modal'" [tables]="tables" [selectedFloorPlanId]="selectedFloorPlanId"></seated-guest-list>
+    </tab>
+</tabset>

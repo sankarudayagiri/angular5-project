@@ -1,0 +1,49 @@
+<div class="p-3">
+    <!-- <h6 class="cursor-pointer">GUEST FEDBACK</h6> -->
+    <ul class="link-tab-list mt-3 ml-2">
+        <li>
+            <a routerLinkActive="active" [routerLink]="['/admin/feedback/guest-feedback']">GUEST FEDBACK</a>
+        </li>
+        <li>
+            <a class="text-muted" [routerLink]="['/admin/feedback/server-ratings']">SERVER RATINGS</a>
+        </li>
+    </ul>
+
+    <hr/>
+
+    <div class="row ">
+        <div class="col-md-3 d-flex" *ngFor="let guest of guests">
+            <div class="card cursor-pointer">
+                <h6 class=" ratings mt-2 ml-2 font-weight-normal">Ambience
+                    <i class="material-icons icon-ratings">
+                        star_rate
+                    </i>
+                    <span class="text-muted">/ {{guest.totalAmbienceRating}} </span>
+                    <span class="ml-3">{{guest.feedbackDate | date:'dd MMM'}}</span>
+                </h6>
+                <h6 class=" ratings ml-2 font-weight-normal">Food
+                    <i class="material-icons icon-ratings ml-4">
+                        star_rate
+                    </i>
+                    <span class="text-muted">/ {{guest.totalFoodRating}}</span>
+                    <span class="ml-2">{{guest.feedbackDate | date:'hh:MM a'}}</span>
+                </h6>
+                <div class="text-center p-2">
+                    <i class="material-icons smilies">
+                        sentiment_very_satisfied
+                    </i>
+                    <p class="font-weight-bold">{{guest.guestName}}</p>
+                    <h6 class="phone-icon">
+                        <i class="material-icons">
+                            local_phone
+                        </i> {{guest.phoneNumber}}
+                    </h6>
+                </div>
+                <small>
+                    <h6 class="text-muted ml-4 p-2"> {{guest.feedbackText}}</h6>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+

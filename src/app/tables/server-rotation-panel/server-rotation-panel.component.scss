@@ -1,0 +1,74 @@
+@import "../../../scss/_module-variables.scss";
+$server-rotation-cntr-height: 180px;
+
+.table {
+  th,
+  td {
+    padding: 0.8rem 0.5rem;
+    vertical-align: middle;
+    border-color: lighten($brand-dark, 4%);
+    color: #fff;
+    &.group-header {
+      background: lighten(#f1f3f5, 3);
+    }
+  }
+  .no-top-border {
+    tr:first-child {
+      td {
+        border-top: 0;
+      }
+    }
+  }
+  tr {
+    &:hover {
+      background: lighten($brand-dark, 3%);
+      .table-name-display {
+        background: lighten($brand-dark, 3%);
+      }
+    }
+  }
+}
+
+.scrollable-content-rotation {
+  max-height: $server-rotation-cntr-height + 10;
+  height: $server-rotation-cntr-height + 10;
+  overflow: auto;
+  overflow-x: hidden;
+}
+.full-height-panel {
+  margin-top: $inline-header-height - 10;
+  .scrollable-content-rotation {
+    max-height: calc(
+      100vh - #{$navbar-height + $inline-header-height + $inline-header-height +
+        $inline-header-height - 20}
+    ) !important;
+    height: calc(
+      100vh - #{$navbar-height + $inline-header-height + $inline-header-height +
+        $inline-header-height -20}
+    ) !important;
+  }
+}
+.section-name-display {
+  max-width: 80px;
+  min-width: 80px;
+  background: lighten($brand-dark, 5%);
+  border-color: lighten($brand-dark, 2%) !important;
+  position: relative;
+  .color-bar {
+    width: 5px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+.party-desc {
+  max-width: 110px;
+  min-width: 110px;
+}
+.server-rotation-header {
+  min-height: 40px;
+}
+.table-count {
+  font-size: 21px;
+}

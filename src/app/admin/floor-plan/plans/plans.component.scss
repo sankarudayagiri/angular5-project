@@ -1,0 +1,110 @@
+@import "../../../../scss/_module-variables.scss";
+
+.staticObject {
+  background: #eeeeee;
+  padding: 10px;
+  /* text-align: center; */
+  display: flex;
+  justify-content: center;
+  margin: 5px auto;
+}
+.staticObjectsSection {
+  padding: 0px 5px;
+}
+.staticObjects {
+  padding: 0px;
+  margin: 0px;
+  font-size: 10px;
+}
+.staticObjectHeading {
+  padding: 0 5px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.SaveBtn {
+  background-color: #0bbda9;
+  border: none;
+  border-radius: 2px;
+  margin: 0px 5px;
+}
+.textSection {
+  display: flex;
+  justify-content: space-between;
+}
+.textInput {
+  width: 100%;
+  margin-left: 5px;
+}
+.centerBtn {
+  background-color: #0bbda9;
+  border: none;
+  border-radius: 2px;
+  margin: 0px auto;
+}
+
+.layouts-container .card:not(.add-new) {
+  background: url(floor-plan-bg.jpg);
+  background-size: cover;
+}
+
+.material-icons.add-new {
+  font-size: 60px;
+  margin-bottom: 14px;
+}
+
+.more-options {
+  position: absolute;
+  top: 5px;
+  right: 0;
+}
+
+.card {
+  .more-options {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 10;
+    padding: 5px !important;
+  }
+  .plan-status {
+    position: absolute;
+    top: 15px;
+    text-align: left;
+  }
+  &.plan-active,
+  &.plan-enabled {
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      border-right: $brand-success solid 20px;
+      border-bottom: 0;
+      border-left: 0;
+      border-top: transparent solid 20px;
+      transition: all 0.2s ease-in-out;
+    }
+  }
+  &.plan-enabled {
+    &::after {
+      border-right-color: $brand-primary;
+    }
+  }
+  .more-options-card {
+    &.edit-hover {
+      top: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+  }
+  &:hover {
+    .more-options-card.edit-hover {
+      opacity: 1;
+      z-index: 1;
+    }
+    &::after {
+      border-width: 40px;
+      z-index: 2;
+    }
+  }
+}

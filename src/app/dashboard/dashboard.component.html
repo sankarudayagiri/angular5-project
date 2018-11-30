@@ -1,0 +1,72 @@
+<div class="p-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="text-uppercase">
+                <span class="font-weight-bold set-time">
+                    {{dateVariable | date:'h:mm a' : timezone}}
+                </span> {{dateVariable | date:'MMM' : timezone}} {{dateVariable | date:'dd' : timezone}},
+                <span class="text-uppercase">{{dateVariable | date:'EEEE' : timezone}} </span>
+            </div>
+            <hr class="my-2">
+
+            <div class="row">
+                <div class="col-12 mb-2 text-uppercase">
+                    <span class="text-muted">WELCOME </span>{{currentUser.UserName}}
+                </div>
+
+            </div>
+
+            <widget-occupancy [selectedFloorPlanId]="selectedFloorPlanId"></widget-occupancy>
+
+            <widget-avl-tables [selectedFloorPlanId]="selectedFloorPlanId"></widget-avl-tables>
+
+            <div class="row">
+                <div class="col-7 mb-2">
+                    <h6 class="font-weight-500">TABLE ROTATION</h6>
+                </div>
+
+                <div class="col-5 mb-2 pl-0 text-right">
+                    <div class="d-inline-flex align-items-center" *ngIf="selectedFloorPlanId">
+                        <small class="mb-1 mr-2 text-uppercase">{{selectedFloorPlan ? selectedFloorPlan.layoutName : ''}}</small>
+                        <select-floor-plan-btn class="d-inline-block" [floorPlans]="floorPlans" [selectedPlanID]="selectedFloorPlanId" (selectedPlanIDChange)="updateFloorPlan($event)"></select-floor-plan-btn>
+                    </div>
+                </div>
+            </div>
+
+            <widget-rotation [floorPlans]="floorPlans" [selectedFloorPlan]="selectedFloorPlan" [selectedFloorPlanId]="selectedFloorPlanId"></widget-rotation>
+
+            <div class="row">
+                <div class="col-12 mt-3">
+                    <button class="btn btn-dark" (click)="confirmResetTables()">RESET TABLES</button>
+                    <button class="btn btn-danger" (click)="confirmResetShifts()">RESET SHIFT</button>
+                </div>
+            </div>
+        </div>
+
+        <!--WAITLIST-->
+
+        <div class="col-md-8">
+            <widget-waitlist *ngIf="modules.hasModuleWaitList"></widget-waitlist>
+
+            <widget-reservation *ngIf="modules.hasModuleReservations"></widget-reservation>
+
+
+            <div class="card not-subscribed cursor-pointer mb-0 p-4" *ngIf="!modules.hasModuleWaitList || !modules.hasModuleReservations">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mr-2 pull-left">
+                            <i *ngIf="!modules.hasModuleReservations" class="icon-event text-reservation mr-3 ml-2"></i>
+                            <i *ngIf="!modules.hasModuleWaitList" class="icon-clock text-waitlist mr-3 ml-2"></i>
+                        </div>
+                        <div class="pt-2 not-subscribed-desc">
+                            <p *ngIf="!modules.hasModuleReservations" class="text-muted mb-2">You have not purchased RESERVATION MODULE to visualize and track your restaurant reservations.</p>
+                            <p *ngIf="!modules.hasModuleWaitList" class="text-muted mb-2">You have not purchased WAIT LIST MODULE to visualize and track your restaurant queue.</p>
+                            <h6 class="font-weight-500">BUY NOW: + 1 800 321 6221 </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

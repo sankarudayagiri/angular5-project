@@ -1,0 +1,9 @@
+@import "../../../scss/_module-variables.scss";
+
+.svg-immovable {
+  fill: #ccc;
+  cursor: move;
+  &.active {
+    fill: lighten($brand-primary, 8%);
+  }
+}

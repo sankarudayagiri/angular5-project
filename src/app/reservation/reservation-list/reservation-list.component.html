@@ -1,0 +1,134 @@
+<div class="scrollable-content-reservation scrollbar d-flex align-items-center" *ngIf="reservationData && reservationData.length < 1">
+    <div class="w-100 text-center">
+        <h6 *ngIf="type == 1" class="text-center w-100 font-weight-bold">
+            <span class="text-muted ls-2">NO RESERVATIONS</span>
+        </h6>
+        <h6 *ngIf="type == 2 || type == 3" class=" text-center w-100 font-weight-bold">
+            <span class="text-muted ls-2">NO RECORDS</span>
+        </h6>
+        <h6 class="mt-4 d-inline-flex" *ngIf="reservationData.length < 1 && parent=='tables' && !tableID">
+            <span class="font-weight-500 mt-2">Want to Add one?</span>
+            <add-reservation-btn [size]="'mini'"></add-reservation-btn>
+        </h6>
+    </div>
+</div>
+<div class="scrollable-content-reservation scrollbar table-responsive" [ngClass]="{'no-filters' : type != 1}" detect-scroll
+    (onScroll)="handleScroll($event)" [bottomOffset]="2" *ngIf="reservationData && reservationData.length > 0">
+    <table class="table table-responsive table-hover mb-0">
+        <tbody class="border-0" *ngFor="let data of reservationData;let index=index" [ngClass]="{'no-top-border':type != 1}">
+            <tr *ngIf="showInterval">
+                <td colspan="12" class="py-3 px-4 group-header">
+                    <h6 class="mb-0">
+                        <span class="text-primary font-weight-500">{{data[0].reservationTime | date : 'h:mm a' : timezone}}</span>
+                        <span class="text-muted">-</span>
+                        <small>{{data.length}}</small>
+                        <small *ngIf="data.length" class="text-muted">{{data.length==1 ? 'PARTY' : 'PARTIES' }} / </small>
+                        <small>{{getGuestsCount(data)}}</small>
+                        <small *ngIf="getGuestsCount(data)" class="text-muted">{{getGuestsCount(data)==1 ? 'GUEST' : 'GUESTS' }}
+                        </small>
+                    </h6>
+                </td>
+            </tr>
+
+            <tr class="bottom-border" *ngFor="let item of data;" (click)="type == 1 && !tableID && !item.isAddedToWaitList && viewReservation(item.reservationID)"
+                [ngClass]="{'text-muted':item.isAddedToWaitList}">
+                <td class="text-left mw-100 pl-4" (click)="$event.stopPropagation();" [ngClass]="{'opacity-70' : type != 1 || previousDate || !today, 'table-name-display' : parent == 'tables'}">
+                    <div class="btn-seat-party d-flex align-items-center cursor-pointer" [ngClass]="{'hg-priority':item.isVIP, 'text-muted': item.availabilityStatus.id != 1, 'cursor-default': type != 1 || previousDate || !today}"
+                        (click)="type == 1 && !previousDate && today && !item.isAddedToWaitList && seatParty(item.reservationID, item.availabilityStatus.id, item)">
+                        <span class="w-100">
+                            <i class="material-icons text-center seat-icon " [ngClass]="{'text-muted': item.availabilityStatus.id != 1,'text-reservation':!item.isVIP}">
+                                exit_to_app
+                            </i>
+                            <div class="text-dark" *ngIf="item.suggestedTableName && type!=3">{{item.suggestedTableName}}</div>
+                            <div class="text-dark" *ngIf="item.seatedTableName">{{item.seatedTableName}}</div>
+                        </span>
+                    </div>
+                </td>
+                <td class="mw-40 text-right" *ngIf="parent != 'tables'" [ngClass]="{'opacity-70' : type != 1}">
+                    <i class="icons icon-clock" [ngClass]="{'text-warning':item.isAddedToWaitList}" *ngIf="item.isAddedToWaitList"></i>
+                    <i class="icons icon-call-in" *ngIf="!item.isAddedToWaitList && item.availabilityStatus.id != 1 && item.availabilityStatus.id !=3"></i>
+                    <i class="material-icons" *ngIf="item.availabilityStatus.id == 1 && !item.isAddedToWaitList">
+                        directions_walk
+                    </i>
+                    <i class="material-icons" *ngIf="item.availabilityStatus.id == 3 && !item.isAddedToWaitList">
+                        people
+                    </i>
+                </td>
+                <!-- <i class="material-icons">
+                        local_phone
+                    </i>
+                </td> -->
+                <td class="party-desc" [ngClass]="{'opacity-70' : type != 1}">
+                    <i class="material-icons star-icon text-warning pull-left" [ngClass]="{'invisible' : !item.isFrequentGuest}">
+                        star
+                    </i>
+                    <div class="pl-4 ml-1">
+                        <h5 class="text-capitalize text-truncate font-weight-normal mb-0">
+                            {{item.guest.description}}</h5>
+                        <span *ngIf="parent=='tables'" class="mr-3">
+                            <i class="icons icon-clock" [ngClass]="{'text-warning':item.isAddedToWaitList}" *ngIf="item.isAddedToWaitList"></i>
+                            <i class="icons icon-call-in" *ngIf="!item.isAddedToWaitList && item.availabilityStatus.id != 1 && item.availabilityStatus.id !=3"></i>
+                            <i class="material-icons" *ngIf="item.availabilityStatus.id == 1 && !item.isAddedToWaitList">
+                                directions_walk
+                            </i>
+                            <i class="material-icons" *ngIf="item.availabilityStatus.id == 3 && !item.isAddedToWaitList">
+                                people
+                            </i>
+                        </span>
+                        <span *ngIf="parent=='dashboard' || parent=='tables'">
+                            <i class="text-muted font-weight-normal icons icon-user"></i>
+                            <span class="h5 font-weight-normal">{{item.adultCovers + item.childCovers}}</span>
+                        </span>
+                        <div class="text-muted text-truncate" *ngIf="item.notes">
+                            <small class="text-uppercase mr-2 " *ngIf="item.notes.customNotes!=null">{{item.notes.customNotes}}</small>
+                            <span class="text-uppercase notes " >
+                                <small *ngFor="let note of item.notes.notes;" class="mr-2">{{note.description}} </small>
+                            </span>
+                        </div>
+                    </div>
+                </td>
+
+                <td class="mw-80" *ngIf="parent == null" [ngClass]="{'opacity-70' : type != 1}">
+                    <i class="icons icon-people mr-1"></i>
+                    <span class="h4 font-weight-normal">{{item.adultCovers + item.childCovers}}</span>
+                    <p class="text-muted mb-0">({{item.adultCovers}}/{{item.childCovers}})</p>
+                </td>
+                <td class="text-left mw-80 p-0 reservation-time" [ngClass]="{'opacity-70' : type != 1}">
+                    <div class="d-flex align-items-center">
+                        <span class="h5 font-weight-500" [ngClass]="item.isAddedToWaitList?'text-muted':'text-primary'">{{item.reservationTime | date : 'h:mm' : timezone}}
+                        </span>
+                        <small class="font-weight-500" [ngClass]="item.isAddedToWaitList?'text-muted':'text-primary'">{{item.reservationTime | date : 'a' : timezone}}</small>
+                    </div>
+                    
+                </td>
+                <td class="mw-80 text-left pl-4" *ngIf="type == 1" [ngClass]="{'opacity-70' : type != 1}">
+                    <i class="icons icon-speech "></i>
+                    <small class="badge badge-light " [ngClass]="item.isAddedToWaitList?'text-muted muteBadge ':'text-white'" *ngIf="item.textMessages && item.textMessages.length > 0">{{item.textMessages ? item.textMessages.length : null}}</small>
+                </td>
+                <td class="mw-80 text-left pl-4" *ngIf="type == 3 || type==2" [ngClass]="{'opacity-70' : type != 1}">
+                    <i class="icons icon-speech "></i>
+                    <small class="badge badge-light " *ngIf="item.deletedReservationID==textMessageCount[index]?.reservationID" [ngClass]="item.isAddedToWaitList?'text-muted muteBadge ':'text-white'">
+                        {{textMessageCount[index]?.messageCount}}
+                    </small>
+                </td>
+                <td *ngIf="type == 2" class="mw-60 text-center">
+                    <div class="display-name pt-2 d-inline-block cursor-pointer bg-primary" matTooltip="Restore Party" (click)="confirmUndoNoShow(item.reservationID)">
+                        <i class="material-icons md-24">
+                            restore
+                        </i>
+                    </div>
+                </td>
+
+            </tr>
+
+        </tbody>
+    </table>
+    <div class="text-center py-3">
+        <div class="spinner" *ngIf="reservationData && !noResults">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        <!-- <p class="text-muted mb-0" *ngIf="reservationData && noResults">NO MORE RESULTS</p> -->
+    </div>
+</div>

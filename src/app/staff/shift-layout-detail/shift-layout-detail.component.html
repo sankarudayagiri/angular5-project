@@ -1,0 +1,142 @@
+<div class="row m-0">
+    <div class="col-md-4 p-0 fh-container has-header">
+        <ul class="link-tab-list px-4">
+            <li>
+                <a [routerLink]="['/staff/shift']">SHIFT</a>
+            </li>
+            <li>
+                <a class="active" [routerLink]="['/staff/shift-layouts']">SHIFT LAYOUTS</a>
+            </li>
+            <li>
+                <a [routerLink]="['/staff/staff-list']">STAFF</a>
+            </li>
+        </ul>
+        <div class="p-4 scrollbar scrollable-content">
+            <div class="card mb-3 section-card" [ngClass]="selectedSection == section ? 'selected' : ''" *ngFor="let section of shiftSectionTablesWithSection; let index = index"
+                (click)="selectSection(section)">
+                <div class="color-bar" [style.background]="selectedSection == section ? section.section.colorCode : ''"></div>
+                <div class="row px-4 py-3">
+                    <div class="col-12">
+                        <div class="section-details">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6 class="font-weight-bold d-flex align-items-center" [style.color]="section.section.colorCode">
+                                        <!-- <i class="material-icons mr-1">
+                                            fiber_manual_record
+                                        </i> -->
+                                        {{section.section.name}}
+                                        <span [style.background]="section.section.colorCode" class="badge badge-pill text-white py-1 ml-2">{{section.shiftSectionTables.length}}</span>
+                                    </h6>
+                                </div>
+                                <div class="col-12">
+                                    <span [style.background]="selectedSection == section ? section.section.colorCode : ''" [style.color]="selectedSection == section ? '#fff' : ''"
+                                        *ngFor="let table of section.shiftSectionTables" class="badge mr-1 small">
+                                        <small>{{table.tableName}}</small>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card pt-4 pb-2 px-3">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-between">
+                        <mat-form-field [ngClass]="{'mat-form-field-invalid' : invalid}">
+                            <input matInput class="h5" (keyup)="checkForSameName()" autocomplete="off" placeholder="Section Name" [(ngModel)]="newSectionName">
+                        </mat-form-field>
+
+                        <button mat-mini-fab color="primary" [disabled]="!newSectionName|| invalid" (click)="addSection()" class="floated-btn">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                    <span *ngIf="invalid" class="ml-3 help-block text-danger">Section name already exist</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="btn-container px-4 pt-2">
+            <button class="btn btn-success px-4" [disabled]="shiftSectionTablesWithSection.length == 0 || !tablesAssigned || invalid"
+                (click)="saveShiftLayoutSections()">
+                SAVE SHIFT LAYOUT
+            </button>
+        </div>
+    </div>
+    <div class="col-md-8 p-0 bg-white fh-container has-header">
+
+        <div class="col-12 p-0 h-100">
+            <div class="header d-flex align-items-center">
+                <div class="row m-0 px-2 w-100">
+                    <div class="col-md-5 pt-3">
+                        <h6 class="font-weight-500 mt-1 text-uppercase d-inline-flex align-items-center">
+                            <i class="material-icons md-36 mr-2 cursor-pointer" [routerLink]="['/staff/shift-layouts']">
+                                keyboard_arrow_left
+                            </i> {{shiftLayoutName}}</h6>
+                        <!-- <mat-form-field>
+                            <mat-select placeholder="SHIFT LAYOUT" class="text-uppercase" [(ngModel)]="selectedSectionLayoutID" (ngModelChange)="shiftLayoutChanged($event)">
+                                <mat-option *ngFor="let layout of sectionLayouts" class="text-uppercase" [value]="layout.shiftLayoutID">
+                                    {{layout.shitftLayoutName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field> -->
+                    </div>
+                    <div class="col-md-7 py-4 text-right">
+                        <div class="d-inline-flex align-items-center">
+                            <i class="material-icons">
+                                fullscreen
+                            </i>
+                            {{tables.length | zeroPadding}}
+                            <small class="text-muted mr-5">&nbsp;TABLES</small>
+                            <i class="material-icons">
+                                perm_identity
+                            </i>
+                            {{totalCovers | zeroPadding}}
+                            <small class="text-muted mr-5">&nbsp;GUESTS</small>
+                            <i class="material-icons">
+                                border_all
+                            </i>
+                            {{shiftSectionTablesWithSection.length | zeroPadding}}
+                            <small class="text-muted">&nbsp;SECTIONS</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <drag-scroll class="floor-plan-cotainer scrollable-content justify-content-center p-0" [ngClass]="{'plan-rendered' : fitToView.isFit, 'overflow-hidden' : svgScale == 1}">
+                <svg id="svgContainer" #svgContainer [attr.width]="fitToView.width == '100%' ? '100%' : fitToView.width * svgScale" [attr.height]="fitToView.height == '100%' ? '100%' : fitToView.height * svgScale">
+                    <g [attr.width]="fitToView.width == '100%' ? '100%' : fitToView.width" [attr.height]="fitToView.height == '100%' ? '100%' : fitToView.height"
+                    [attr.transform]="'scale(' + svgScale + ')'">
+                        <g id="plan-container" #planContainer [attr.transform]="'scale(' + fitToView.zoomValue + ')'">
+                            <g *ngFor="let table of tables">
+                                <g [id]="table.ngID" [attr.class]="'table-'+ table.id" [attr.transform]="'translate(' + table.offsetX + ',' + table.offsetY + ')'"
+                                    [tableView]="table" [selectedClass]="table.ngID == selectedItemID ? 'active' : null" (click)="selectTable(table.id, table)">
+                                </g>
+                            </g>
+    
+                            <g *ngFor="let immovable of immovables">
+                                <g [id]="immovable.ngID" [attr.transform]="'translate(' + immovable.offsetX + ',' + immovable.offsetY + ')'" [attr.class]="'immovable-group immovable-'+ immovable.id"
+                                    [immovableVisual]="immovable" [selectedClass]="immovable.ngID == selectedItemID ? 'active' : null">
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </drag-scroll>
+            <div class="floor-plan-footer text-right">
+                <div class="d-inline-flex align-items-center pt-2 mt-1">
+                    <span class="mb-1 mr-2 text-uppercase">{{floorPlanName ? floorPlanName : ''}}</span>
+                    <span>
+                        <i class="zoom-controls material-icons cursor-pointer notextselect pl-2" [ngClass]="{'enabled' : svgScale < 2}" (click)="zoomPlan(1)">
+                            add
+                        </i>
+                        <i class="zoom-controls material-icons cursor-pointer notextselect " [ngClass]="{'enabled' : svgScale > 1}" (click)="zoomPlan(-1)">
+                            remove
+                        </i>
+                        <i class="zoom-controls material-icons pl-2 cursor-pointer notextselect" [ngClass]="{'enabled' : svgScale > 1}" (click)="fitToView.zoomValue = zoomValue; svgScale = 1;">
+                            refresh
+                        </i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,217 @@
+// Core Admin Variables
+
+$enable-sidebar-nav-rounded: false;
+
+$border-color: $gray-lighter;
+$layout-transition-speed: .25s;
+
+// Variables for different modules
+$brand-tables: #2dd1a1;
+$brand-staff: #6a7cff;
+$brand-waitlist: #eab46c;
+$brand-reservation: #6a7cff;
+
+
+// Social Colors
+
+$facebook: #3b5998;
+$twitter: #00aced;
+$linkedin: #4875b4;
+$google-plus: #d34836;
+$flickr: #ff0084;
+$tumblr: #32506d;
+$xing: #026466;
+$github: #4183c4;
+$html5: #e34f26;
+$openid: #f78c40;
+$stack-overflow: #fe7a15;
+$youtube: #b00;
+$css3: #0170ba;
+$dribbble: #ea4c89;
+$google-plus: #bb4b39;
+$instagram: #517fa4;
+$pinterest: #cb2027;
+$vk: #45668e;
+$yahoo: #400191;
+$behance: #1769ff;
+$dropbox: #007ee5;
+$reddit: #ff4500;
+$spotify: #7ab800;
+$vine: #00bf8f;
+$foursquare: #1073af;
+$vimeo: #aad450;
+
+// Navbar
+
+$navbar-height:                     60px;
+$navbar-bg:                         #fff;
+$navbar-border: (
+  bottom: (
+    size:                       1px,
+    style:                      solid,
+    color:                      $border-color
+  )
+);
+$navbar-brand-width:                155px;
+$navbar-brand-bg:                   #fff;
+$navbar-brand-logo:                 url('../assets/img/host_concept_logo.png');
+$navbar-brand-border: (
+  bottom: (
+    size:                       1px,
+    style:                      solid,
+    color:                      $border-color
+  )
+);
+
+$navbar-color:                      rgba(0,0,0,.5);
+$navbar-hover-color:                rgba(0,0,0,.8);
+$navbar-active-color:               rgba(0,0,0,.1);
+$navbar-disabled-color:             rgba(0,0,0,.2);
+
+$navbar-brand-font-size:            1.5rem !default;
+
+// Sidebar
+
+$sidebar-width:                     200px;
+$sidebar-padding:                   0;
+$sidebar-minimized-width:           60px;
+$sidebar-minimized-height:          $sidebar-minimized-width;
+$sidebar-compact-width:             150px;
+$sidebar-compact-height:            $sidebar-compact-width;
+$sidebar-color:                     $text-muted;
+$sidebar-bg:                        #fff;
+$sidebar-header-bg:                 rgba(0,0,0,.2);
+$sidebar-footer-bg:                 rgba(0,0,0,.2);
+$sidebar-borders:                   none;
+$mobile-sidebar-width:              220px;
+
+// Sidebar Navigation
+
+$sidebar-nav-color:                 $text-muted;
+$sidebar-nav-title-padding-y:       1rem;
+$sidebar-nav-title-padding-x:       1rem;
+$sidebar-nav-title-color:           $gray-light;
+$sidebar-nav-link-padding-y:        1rem;
+$sidebar-nav-link-padding-x:        1rem;
+$sidebar-nav-link-color:            $gray-light;
+$sidebar-nav-link-bg:               transparent;
+$sidebar-nav-link-icon-color:       $gray;
+
+$sidebar-nav-link-borders:          0;
+$sidebar-nav-link-hover-color:      #fff;
+$sidebar-nav-link-hover-bg:         lighten($brand-primary, 8%);
+$sidebar-nav-link-hover-icon-color: #fff;
+
+$sidebar-nav-link-hover-borders:    0;
+$sidebar-nav-link-active-color:     #fff;
+$sidebar-nav-link-active-bg:        lighten($gray-lightest, 5%);
+$sidebar-nav-link-active-icon-color: #fff;
+
+$sidebar-nav-link-active-borders:   0;
+
+$sidebar-nav-dropdown-color:        #fff;
+$sidebar-nav-dropdown-bg:           lighten($gray-lightest, 3%);
+$sidebar-nav-dropdown-borders:      0;
+
+// Top Navigation
+
+$top-nav-bg:                        #fff;
+$top-nav-color:                     $body-color;
+$top-nav-borders: (
+  bottom: (
+    size:                           1px,
+    style:                          solid,
+    color:                          $border-color
+  )
+);
+$top-nav-ul-borders: (
+  all: (
+    size:                           1px,
+    style:                          solid,
+    color:                          $border-color
+  )
+);
+
+$top-nav-hover-color:               #fff;
+$top-nav-hover-bg:                  $brand-primary;
+$top-nav-active-color:              #fff;
+$top-nav-active-bg:                 $brand-primary;
+$top-nav-height:                    $navbar-height - 15px;
+
+// Breadcrumb
+
+$breadcrumb-borders: (
+  bottom: (
+    size:                           1px,
+    style:                          solid,
+    color:                          $border-color
+  )
+);
+
+// Aside
+
+$aside-menu-width:                  340px;
+$aside-menu-color:                  $gray-dark;
+$aside-menu-bg:                     #fff;
+$aside-menu-borders: (
+  left: (
+    size:                           1px,
+    style:                          solid,
+    color:                          $border-color
+  )
+);
+
+$aside-menu-nav-padding-y:          .75rem;
+$aside-menu-nav-padding-x:          1rem;
+
+// Footer
+
+$footer-height: 50px;
+$footer-bg:     $gray-lightest;
+$footer-color:  $body-color;
+$footer-borders: (
+  top: (
+    size:                           1px,
+    style:                          solid,
+    color:                          $border-color
+  )
+);
+
+// Cards
+
+$card-icon-bg:                      transparent;
+$card-icon-color:                   $body-color;
+
+//Grids
+
+$grid-color: #ffffff;
+
+//Admin Dashboard
+$dashboard-background:#E2E2E2;
+$dashboard-top-header:#161225;
+
+//Add party screen color
+$brand-tables: #2dd1a1;
+$brand-staff: #6a7cff;
+$brand-waitlist: #eab46c;
+$brand-reservation: #6a7cff;
+
+$top-left-background:#11d8bd;
+$top-right-background:#2b5164;
+$bottom-left-background:#11d8bd;
+$bottom-right-background:#2b5164;
+$course-background:#10C2AB;
+$party-size-background:#263238;
+
+$navbar-height: 60px;
+$inline-header-height: 70px;
+$sidebar-minimized-width: 60px;
+$footer-height: 52px;
+$btn-container: 50px;
+
+$dialog-header : 60px;
+$dialog-footer : 70px;
+$dialog-action-footer : 135px;
+
+
+

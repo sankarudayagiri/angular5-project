@@ -1,0 +1,30 @@
+<form name="form" (ngSubmit)="f.form.valid && addToWaitList()" #f="ngForm" novalidate>
+    <h6 mat-dialog-title class="dialog-header text-center pb-4 font-weight-bold">
+        {{data.waitList ? 'EDIT WAIT LIST' : '+ ADD WAIT LIST'}}
+        <i class="material-icons pull-right close cursor-pointer" (click)="onNoClick()">
+            clear
+        </i>
+    </h6>
+
+    <div mat-dialog-content>
+        <div class="d-flex justify-content-center d-flex align-items-center h-100">
+            <div>
+                <h6 class="text-muted font-weight-bold">
+                    WAIT LIST NAME
+                </h6>
+                <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorMessage}">
+                    <input matInput maxlength="15" name="waitlistname" class="text-uppercase" [(ngModel)]="waitlist.name" autocomplete="off" required>
+                    <mat-error>Wait List Name is required</mat-error>
+                </mat-form-field>
+                <div *ngIf="errorMessage" class="help-block custom-validator text-danger">
+                    <small>{{errorMessage}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center dialog-footer">
+        <span class="btn btn-primary btn-lg" (click)="onNoClick()"><small>CANCEL</small></span>
+        <button class="btn btn-success btn-lg"><small>DONE</small></button>
+    </div>
+</form>

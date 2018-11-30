@@ -1,0 +1,104 @@
+<div class="dialog-scrollable-content">
+    <form name="form" (ngSubmit)="f.form.valid && addStaff(staff.id)" #f="ngForm" novalidate>
+        <h6 mat-dialog-title class="dialog-header text-center pb-4 font-weight-bold">
+            {{data.type==0 ? 'ADD STAFF' : 'EDIT STAFF'}}
+            <i class="material-icons pull-right close cursor-pointer" (click)="onNoClick()">
+                clear
+            </i>
+        </h6>
+
+        <div class="display-name mx-auto my-5" [style.background]="staff.colorCode">
+            <!-- <h4 class="font-weight-normal"> AB</h4> -->
+            <!-- <mat-form-field> -->
+            <i class="icon-pencil"> </i>
+            <input class="text-uppercase" name="staff-initials" maxlength="2" autocomplete="off" placeholder="Initials" matInput [(ngModel)]="staff.initials">
+        </div>
+
+        <div class="row text-center my-5 d-flex justify-content-center">
+            <div class="col-sm-6 col-md-3">
+                    <mat-form-field>
+                        <input matInput placeholder="First Name" minlength="2" maxlength="100" name="first-name"
+                            autocomplete="off" (ngModelChange)="updateInitials($event)" [(ngModel)]="staff.firstName"
+                            (keydown.space)="$event.preventDefault()"  required>
+                        <mat-error >Please enter a Name.</mat-error>
+                    </mat-form-field>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <mat-form-field>
+                    <input matInput placeholder="Last Name" maxlength="100" name="last-name" autocomplete="off" [(ngModel)]="staff.lastName">
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center text-center mt-4">
+            <div class="col-sm-6 col-lg-3">
+                <mat-form-field [ngClass]="{'mat-form-field-invalid' : invalidCountry}">
+                    <input class="h5" (ngModelChange)="validateCountry(countryCode)" (blur)="validateCountry(countryCode)" maxlength="100" name="country"
+                        placeholder="Country" autocomplete="off" matInput [matAutocomplete]="auto" [(ngModel)]="countryCode">
+                    <span matPrefix>({{codeValue}}) &nbsp;</span>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getCountryCode();validateCountry(countryCode)">
+                        <mat-option *ngFor="let option of countries | filter : countryCode : 'countryName' : 'countryCode' " [value]="option.countryName">
+                            {{option.countryName}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <div *ngIf="invalidCountry" class="help-block text-danger custom-validator">Please select valid Country.
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="form-group d-inline-block text-left ">
+                    <P class="icon-phone d-flex align-items-center">
+                        <mat-form-field class="ml-2" [ngClass]="{'mat-form-field-invalid' : matCustomError}">
+                            <input matInput maxlength="12" minlength="8" placeholder="Phone Number" name="phone-number" #phonenumber="ngModel" autocomplete="off"
+                                [(input)]="staff.phoneNumber" [(ngModel)]="staff.phoneNumber" [numbersOnly]>
+                            <mat-error>Please enter valid phone number</mat-error>
+                        </mat-form-field>
+                    </P>
+                    <mat-custom-error *ngIf="phonenumber.valid && staff.phoneNumber" [field]="'PhoneNumber'" [(matCustomError)]="matCustomError"
+                        [customMessage]="'Phone number is already registed!'" [errorData]="errorMessages"></mat-custom-error>
+
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 ">
+                <div class=" d-flex align-items-center">
+                    <i class="material-icons font-weight-normal mr-2">nfc</i>
+                    <mat-form-field>
+                        <input matInput #input maxlength="5" placeholder="Pager" name="pager" autocomplete="off" [(ngModel)]="staff.pager" [numbersOnly]>
+                        <!-- <mat-hint align="end">{{input.value?.length || 0}}/5</mat-hint> -->
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="my-5">
+            <mat-button-toggle-group class="d-flex justify-content-center" #group="matButtonToggleGroup" (change)="onSelectionChange(group.value)">
+                <mat-button-toggle class="circle" [checked]="staff.isServer" value="isServer">
+                    <i class="material-icons p-1 mt-3">person</i>
+                </mat-button-toggle>
+                <p class="ml-2 mb-0 text-muted font-weight-bold d-flex align-items-center">SERVER</p>
+
+                <mat-button-toggle class="circle ml-5" [checked]="staff.isManager" value="isManager">
+                    <i class="material-icons p-1  mt-3">vpn_key</i>
+                </mat-button-toggle>
+                <p class="ml-2 mb-0 text-muted font-weight-bold d-flex align-items-center">MANAGER</p>
+
+                <mat-button-toggle class="circle ml-5" value="isKitchenStaff" [checked]="staff.isKitchenStaff">
+                    <i class="material-icons p-1  mt-3">kitchen</i>
+                </mat-button-toggle>
+                <p class="ml-2 mb-0 text-muted font-weight-bold d-flex  align-items-center">KITCHEN STAFF</p>
+
+                <mat-button-toggle class="circle ml-5" value="isOther" [checked]="staff.isOther">
+                    <i class="material-icons p-1  mt-3">face</i>
+                </mat-button-toggle>
+                <p class="ml-2 mb-0 text-muted  font-weight-bold d-flex align-items-center">OTHER</p>
+            </mat-button-toggle-group>
+        </div>
+        <div class="text-center dialog-footer">
+            <button class="btn btn-primary btn-lg">
+                <small>DONE</small>
+            </button>
+        </div>
+    </form>
+</div>

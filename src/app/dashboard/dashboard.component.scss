@@ -1,0 +1,45 @@
+@import "../../scss/_module-variables.scss";
+
+$occupancy-card-height: 190px;
+$avl-tables-card-height: 170px;
+$reset-btn-cntr-height: 50px;
+$rotation-cntr-height: 210px;
+$card-inbetween-space: 230px;
+$list-card-header-height: 120px;
+
+.set-time {
+  font-size: 18px;
+}
+
+.reset-btn-cntr {
+  height: $reset-btn-cntr-height;
+}
+
+:host ::ng-deep drag-scroll .drag-scroll-content {
+  overflow: hidden;
+}
+:host ::ng-deep {
+  .swiper-wrapper {
+    padding-left: 20px;
+    .swiper-slide {
+      overflow: hidden !important;
+    }
+  }
+  .rotation-swiperhorizontal {
+    .swiper-wrapper {
+      padding-left: 0px;
+      min-width: 200px;
+    }
+  }
+}
+
+
+.not-subscribed {
+  .icon-event,
+  .icon-clock {
+    font-size: 55px;
+  }
+  .not-subscribed-desc {
+    padding-left: 85px;
+  }
+}

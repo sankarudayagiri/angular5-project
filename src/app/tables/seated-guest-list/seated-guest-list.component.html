@@ -1,0 +1,47 @@
+<div class="scrollable-content-seatedguest d-flex align-items-center" *ngIf="seatedGuests.length < 1">
+    <h6 class=" text-center w-100 font-weight-bold">
+        <span class="text-muted">NOBODY </span> SEATED NOW</h6>
+</div>
+<div class="scrollable-content-seatedguest scrollbar table-responsive" *ngIf="seatedGuests.length > 0">
+    <table class="table table-responsive table-hover mb-0" *ngIf="seatedGuests.length > 0">
+        <tbody class="border-0" *ngFor="let guest of seatedGuests" (click)="viewSeatedParty(guest)">
+
+            <tr class="bottom-border" *ngIf="guest.mergeDetails?guest.mergeDetails.isPrimaryTable:guest.mergeDetails==null">
+                <td class="text-left mw-60 pl-4 table-name-display">
+                    <div class="p-2 ml-1">
+                        <span>
+                            <i class="icons icon-people mr-1"></i>{{guest.guestDetail.adultCovers + guest.guestDetail.childCovers}}</span>
+                        <h4 class="font-weight-500">{{guest.tableName}}</h4>
+                        <div class="color-bar" [ngClass]="{'party-full-dine': guest.percent > 80, 'party-half-dine' : guest.percent > 40 && guest.percent < 80, 'party-started' : guest.percent < 40}"></div>
+                    </div>
+                </td>
+                <td class="party-desc">
+                    <div>
+                        <h5 *ngIf="guest.guestDetail.guest" class="text-capitalize text-truncate font-weight-normal mb-0">
+                            {{guest.guestDetail.guest.name}}</h5>
+                        <h6 *ngIf="!guest.guestDetail.guest" class="text-uppercase font-weight-normal text-muted mb-0">
+                            NO DETAILS</h6>
+                            <h6 class="text-uppercase mt-1 mb-0" *ngIf="guest.guestDetail.guest" style="color: #607d8b">
+                                {{guest.guestDetail.guest.countryCode}}{{guest.guestDetail.guest.phone}}
+                                </h6>
+                                <div class="text-truncate">
+                                    <span class="text-uppercase notes ">
+                                        <small class="mr-2 " *ngIf="guest.guestDetail.notes.customNotes">{{guest.guestDetail.notes.customNotes}}</small>
+                                    </span>
+                                        <span class="text-uppercase notes">
+                                            <small *ngFor="let note of guest.guestDetail.notes.notes;" class="mr-2 text-truncate">{{note.description}}</small>
+                                        </span>
+                                </div>
+                           
+                    </div>
+                </td>
+                <td class="mw-60 text-center">
+                    <div class="course-badge d-inline-block cursor-pointer" *ngIf="guest.mealCourse">
+                        <h5 class="font-weight-bold text-muted mt-1">{{guest.mealCourse.description | slice : 0 : 1}}</h5>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

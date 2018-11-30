@@ -1,0 +1,9 @@
+@import "../../../scss/_module-variables.scss";
+@import "../../shared/add-guest/add-guest.component.scss";
+.bg-primary {
+    background: $brand-waitlist !important;
+  }
+  .waitlist {
+    @include matChip($brand-waitlist);
+  }
+  

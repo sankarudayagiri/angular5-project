@@ -1,0 +1,28 @@
+@import "../../../scss/_module-variables.scss";
+
+.PhoneIcon {
+  color: $brand-primary;
+  border: 1px solid $brand-primary;
+  padding: 3px;
+  border-radius: 12px;
+}
+.material-icons {
+  color: $brand-primary;
+  font-size: 60px;
+}
+
+.more-options {
+  position: absolute;
+  top: 0 !important;
+  right: 0 !important;
+}
+
+.card {
+  .more-options {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 10;
+    padding: 5px !important;
+  }
+}

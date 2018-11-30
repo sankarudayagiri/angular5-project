@@ -1,0 +1,33 @@
+<h6 mat-dialog-title class="dialog-header text-center pb-4 font-weight-bold">
+    SELECT FLOOR PLAN
+    <i class="material-icons pull-right close cursor-pointer " (click)="onNoClick()">
+        clear
+    </i>
+
+</h6>
+<div class="row m-0">
+    <div class="col-sm-4 col-lg-3 cs-col-xxl-5 d-flex" *ngFor="let plan of data.plans; let index = index;">
+        <div class="card p-4 text-center cursor-pointer bg-light" [ngClass]="{'plan-active disabled' : plan.isInShift, 'plan-enabled' : plan.isActive && !plan.isInShift}"
+            (click)="selectFloorPlan(plan)">
+            <p class="text-muted text-left plan-status d-flex align-items-center" [ngClass]="{'text-primary' : plan.isActive && !plan.isInShift, 'text-success' : plan.isInShift}">
+                <i class="material-icons md-18 mr-1">
+                    fiber_manual_record
+                </i>
+                <small>{{plan.isActive && !plan.isInShift ? 'ENABLED' : plan.isInShift ? 'ACTIVE' : 'DISABLED'}}</small>
+            </p>
+
+            <div class="row">
+                <div class="col-6 text-right">
+                    <h3>{{plan.totalTables}}</h3>
+                    <p class="text-muted">TABLES</p>
+                </div>
+                <div class="col-6 text-left">
+                    <h3>{{plan.totalCovers || 0}}</h3>
+                    <p class="text-muted">GUESTS</p>
+                </div>
+            </div>
+
+            <h6 class="font-weight-bold text-uppercase">{{plan.layoutName}}</h6>
+        </div>
+    </div>
+</div>

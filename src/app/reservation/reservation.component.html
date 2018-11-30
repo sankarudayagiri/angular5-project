@@ -1,0 +1,120 @@
+<div class="row m-0">
+    <div class="col-md-4 fh-container maxfh-container has-header p-0">
+        <ul class="link-tab-list px-4">
+            <li>
+                <a [ngClass]="{'active' : selectedTab == 1}" (click)="onSelectTab(1);showReservationTab=true;searchResult=true">RESERVATIONS</a>
+            </li>
+            <li>
+                <a [ngClass]="{'active' : selectedTab == 3}" (click)="onSelectTab(3);showReservationTab=false">HISTORY</a>
+            </li>
+            <li>
+                <a [ngClass]="{'active' : selectedTab == 2}" (click)="onSelectTab(2);showReservationTab=false">NO SHOW</a>
+            </li>
+        </ul>
+        <div class="pt-1 time-slot-container px-4" [ngClass]="{'no-block-container' : !today || currentUser.role == 'Host'}">
+            <select-date [(date)]="date" (dateChange)="updateOnDateChange($event)"></select-date>
+
+            <div class="row">
+                <div class="col-12 my-1">
+                    <hr/>
+                </div>
+            </div>
+            <div class="row" *ngIf="blockReservationsStaus">
+                <div class="col-12 pt-5">
+                    <span class="d-block">
+                        <span class="text-muted">RESERVATIONS ARE BLOCKED FOR TODAY</span>
+                    </span>
+                    <button class="btn btn-primary mt-3" (click)="confirmForBlockUnBlock('unblock')">UNBLOCK RESERVATIONS</button>
+                </div>
+            </div>
+            <time-slots *ngIf="!blockReservationsStaus" [(selectedTime)]="selectedTime" (slotCount)="count($event)" (noSlotsError)="noSlots($event)" [timeSlots]="timeSlots"
+                [date]="date"></time-slots>
+        </div>
+        <div class="row px-4" *ngIf="!blockReservationsStaus && !previousDate && !noSlotsError">
+            <div class="col-12">
+                <hr class="mt-0 mb-2" />
+            </div>
+            <div class="col-12 mt-1">
+                <button class="btn btn-lg btn-primary" [disabled]="!selectedTime" (click)="addParty()">
+                    +
+                    <small>ADD RESERVATION</small>
+                </button>
+            </div>
+            <div class="col-12" *ngIf="today && currentUser.role != 'Host'">
+                <hr class="my-2" />
+            </div>
+            <div class="col-12" *ngIf="today && currentUser.role != 'Host'">
+                <p class="cursor-pointer mt-1 mb-2 text-uppercase" (click)="confirmForBlockUnBlock('block')">
+                    <span class="badge bg-danger badge-pill rounded text-white">STOP</span>
+                    <span class="text-muted">RESERVATIONS FOR</span> TODAY</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 p-0 bg-white fh-container has-header">
+
+        <div class="col-12 p-0 h-100">
+            <div class="header d-flex align-items-center">
+                <div class="row m-0 w-100">
+                    <div class="col-md-12 px-4">
+                        <div class="input-group">
+                            <div class="input-group-prepend pt-3">
+                                <i class="icons icon-magnifier mt-1 lead"></i>
+                            </div>
+                            <input #value type="text" class="form-control border-0" [(ngModel)]="searchReservationModel" (keyup)="searchReservation()"
+                                placeholder="Search here">
+                            <div class="pull-right">
+                                <div class="w-100">
+                                    <div class="d-flex align-items-center">
+                                        <i class="material-icons text-muted">
+                                            person_outline
+                                        </i>
+                                        <span class="font-weight-bold mr-1">{{partiesGuestNumber.totalParites || 0}}
+                                        </span>
+                                        <span *ngIf="partiesGuestNumber.totalParites==0">PARTY</span>
+                                        <span *ngIf="partiesGuestNumber.totalParites">{{partiesGuestNumber.totalParites==1 ? 'PARTY' : 'PARTIES' }}</span>
+                                        <i class="material-icons text-muted ml-3">
+                                            person_outline
+                                        </i>
+                                        <span class="font-weight-bold mr-1">{{partiesGuestNumber.totalCovers || 0}}
+                                        </span>
+                                        <span *ngIf="partiesGuestNumber.totalCovers==0">GUEST</span>
+                                        <span *ngIf="partiesGuestNumber.totalCovers">{{partiesGuestNumber.totalCovers==1 ? 'GUEST' : 'GUESTS' }}</span>
+                                    </div>
+                                    <div class="w-100 text-right">
+                                        <small class="text-muted">TOTAL COUNT IN {{selectedTab == 2 ? 'NO SHOW' : selectedTab == 3 ? 'HISTORY' : 'RESERVATION'}}</small>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-filters row px-4 py-2" *ngIf="showReservationTab  && reservations && searchResult">
+                <p class="text-muted col-md-12 my-1">
+                    <small>PARTIES / GUESTS</small>
+                </p>
+                <div class="pills filter-pills col-12">
+                    <ul>
+                        <li>
+                            <a class="cursor-pointer mr-1" [ngClass]="{'active' : !ReservationHeaderId}" (click)="onSelectedHeaderTab(null); ReservationHeaderId = null;">
+                                <small>ALL</small>
+                                <span class="badge">{{totalListParties}}/{{totalListGuests}}</span>
+                            </a>
+                        </li>
+                        <li *ngFor="let details of headerDetail">
+                            <a class="cursor-pointer  mr-1" [ngClass]="{'active' : ReservationHeaderId == details.numberOfTop}" (click)="onSelectedHeaderTab(details.numberOfTop)">{{details.numberOfTop}}
+                                <small>TOP</small>
+                                <span class="badge font-weight-bold">{{details.totalCount}}/{{details.totalCount * details.numberOfTop}}</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <reservation-list [noResults]="noResults" [(scrollReachedBottom)]="scrollReachedBottom" (scrollReachedBottomChange)="getNextSet($event)"
+                [reservationData]="reservations" [previousDate]="previousDate" [today]="today" [textMessageCount]="textMessageCount"
+                [type]="selectedTab" [showInterval]="'true'"></reservation-list>
+        </div>
+    </div>
+</div>

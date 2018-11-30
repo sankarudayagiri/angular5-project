@@ -1,0 +1,18 @@
+@import "../../../scss/_module-variables.scss";
+
+$occupancy-card-height: 190px;
+$avl-tables-card-height: 170px;
+$reset-btn-cntr-height: 50px;
+$rotation-cntr-height: 210px;
+$card-inbetween-space: 230px;
+$list-card-header-height: 120px;
+
+.card {
+  h4 {
+    margin: 0;
+    font-weight: bold;
+  }
+}
+.occupancy-card {
+  min-height: $occupancy-card-height;
+}

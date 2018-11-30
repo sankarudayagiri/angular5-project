@@ -1,0 +1,35 @@
+@import "../../../scss/_module-variables.scss";
+$arrow-size: 20px;
+
+.custom-message-box {
+  position: relative;
+  border-radius: 0 20px 20px 20px;
+  margin-left: $arrow-size;
+  background: $gray-lighter;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -$arrow-size;
+    z-index: 1;
+    border-top: transparent solid 0px;
+    border-right: $gray-lighter solid $arrow-size;
+    border-left: transparent;
+    border-bottom: transparent $arrow-size solid;
+  }
+}
+
+.card.disabled {
+  i,
+  h6 {
+    opacity: 0.2;
+  }
+  .text-muted {
+    opacity: 0.5;
+  }
+  pointer-events: none;
+}
+
+.rounded {
+  border-radius: 5px;
+}

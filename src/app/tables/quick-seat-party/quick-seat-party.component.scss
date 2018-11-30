@@ -1,0 +1,168 @@
+@import "../../../scss/_module-variables.scss";
+.circle {
+  outline: none;
+  border: none;
+  border-radius: 50px;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+}
+
+.aside-seatfrom-list {
+  position: fixed;
+  z-index: 999999;
+  right: -$aside-menu-width - 30;
+  top: 0;
+  height: 100%;
+  transition: all 0.3s ease-in-out;
+  &.open {
+    right: 0;
+  }
+}
+
+.bg-overlay-seatfrom-list {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 99999;
+}
+
+@import "../../../scss/_module-variables.scss";
+
+$occupancy-card-height: 185px;
+$avl-tables-card-height: 170px;
+$reset-btn-cntr-height: 50px;
+$card-inbetween-space: 175px;
+$list-card-header-height: 120px;
+$server-rotation-cntr-height: 200px;
+
+:host ::ng-deep {
+  .tab-content {
+    height: calc(100vh - #{$inline-header-height}) !important;
+    margin-left: 0;
+    margin-top: 1px;
+    overflow: hidden;
+    .tab-pane {
+      padding: 0;
+    }
+  }
+  .tab-container {
+    height: calc(100vh - #{$inline-header-height}) !important;
+    display: block;
+  }
+}
+// Target child component style
+:host ::ng-deep .nav-tabs {
+  .nav-item.active .nav-link {
+    background: transparent;
+    border-color: transparent;
+    color: $brand-reservation;
+  }
+}
+:host ::ng-deep .nav-tabs {
+  .nav-item {
+    .nav-link {
+      text-align: center;
+      text-transform: uppercase;
+      margin-right: 0;
+      padding: 14px 20px;
+      span {
+        font-size: 11px;
+      }
+    }
+    &.wait-list {
+      a {
+        &:hover {
+          color: $brand-waitlist;
+        }
+        &.active {
+          color: $brand-waitlist;
+          border-bottom: $brand-waitlist solid 2px;
+        }
+      }
+    }
+    &.reservation {
+      a {
+        &:hover {
+          color: $brand-reservation;
+        }
+        &.active {
+          color: $brand-reservation;
+          border-bottom: $brand-reservation solid 2px;
+        }
+      }
+    }
+    &.seated-guests {
+      a {
+        &:hover {
+          color: $brand-tables;
+        }
+        &.active {
+          color: $brand-tables;
+          border-bottom: $brand-tables solid 2px;
+        }
+      }
+    }
+  }
+}
+.text-primary {
+  color: $brand-reservation !important;
+}
+.bg-primary {
+  background: $brand-reservation !important;
+}
+.btn-primary {
+  background: $brand-reservation !important;
+  border-color: $brand-reservation !important;
+}
+
+:host ::ng-deep {
+  .scrollable-content-waitlist,
+  .scrollable-content-reservation {
+    overflow-x: hidden !important;
+    max-height: calc(100vh - #{$inline-header-height}) !important;
+    height: calc(100vh - #{$inline-header-height}) !important;
+    .table-responsive {
+      tr:first-child {
+        td {
+          border-top: 0 !important;
+        }
+      }
+      tr {
+        td {
+          line-height: 1;
+          padding: 0.8rem 0.5rem;
+        }
+        td:first-child {
+          padding-left: 12px !important;
+        }
+        .reservation-time {
+          h4 {
+            font-size: 1.2rem !important;
+          }
+        }
+        .party-desc {
+          max-width: 140px;
+          min-width: 140px;
+          .notes {
+            font-size: 80%;
+            color: $gray;
+          }
+          .star-icon {
+            font-size: 18px;
+          }
+          > div {
+            padding-left: 1rem !important;
+          }
+        }
+        td:last-child {
+          padding-left: 1rem !important;
+          min-width: 65px;
+        }
+      }
+    }
+  }
+}

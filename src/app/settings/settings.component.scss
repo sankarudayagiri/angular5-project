@@ -1,0 +1,44 @@
+.icon-user {
+  font-size: 24px;
+  color: #0abda6;
+}
+.key-icon {
+  color: #0abda6;
+  font-size: 24px;
+}
+.icon-close {
+  font-size: 20px;
+}
+div > mat-form-field {
+  width: 70px;
+  text-align: center;
+}
+:host
+  ::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-bar {
+  background-color: #0ae01266;
+  // height:19px
+}
+:host
+  ::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-thumb {
+  background-color: #3cc540;
+}
+
+.color {
+  background-color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 22px;
+  border: none;
+}
+
+.colors {
+  background-color: #2a2347;
+  width: 30px;
+  height: 30px;
+  border-radius: 22px;
+  border: none;
+}

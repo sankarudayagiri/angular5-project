@@ -1,0 +1,22 @@
+@import "../../../scss/_module-variables.scss";
+
+.select-table-view {
+  background: darken($gray-lighter, 2);
+}
+.floor-plan-footer {
+  background: $gray-lighter;
+  border-color: darken($gray-lighter, 5);
+}
+
+.scrollable-content {
+  position: relative;
+}
+
+.floor-plan-cotainer {
+  position: relative;
+  opacity: 0;
+  &.plan-rendered {
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+  }
+}

@@ -1,0 +1,94 @@
+<svg:g [attr.transform]="'rotate(' + table.rotation + ' ' + (table.shape == 3 ? 0 : (table.rect.width+10)/2 + 5) + ' ' + (table.shape == 3 ? 0 : (table.rect.height + 10)/2+5) + ')'">
+
+    <svg:rect *ngIf="table.shape != 3" [matTooltip]="tableErrorMessage" [attr.x]="table.rect.x" [attr.y]="table.rect.y" [attr.rx]="table.rect.rx"
+        [attr.ry]="table.rect.ry" [attr.class]="activeClass == 'active' ? 'svg-table active ' + multiSelectClass : parent == 'tableview' && this.table.percent > 90 ? 'svg-table Occupied-end ' + multiSelectClass : parent == 'tableview' && this.table.percent > 40 && this.table.percent < 90 ? 'svg-table Occupied-half ' + multiSelectClass : parent == 'tableview' && this.table.percent < 40 ? 'svg-table Occupied-start ' + multiSelectClass : selectedClass + ' svg-table ' + multiSelectClass"
+        [attr.fill]="table.tableColor" [attr.width]="table.rect.width" [attr.height]="table.rect.height">
+    </svg:rect>
+
+    <svg:circle *ngIf="table.shape == 3" [attr.cx]="table.circle.cx" [attr.cy]="table.circle.cy" [attr.r]="table.circle.r" [attr.fill]="table.tableColor"
+        [attr.class]="activeClass == 'active' ? 'svg-table active ' + multiSelectClass : parent == 'tableview' && this.table.percent > 90 ? 'svg-table Occupied-end ' + multiSelectClass : parent == 'tableview' && this.table.percent > 40 && this.table.percent < 90 ? 'svg-table Occupied-half ' + multiSelectClass : parent == 'tableview' && this.table.percent < 40 ? 'svg-table Occupied-start ' + multiSelectClass : selectedClass + ' svg-table ' + multiSelectClass">
+    </svg:circle>
+
+    <svg:rect [attr.x]="chair.x" [attr.y]="chair.y" [attr.rx]="chair.rx" [attr.ry]="chair.ry" [attr.width]="chair.width" [attr.height]="chair.height"
+        [attr.fill]="table.chairColor" [attr.class]="activeClass == 'active' ? 'svg-table-chairs active ' + multiSelectClass : parent == 'tableview' && this.table.percent > 90 ? 'svg-table-chairs Occupied-end ' + multiSelectClass : parent == 'tableview' && this.table.percent > 40 && this.table.percent < 90 ? 'svg-table-chairs Occupied-half ' + multiSelectClass : parent == 'tableview' && this.table.percent < 40 ? 'svg-table-chairs Occupied-start ' + multiSelectClass : tableError ? 'svg-table-error' : selectedClass + ' svg-table-chairs ' + multiSelectClass"
+        [attr.transform]="table.shape == 3 ? 'rotate(' + chair.angle + ' ' + 0 + ' ' + 0 + ')' : null" *ngFor="let chair of table.chairs | slice : 0 : table.totalCovers">
+    </svg:rect>
+
+    <!-- overlay chairs -->
+    <!-- <svg:rect 
+      [attr.x]="chair.x" 
+      [attr.y]="chair.y" 
+      [attr.rx]="chair.rx" 
+      [attr.ry]="chair.ry" 
+      [attr.width]="chair.width" 
+      [attr.height]="chair.height"
+      [attr.class]="'chair-overlay'"
+      [attr.transform]="table.shape == 3 ? 'rotate(' + chair.angle + ' ' + 0 + ' ' + 0 + ')' : null" 
+      *ngFor="let chair of table.chairs">
+    </svg:rect> -->
+
+    <!-- section for Server Initials -->
+    <svg:circle *ngIf="parent == 'tableview'" [attr.cx]="table.shape == 3 ? -((table.circle.r/2) + (table.circle.r/2)/2 + 5) :10"
+        [attr.cy]="table.shape == 3 ? -((table.circle.r/2) +(table.circle.r/2)/2 + 5): 10" [attr.stroke]="'#fff'" [attr.r]="12" [attr.fill]="table.serverColor ? table.serverColor : '#aaa'">
+    </svg:circle>
+
+    <svg:text *ngIf="parent == 'tableview'" [attr.x]="table.shape == 3 ? - ((table.circle.r/2) + (table.circle.r/2)/2 + 5) : 10"
+        [attr.y]="table.shape == 3 ? -((table.circle.r/2) +(table.circle.r/2)/2): 15" [attr.text-anchor]="'middle'" [attr.class]="'server-initials'"
+        [attr.fill]="'#fff'"> {{(table.serverInitials ? table.serverInitials : '?') | uppercase}}
+    </svg:text>
+
+    <!-- section for Event Icon -->
+    <svg:circle *ngIf="parent == 'tableview' && table.isEvent" [attr.cx]="table.shape == 3 ? -((table.circle.r/2) + (table.circle.r/2)/2) : 10"
+        [attr.cy]="table.shape == 3 ? ((table.circle.r/2) + (table.circle.r/2)/2) : table.rect.height + 10" [attr.stroke]="'#fff'"
+        [attr.r]="12" [attr.fill]="'#ff24ca'">
+    </svg:circle>
+
+    <svg:image *ngIf="parent == 'tableview' && table.isEvent" xlink:href="../../../assets/img/floor-plan/event-icon.png" [attr.x]="table.shape == 3 ? -((table.circle.r/2) + (table.circle.r/2)/2) - 9 : 1"
+        [attr.y]="table.shape == 3 ? ((table.circle.r/2) + (table.circle.r/2)/2) - 10 : table.rect.height - 1" height="18px"
+        width="18px" />
+
+    <!-- section for Held Icon -->
+    <svg:image *ngIf="parent == 'tableview' && table.tableStatus.id == 'Held'" xlink:href="../../../assets/img/floor-plan/held-icon@2x.png"
+        [attr.x]="!table.barSeat ? table.text.x - 16 : table.text.x - 12" [attr.y]="!table.barSeat ? table.text.y - 24 : table.text.y - 18" [attr.height]="!table.barSeat ? '38px' : '28px'" [attr.width]="!table.barSeat ? '38px' : '28px'" />
+
+    <!-- section for selected tick icon for merge -->
+    <!-- <svg:image *ngIf="parent == 'tableview' && table.tableSelectedClass == 'table-selected'" xlink:href="../../../assets/img/floor-plan/tick-icon-white.png"
+        [attr.x]="table.shape == 3 ? table.text.x - 10 : table.text.x + 10" [attr.y]="table.shape == 3 ? table.text.y : table.text.y + 14"
+        [attr.transform]="'translate(' + (-table.text.x / 2) + ' ' + (-table.text.y / 2) + ')'" height="25px" width="25px" /> -->
+
+    <!-- section for table name -->
+    <svg:text [attr.x]="table.text.x" [attr.y]="parent == 'tableview' && table.tableStatus.id == 'Occupied' && !table.barSeat ? table.text.y - 15 : table.text.y"
+        [attr.text-anchor]="'middle'" [attr.class]="activeClass == 'active' ? 'svg-table-text active ' + multiSelectClass : parent == 'tableview' && table.tableStatus.id == 'Occupied' ? 'svg-table-text occupied-text' : tableError ? 'svg-table-error' : selectedClass + ' svg-table-text ' + multiSelectClass"
+        [attr.transform]="'rotate(' + 0 + ' ' + table.text.x + ' ' + table.text.y + ')'">{{table.name}}
+    </svg:text>
+
+    <!-- section for spent time -->
+    <svg:text *ngIf="parent == 'tableview' && table.tableStatus.id == 'Occupied' && !table.barSeat" [attr.x]="table.text.x" [attr.y]="table.text.y"
+        [attr.text-anchor]="'middle'" [attr.class]="'svg-table-text occupied-text'" transform="rotate(0 34.5 52)">{{table.spentTime}}
+    </svg:text>
+
+    <!-- section for meal course -->
+    <svg:text *ngIf="parent == 'tableview' && table.tableStatus.id == 'Occupied' && table.mealCourse && !table.barSeat" [attr.x]="table.text.x"
+        [attr.y]="table.text.y + 15" [attr.text-anchor]="'middle'" [attr.class]="'svg-table-text occupied-text'" transform="rotate(0 34.5 52)">{{table.mealCourse ? (table.mealCourse.description | slice : 0: 1) : ''}}
+    </svg:text>
+
+    <!-- merge section for secondary tables -->
+    <svg:circle *ngIf="parent == 'tableview' && table.mergeColor && !table.mergeDetails.isPrimaryTable" [attr.cx]="table.shape == 3 ? 0 : table.text.x"
+        [attr.stroke]="'#fff'" [attr.cy]="table.shape == 3 ? 0 : table.text.y - 5" [attr.r]="!table.barSeat ? 20 : 10" [attr.fill]="table.mergeColor ? table.mergeColor : '#aaa'">
+    </svg:circle>
+
+    <svg:image *ngIf="parent == 'tableview' && table.mergeColor && !table.mergeDetails.isPrimaryTable" xlink:href="../../../assets/img/floor-plan/link-icon-lg@2x.png"
+        [attr.x]="!table.barSeat ? table.text.x - 12 : table.text.x - 6" [attr.y]="!table.barSeat ? table.text.y - 16 : table.text.y - 10"
+        [attr.height]="!table.barSeat ? '24px' : '12px'" [attr.width]="!table.barSeat ? '24px' : '12px'" />
+
+    <!-- merge section for primary tables -->
+    <svg:circle *ngIf="parent == 'tableview' && table.mergeColor && table.mergeDetails.isPrimaryTable" [attr.cx]="table.shape == 3 ? ((table.circle.r/2) + (table.circle.r/2)/2) : table.rect.width + 10"
+        [attr.stroke]="'#fff'" [attr.cy]="table.shape == 3 ? -((table.circle.r/2) + (table.circle.r/2)/2) : 10" [attr.r]="12"
+        [attr.fill]="table.mergeColor ? table.mergeColor : '#aaa'">
+    </svg:circle>
+
+    <svg:image *ngIf="parent == 'tableview' && table.mergeColor && table.mergeDetails.isPrimaryTable" xlink:href="../../../assets/img/floor-plan/link-icon-lg@2x.png"
+        [attr.x]="table.shape == 3 ? ((table.circle.r/2) + (table.circle.r/2)/2) - 6 : table.rect.width + 4" [attr.y]="table.shape == 3 ? -((table.circle.r/2) + (table.circle.r/2)/2) - 5 : 5"
+        height="12px" width="12px" />
+
+</svg:g>

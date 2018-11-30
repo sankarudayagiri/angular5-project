@@ -1,0 +1,143 @@
+<div class="row m-0">
+    <div class="col-md-4 fh-container has-header p-0">
+        <ul class="link-tab-list px-4">
+            <li>
+                <a [ngClass]="{'active' : selectedTab == 1}" (click)="onSelectTab(1);showWaitListTab=true;searchResult=true">WAIT
+                    LIST</a>
+            </li>
+            <li>
+                <a [ngClass]="{'active' : selectedTab == 3}" (click)="onSelectTab(3);showWaitListTab=false">HISTORY</a>
+            </li>
+            <li>
+                <a [ngClass]="{'active' : selectedTab == 2}" (click)="onSelectTab(2);showWaitListTab=false">NO SHOW</a>
+            </li>
+        </ul>
+
+        <div class="col-12 px-4 pt-4 scrollable-content-waitlist no-header">
+            <div>
+                <h6 class="font-weight-normal my-3">ESTIMATED WAIT TIME</h6>
+                <div class="card px-4 py-3 mb-3">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p class="mb-0 text-waitlist">NEW</p>
+                            <h3 class="font-weight-normal">00:00</h3>
+                        </div>
+                        <div class="col-md-4">
+                            <button mat-mini-fab class="bg-primary floated-btn" matTooltip="ADD PARTY" (click)="addParty('00:00', 1)">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card px-4 py-3 mb-3" *ngFor="let waittime of averageWaitTime">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p class="mb-0">{{waittime.covers}} TOP</p>
+                            <h3 class="font-weight-normal">{{waittime.time}}</h3>
+                        </div>
+                        <div class="col-md-4">
+                            <button mat-mini-fab class="bg-primary floated-btn" matTooltip="ADD PARTY" (click)="addParty(waittime.time, waittime.covers)">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 p-0 bg-white fh-container has-header">
+        <div class="col-12 p-0 h-100">
+            <div class="header d-flex align-items-center">
+                <div class="row m-0 w-100">
+                    <div class="col-md-12 px-4">
+                        <div class="input-group">
+                            <div class="input-group-prepend pt-3">
+                                <i class="icons icon-magnifier mt-1 lead"></i>
+                            </div>
+                            <input #value type="text" class="form-control border-0" [(ngModel)]="searchWaitListModel"
+                                (keyup)="searchWaitlist()" placeholder="Search here">
+                            <div class="pull-right">
+                                <div class="w-100">
+                                    <div class="d-flex align-items-center">
+                                        <i class="material-icons text-muted">
+                                            person_outline
+                                        </i>
+                                        <span class="font-weight-bold mr-1">{{partiesGuestNumber.totalParites || 0}}
+                                        </span>
+                                        <span *ngIf="partiesGuestNumber.totalParites">{{partiesGuestNumber.totalParites
+                                            > 1 ?'PARTIES' : 'PARTY' }}</span>
+                                        <i class="material-icons text-muted ml-3">
+                                            person_outline
+                                        </i>
+                                        <span class="font-weight-bold mr-1">{{partiesGuestNumber.totalCovers || 0}}
+                                        </span>
+                                        <span *ngIf="partiesGuestNumber.totalCovers">{{partiesGuestNumber.totalCovers >
+                                            1 ? 'GUESTS' : 'GUEST' }}</span>
+                                    </div>
+                                    <div class="w-100 text-right">
+                                        <small class="text-muted">TOTAL COUNT IN {{selectedTab == 2 ? 'NO SHOW' :
+                                            selectedTab == 3 ? 'HISTORY' : 'WAIT LIST'}}</small>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="waitlist-types pt-3 pl-4 text-uppercase" *ngIf="selectedTab == 1 && searchResult">
+                <a class="btn btn-outline-waitlist btn-sm font-xs px-2 text-primary py-1 pull-left" (click)="addList()">+ ADD LIST</a>
+                <div class="swiper-cntr">
+                    <swiper [config]="config">
+                        <ul class="link-tab-list filter-tabs notextselect mt-0" *ngFor="let type of waitlistTypes">
+                            <li class="text-truncate d-block pr-4">
+                                <a [ngClass]="{'active' : selectedListID == type.waitListID}" (click)="onSelectedListTab(type.waitListID,type.name)">
+                                    <small>
+                                        {{type.name}}
+                                    </small>
+                                </a>
+                                <span class="waitlist-options">
+                                    <i class="material-icons md-18" (click)="addList(type)">
+                                        edit
+                                    </i>
+                                    <i class="material-icons md-18 text-danger" (click)="confirmDelete(type.waitListID,type.name)">
+                                        delete_outline
+                                    </i>
+                                </span>
+                            </li>
+                        </ul>
+                    </swiper>
+                </div>
+            </div>
+            <div class="list-filters m-0 px-2 row pb-2" *ngIf="selectedTab == 1 && waitlistData && waitlistData.length > 0 && searchResult">
+                <p class="text-muted col-md-12 my-1">
+                    <small>PARTIES / GUESTS</small>
+                </p>
+                <div class="pills filter-pills col-12">
+                    <ul>
+                        <li>
+                            <a class="cursor-pointer mr-1" [ngClass]="{'active' : !waitlistHeaderId}" (click)="onSelectedHeaderTab(null); waitlistHeaderId = null;">
+                                <small>ALL</small>
+                                <span class="badge">{{totalListParties}}/{{totalListGuests}}</span>
+                            </a>
+                        </li>
+                        <li *ngFor="let details of headerDetail">
+                            <a class="cursor-pointer mr-1" [ngClass]="{'active' : waitlistHeaderId == details.numberOfTop}"
+                                (click)="onSelectedHeaderTab(details.numberOfTop)">{{details.numberOfTop}}
+                                <small>TOP</small>
+                                <span class="badge font-weight-bold">{{details.totalCount}}/{{details.totalCount *
+                                    details.numberOfTop}}</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <wait-list-items [waitlistData]="waitlistData" [noResults]="noResults" [(scrollReachedBottom)]="scrollReachedBottom"
+                (scrollReachedBottomChange)="getNextSet($event)" [textMessageCount]="textMessageCount" [waitlistName]="waitListName"
+                [type]="selectedTab"></wait-list-items>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="card cursor-pointer">
+    <div class="row m-0">
+        <div class="col-md-9">
+            <widget-loader *ngIf="waitListLoading" [overlay]="true" [module]="'waitlist'"></widget-loader>
+            <div class="row list-card-header">
+                <div class="col-12">
+                    <h6 class="font-weight-bold px-3 py-4 mb-0">
+                        <i class="icon-clock mr-2 text-waitlist"></i> WAIT LIST
+                        <add-to-waitlist-btn [size]="'mini'"></add-to-waitlist-btn>
+                    </h6>
+                </div>
+                <div class="col-12">
+                    <swiper class="p-0" [config]="listTabsConfig">
+                        <ul class="link-tab-list mt-0 waitlist-data-tabs">
+                            <li class="d-block" *ngIf="totalparties > 0" [ngClass]="{'active': selectedWaitlistDataTab == 'all'}" (click)="onSelectedWaitListHeaderTab('all')">
+                                <div class="count-display pull-left mr-2">
+                                    <h2 class="text-muted font-weight-bold">{{totalparties}}</h2>
+                                </div>
+                                <div class="tab-label d-block">
+                                    <span class="text-muted d-block">ALL</span>
+                                    <span class="text-muted">PARTIES</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="link-tab-list mt-0 waitlist-data-tabs" *ngFor="let details of headerDetail">
+                            <li class="d-block" [ngClass]="{'active': selectedWaitlistDataTab == details.numberOfTop}" (click)="onSelectedWaitListHeaderTab(details.numberOfTop)">
+                                <div class="count-display pull-left mr-2">
+                                    <h2 class="text-muted font-weight-bold">{{details.totalCount}}</h2>
+                                </div>
+                                <div class="tab-label d-block">
+                                    <span class="text-muted d-block">{{details.numberOfTop}} TOP</span>
+                                    <span class="text-muted">PARTIES</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </swiper>
+                </div>
+            </div>
+            <div class="row">
+                <hr class="w-100 my-0" />
+                <div class="w-100 list-container pl-2">
+                    <wait-list-items [waitlistData]="waitlistData" [parent]="'dashboard'" [type]="'1'" [noResults]="noWaitlistDataResults" [(scrollReachedBottom)]="scrollReachedBottom"
+                        (scrollReachedBottomChange)="getNextWaitListDataSet()" [type]="selectedTab" (waitlistDataChange)="getWaitlistDatalist()"></wait-list-items>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 pt-4 pl-4 pr-0 card-right-section">
+                <h6 class="text-waitlist mb-0">TOTAL</h6>
+                <h3 class="font-weight-bold mb-0 text-waitlist">{{totalparties}}/{{totalcovers}}</h3>
+                <small class="text-muted">{{totalparties > 1 ? 'PARTIES' : 'PARTY' }} /</small>
+                <small class="text-muted">{{totalcovers > 1 ? 'GUESTS' : 'GUEST' }}</small>
+            <h6 class="mt-4 font-weight-500 text-waitlist pr-4" *ngIf="averageWaitTime && averageWaitTime.length > 0">
+                ESTIMATED WAIT TIME
+            </h6>
+            <div class="average-wait-time-cntr scrollbar">
+                <div class="row m-0">
+                    <div class="col-md-6 pl-0" *ngFor="let waittime of averageWaitTime">
+                        <span class="text-muted text-uppercase mb-0">
+                            {{waittime.covers}}TOP
+                        </span>
+                        <p class="average-wait-time">
+                            <span class="h5 font-weight-500">{{waittime.time}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+@import "../../../scss/_module-variables.scss";
+
+@mixin matChip($backgroundColor){
+  display: block;
+
+  .mat-chip.selected {
+    background: $backgroundColor !important;
+    border-color: $backgroundColor !important;
+    color: $gray-lightest;
+  }
+
+  .mat-chip:not(.mat-basic-chip){
+    border: $gray-light solid 1px;
+    background: transparent;
+  }
+
+  .mat-chip:not(.mat-basic-chip):hover{
+    border-color: $backgroundColor !important;
+  }
+
+  ::ng-deep .mat-input-element { 
+    caret-color: $backgroundColor;
+   }
+
+  ::ng-deep .mat-form-field-ripple {
+    background-color: $backgroundColor ;
+  }
+
+  ::ng-deep .input-value .mat-form-field-underline  { 
+    background-color: $backgroundColor ;
+  }
+  
+  ::ng-deep .mat-form-field-underline:active  { 
+    background-color: $gray-dark ;
+  }
+
+  ::ng-deep .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-empty.mat-form-field-label{
+    color:  $backgroundColor ;  
+  }
+}
+
+.waitlist {
+  @include matChip($brand-waitlist);
+}
+
+.reservation{
+  @include matChip($brand-reservation);
+}
+
+.tables{
+  @include matChip($brand-tables);
+}
+
+.custom-note-field {
+  width: 400px;
+}  
+
+.circle {
+  outline: none;
+  border: none;
+  border-radius: 50px;
+}
+
+.material-icons {
+  font-size: 15px;
+}
+
+:host ::ng-deep mat-form-field input.h5 {
+  font-size: 1.2rem !important;
+  margin-top: -1.2rem;
+  width: inherit;
+}

@@ -1,0 +1,70 @@
+@import "../../../scss/_module-variables.scss";
+
+.staff-layout-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    padding: 10px 0;
+    h6 {
+      font-weight: 700;
+    }
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.card.bg-light {
+  background: darken(#fff, 5%);
+  box-shadow: none;
+}
+
+.material-icons.add-new {
+  font-size: 60px;
+  margin-bottom: 14px;
+}
+
+.floor-plan-cotainer {
+  padding: 10px;
+  position: relative;
+  //overflow:  hidden !important;
+  opacity: 0;
+  &.plan-rendered {
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+  }
+}
+
+hr {
+  margin-bottom: 10px;
+}
+
+.switch-next-shift {
+  height: $btn-container;
+  min-height: $btn-container;
+  padding: 12px;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.badge {
+  &.small{
+    margin: 0 3px 3px 0;
+  }
+  &.bg-success {
+    color: #fff;
+  }
+}
+
+.un-assign-icon {
+  opacity: 0.4;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+    color: $brand-dark !important;
+  }
+}

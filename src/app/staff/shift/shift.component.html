@@ -1,0 +1,244 @@
+<div class="row m-0">
+  <div class="col-md-4 p-0 fh-container has-header">
+    <ul class="link-tab-list px-4">
+      <li>
+        <a routerLinkActive="active" [routerLink]="['/staff/shift']">SHIFT</a>
+      </li>
+      <li>
+        <a [routerLink]="['/staff/shift-layouts']">SHIFT LAYOUTS</a>
+      </li>
+      <li>
+        <a [routerLink]="['/staff/staff-list']">STAFF</a>
+      </li>
+    </ul>
+    <div class="px-4 pt-3 pb-1 scrollbar scrollable-content" [ngClass]="{'no-btn-container' : !shiftNow}">
+      <div class="col-12 pb-3 text-center" *ngIf="sectionLayouts && sectionLayouts.length > 0">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-primary mr-1" [ngClass]="{'btn-secondary' : !shiftNow}"  (click)="getShiftNowList(selectedFloorPlanId)">CURRENT SHIFT</button>
+          <button type="button" class="btn btn-primary" [ngClass]="{'btn-secondary' : shiftNow}"  (click)="getShiftNextList(selectedFloorPlanId)">NEXT SHIFT</button>
+        </div>
+      </div>
+      <div class="card mb-3" *ngFor="let section of shiftSectionTables">
+        <div class="row px-3 pt-3" [ngClass]="{'pb-2' : section.section.serverID, 'pb-3' : !section.section.serverID}" (click)="section.section.serverID && openSectionDetails(section)">
+          <div class="col-12">
+            <div class="server-details pull-left">
+              <div class="display-name small cursor-pointer" *ngIf="section.section.serverID" (click)="assignServereDialog(section.section.sectionID, shiftNow, section.section.serverID)"
+                click-stop-propagation [style.background]="section.server ? section.server.colorCode : section.section.colorCode">
+                <h5 class="font-weight-normal text-uppercase" *ngIf="section.server">{{section.server.initials}}</h5>
+              </div>
+              <div class="display-name small cursor-pointer d-flex align-items-center" (click)="assignServereDialog(section.section.sectionID, shiftNow, section.section.serverID, section.server)"
+                *ngIf="!section.section.serverID" click-stop-propagation [style.background]="section.section.colorCode">
+                <h3 class="font-weight-normal text-center w-100">+</h3>
+              </div>
+              <small class="text-muted" *ngIf="section.section.serverID">
+                <span>{{section.section.serverType.description}}</span>
+              </small>
+            </div>
+
+            <div class="section-details">
+              <div class="row">
+                <div class="col-7">
+                  <h6>
+                    <small class="font-weight-500 d-flex align-items-center" [ngClass]="{'text-muted':section.section.serverStatus.id == 0 && section.section.serverID==null}">
+                      <i class="material-icons md-18" [ngClass]="{'text-success':section.section.serverStatus.id == 1,'text-muted':section.section.serverStatus.id == 0 && section.section.serverID}">
+                        fiber_manual_record
+                      </i> {{section.section.name}}</small>
+                  </h6>
+                </div>
+                <div class="col-5 text-right">
+                  <small class="d-inline-flex align-items-center" *ngIf="section.section.serverID">
+                    <small class="text-success">NOW - </small>
+                    <i class="material-icons text-muted md-18">
+                      perm_identity
+                    </i> {{section.server.totalTablesServedToday}}
+                  </small>
+                </div>
+                <div class="col-12">
+                  <span *ngFor="let table of section.shiftSectionTables;let index=index" [ngClass]="{'bg-success':checkAvailable(table.tableName)}"
+                    class="badge small">
+                    <small>{{table.tableName}}</small>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row text-center" *ngIf="shiftNow">
+          <div class="col-12">
+            <hr class="w-100 m-0 border-light" />
+          </div>
+          <div class="col-6 py-2 cursor-pointer" *ngIf="section.section.serverStatus.id == 0" (click)="section.section.serverID && confirmOn(section)">
+            <h6 class="font-weight-500 text-muted" [ngClass]="{'text-success': section.section.serverID}">MARK AS ON </h6>
+          </div>
+          <div class="col-6 py-2 cursor-pointer" *ngIf="section.section.serverStatus.id == 1" (click)="confirmCut(section)">
+            <h6 class="font-weight-500 text-danger">CUT</h6>
+          </div>
+          <div class="col-6 py-2 cursor-pointer" *ngIf="section.server">
+            <h6 class="font-weight-500" [ngClass]="{'text-muted': !section.server.pager && !section.server.phoneNumber}">{{!section.server.pager? section.server.phoneNumber ?'': 'NO PAGER':'' }}
+              <span class="font-weight-500" (click)="sendTextMessage(section.section.serverID)" *ngIf="section.server.phoneNumber">SEND SMS</span>
+             <span class="font-weight-500" (click)="sendMessageToPager(section.server.pager)" *ngIf="section.server.pager">TAP PAGER -</span> <span class="font-weight-bold text-primary" *ngIf="section.server.pager" >{{section.server.pager}}</span>
+            </h6>
+          </div>
+        </div>
+      </div>
+      <!-- kitchen staff-->
+      <div class="card mb-3 pb-3">
+        <div class="row px-3">
+          <div class="col-12 mt-3">
+            <div class="server-details mr-1 pull-left">
+              <div class="display-name small cursor-pointer d-flex align-items-center" (click)="assignAdditionalStaffModal(shiftNow)">
+                <h3 class="font-weight-normal text-center w-100">+</h3>
+              </div>
+            </div>
+            <div class="section-details">
+              <div class="row">
+                <div class="col-12">
+                  <h6 class="mb-0 mt-2 font-weight-500">
+                    ADDITIONAL STAFF
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12" *ngFor="let staff of otherStaff; let index = index;">
+            <hr class="w-100 border-light" />
+            <div class="server-details mr-1 pull-left">
+              <div class="display-name small cursor-pointer d-flex align-items-center" [style.background]="staff.colorCode">
+                <h5 class="font-weight-normal text-center w-100 mb-1">{{staff.initials}}</h5>
+              </div>
+            </div>
+
+            <div class="section-details">
+              <div class="row">
+                <div class="col-10">
+                  <h6 class="mb-0 font-weight-500 text-uppercase">
+                    {{staff.isManager ? "Manager" : staff.isKitchenStaff ? "KitchenStaff" : staff.isOther ? "Other" : ""}}
+                  </h6>
+                  <small class="text-muted text-uppercase">{{staff.firstName}} {{staff.lastName}}</small>
+                </div>
+                <div class="col-2 pt-2 text-right">
+                  <i class="material-icons md-18 text-muted un-assign-icon" matTooltip="Unassign" (click)="unAssignOtherStaff(staff, index)">
+                    clear
+                  </i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="px-4 btn-container switch-next-shift bg-primary cursor-pointer" [ngClass]="{'opacity-5': !selectedSectionLayoutID}"
+      *ngIf="sectionLayouts && sectionLayouts.length > 0 && shiftNow"  (click)="selectedSectionLayoutID && confirmSwitch(selectedFloorPlanId)">
+      <h6 class="d-flex justify-content-center align-items-center" >SHIFT CHANGE
+        <i class="material-icons ml-3">
+          arrow_forward
+        </i>
+      </h6>
+    </div>
+  </div>
+  <div class="col-md-8 p-0 bg-white fh-container has-header">
+
+    <div class="col-12 p-0 h-100">
+      <div class="header d-flex align-items-center" *ngIf="floorPlans && floorPlans.length > 0">
+        <div class="row m-0 px-2 w-100">
+          <div class="col-md-5 pt-3">
+            <mat-form-field>
+              <mat-select placeholder="SHIFT LAYOUT" [disabled]="serverOnStatus && shiftNow" class="text-uppercase" [(ngModel)]="selectedSectionLayoutID"
+                (ngModelChange)="shiftLayoutChanged($event)">
+                <mat-option class="text-muted" [value]="null">NO LAYOUT</mat-option>
+                <mat-option *ngFor="let layout of sectionLayouts" class="text-uppercase" [value]="layout.shiftLayoutID">
+                  {{layout.shitftLayoutName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-7 py-4 text-right">
+            <div class="d-inline-flex align-items-center">
+              <i class="material-icons">
+                fullscreen
+              </i>
+              {{selectedFloorPlan ? selectedFloorPlan.totalTables : 0 | zeroPadding}}
+              <small class="text-muted mr-5">&nbsp;TABLES</small>
+              <i class="material-icons">
+                perm_identity
+              </i>
+              {{selectedFloorPlan ? selectedFloorPlan.totalCovers : 0 | zeroPadding}}
+              <small class="text-muted mr-5">&nbsp;GUESTS</small>
+              <i class="material-icons">
+                border_all
+              </i>
+              {{selectedSectionLayout ? selectedSectionLayout.totalSections : 0 | zeroPadding}}
+              <small class="text-muted">&nbsp;SECTIONS</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <drag-scroll class="floor-plan-cotainer scrollable-content justify-content-center p-0" [ngClass]="{'plan-rendered' : fitToView.isFit, 'overflow-hidden' : svgScale == 1}"
+        *ngIf="sectionLayouts && sectionLayouts.length > 0 && selectedSectionLayoutID">
+        <svg id="svgContainer" #svgContainer [attr.width]="fitToView.width == '100%' ? '100%' : fitToView.width*svgScale" [attr.height]="fitToView.height == '100%' ? '100%' : fitToView.height*svgScale" >
+          <g [attr.width]="fitToView.width == '100%' ? '100%' : fitToView.width" [attr.height]="fitToView.height == '100%' ? '100%' : fitToView.height"
+          [attr.transform]="'scale(' + svgScale + ')'">
+          <g id="plan-container" #planContainer [attr.transform]="'scale(' + fitToView.zoomValue + ')'">
+            <g *ngFor="let table of tables">
+              <g [id]="table.ngID" [attr.class]="'table-'+ table.id" [attr.transform]="'translate(' + table.offsetX + ',' + table.offsetY + ')'"
+                [tableView]="table" [selectedClass]="table.ngID == selectedItemID ? 'active' : null" (click)="openSnackBar('This is just a preview of the Floor Plan for this Shift !')">
+              </g>
+            </g>
+
+            <g *ngFor="let immovable of immovables">
+              <g [id]="immovable.ngID" [attr.transform]="'translate(' + immovable.offsetX + ',' + immovable.offsetY + ')'" [attr.class]="'immovable-group immovable-'+ immovable.id"
+                [immovableVisual]="immovable" [selectedClass]="immovable.ngID == selectedItemID ? 'active' : null" (click)="openSnackBar('This is just a preview of the Floor Plan for this Shift !')">
+              </g>
+            </g>
+          </g>
+          </g>
+        </svg>
+      </drag-scroll>
+
+      <div class="scrollable-content text-center d-flex align-items-center" *ngIf="(sectionLayouts && sectionLayouts.length > 0) && !selectedSectionLayoutID">
+        <div class="w-100 text-center">
+          <h6 class="text-muted">PLEASE SELECT A SHIFT LAYOUT TO SET SHIFT</h6>
+        </div>
+      </div>
+
+      <div class="scrollable-content text-center d-flex align-items-center" *ngIf="(sectionLayouts && sectionLayouts.length < 1) && (floorPlans && floorPlans.length > 0)">
+        <div class="w-100 text-center">
+          <h6 class="text-muted">NO SHIFT LAYOUTS CREATED</h6>
+          <button class="btn btn-primary px-4" [routerLink]="['/staff/shift-layouts']">+ ADD SHIFT LAYOUT
+          </button>
+        </div>
+      </div>
+
+      <div class="scrollable-content text-center d-flex align-items-center" *ngIf="floorPlans && floorPlans.length < 1">
+        <div class="w-100 text-center">
+          <h6 class="text-muted">YOU HAVE NO FLOOR PLANS CREATED</h6>
+          <button class="btn btn-lg btn-primary px-4" [routerLink]="['/admin/floor-plan/plan-detail', '', 'NEW FLOOR']" *ngIf="currentUser.role == 'ClientAdmin' || currentUser.role == 'JtechAdmin'">+
+            <small>CREATE NEW</small>
+          </button>
+          <p *ngIf="currentUser.role == 'Host'">Please login as Admin or ask Admin to create a new Floor Plan</p>
+        </div>
+      </div>
+
+      <div class="floor-plan-footer text-right" *ngIf="floorPlans && floorPlans.length > 0">
+        <div class="d-inline-flex align-items-center pt-2 mt-1">
+          <span class="mb-1 mr-2 text-uppercase">{{selectedFloorPlan ? selectedFloorPlan.layoutName : ''}}</span>
+          <select-floor-plan-btn class="d-inline-block" [floorPlans]="floorPlans" [selectedPlanID]="selectedFloorPlanId" (selectedPlanIDChange)="updateFloorPlan($event)"></select-floor-plan-btn>
+          <span>
+            <i class="zoom-controls material-icons cursor-pointer notextselect pl-2" [ngClass]="{'enabled' : svgScale < 2}" (click)="zoomPlan(1)">
+              add
+            </i>
+            <i class="zoom-controls material-icons cursor-pointer notextselect " [ngClass]="{'enabled' : svgScale > 1}" (click)="zoomPlan(-1)">
+              remove
+            </i>
+            <i class="zoom-controls material-icons pl-2 cursor-pointer notextselect" [ngClass]="{'enabled' : svgScale > 1}" (click)="fitToView.zoomValue = zoomValue; svgScale = 1">
+              refresh
+            </i>
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

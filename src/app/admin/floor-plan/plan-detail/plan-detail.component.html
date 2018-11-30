@@ -1,0 +1,342 @@
+<section class="createLayoutSection" #createLayoutSection>
+    <div class="createLayoutBackground scrollable-content has-only-navbar" [ngClass]="{'disable-grid-lines': !layout.showGridGuidelinesWhileEditingLayout}">
+        <!-- <div class="bg-image-container" *ngIf="bgImg.src">
+            <img [src]="_DomSanitizer.bypassSecurityTrustUrl(bgImg.src)" />
+        </div> -->
+
+        <div class="plan-outer-container">
+            <ng-template #popTemplate let-message="message">
+                <ul class="table-options" *ngIf="!rotationEnabled">
+                    <li class="cursor-pointer" (click)="itemSettings()">
+                        <i class="material-icons">tune</i>
+                    </li>
+                    <li class="cursor-pointer" click-stop-propagation (click)="rotationEnabled = true">
+                        <i class="material-icons">rotate_right</i>
+                    </li>
+                    <li class="cursor-pointer" (click)="itemDuplicate()">
+                        <i class="material-icons duplicate-icon">filter_none</i>
+                    </li>
+                    <li class="cursor-pointer" (click)="itemDelete(selectedItemID, selectedItemType)">
+                        <i class="material-icons text-danger">delete_outline</i>
+                    </li>
+                </ul>
+                <ul class="table-options rotation" *ngIf="rotationEnabled">
+                    <li class="cursor-pointer" *ngFor="let angle of rotationAngles" (click)="updateItemRotation(angle)">
+                        {{angle}}&#186;
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="zoom-btns-cntr">
+                <button mat-mini-fab color="white" (click)="zoomPlan(1)">
+                    <mat-icon>
+                        add
+                    </mat-icon>
+                </button>
+                {{zoomValue * 100 | number}}%
+                <button mat-mini-fab color="white" (click)="zoomPlan(-1)">
+                    <mat-icon>
+                        remove
+                    </mat-icon>
+                </button>
+            </div>
+            <svg id="svgContainer" #svgContainer width="100%" height="100%" (click)="clearTableSelection($event);" [(newObject)]="newObject"
+                [zoomValue]="zoomValue">
+                <!-- <g id="plan-container" #planContainer [attr.class]="'plan-container'" [zoomableOf]="svgContainer"> -->
+                <g id="plan-container" #planContainer [attr.transform]="'scale(' + zoomValue + ')'">
+                    <g #bgImageContainer>
+                        <svg:image id="bgImg" [attr.width]="980" [attr.height]="590" *ngIf="layout.showBackgroundImageWhileEditingLayout && bgImg.src"
+                            [attr.class]="'svg-bg-image'" [attr.xlink:href]="bgImg.src"></svg:image>
+                    </g>
+                    <g *ngFor="let table of layout.tables">
+                        <g [id]="table.ngID" [attr.class]="'table-'+ table.id" [attr.transform]="'translate(' + table.offsetX + ',' + table.offsetY + ')'"
+                            [draggableNode]="table" [zoomValue]="zoomValue" [tableView]="table" [popover]="popTemplate" [outsideClick]="true"
+                            container="body" containerClass="tableOptionsPopover" [tableError]="table.error" [selectedClass]="table.ngID == selectedItemID ? 'active' : null"
+                            (click)="selectItem(table.ngID, 0, $event.currentTarget); layoutSettingsEnabled = false;" (dblclick)="itemSettings()">
+                        </g>
+                    </g>
+
+                    <g *ngFor="let immovable of layout.immovableStructures">
+                        <g [id]="immovable.ngID" [resizingHandle]="immovable.handle" [attr.transform]="'translate(' + immovable.offsetX + ',' + immovable.offsetY + ')'"
+                            [attr.class]="'immovable-group immovable-'+ immovable.id" [immovableVisual]="immovable" [draggableNode]="immovable"
+                            [zoomValue]="zoomValue" [popover]="popTemplate" [outsideClick]="true" container="body" containerClass="tableOptionsPopover"
+                            [selectedClass]="immovable.ngID == selectedItemID ? 'active' : null" (click)="selectItem(immovable.ngID, 1)"
+                            (dblclick)="itemSettings()">
+                        </g>
+                        <g [resizeHandle]="immovable.handle" [ngClass]="immovable.ngID == selectedItemID ? 'active' : null" [resizableNode]="immovable"
+                            [attr.transform]="'translate(' + immovable.handle.offsetX + ',' + immovable.handle.offsetY + ') rotate(' + immovable.rotation + ' ' + immovable.radius + ' ' + immovable.radius + ')'"
+                            [attr.class]="'immovable-resize-group'">
+                            <rect [attr.x]="0" [attr.y]="0" [attr.class]="activeClass == 'active' ? 'svg-immovable-selector active' : 'svg-immovable-selector'"
+                                [attr.width]="immovable.width" [attr.height]="immovable.height">
+                            </rect>
+                            <g [attr.transform]="'translate(' + immovable.width + ',' + immovable.height + ')'">
+                                <circle [attr.cx]="0" [attr.cy]="0" [attr.r]="10" [attr.class]="activeClass == 'active' ? 'svg-immovable-handle active' : 'svg-immovable-handle'">
+                                </circle>
+                                <text [attr.x]="-5" [attr.y]="5" transform="rotate(90 0 0)">&#xf065;</text>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <div class="createLayoutPane" id="createLayoutPane">
+        <aside *ngIf="!itemSettingsEnabled && !layoutSettingsEnabled">
+            <div class="scrollable-content no-inline-navbar">
+                <div class="layout-settigns-cntr">
+                    <div class="px-4 py-3 d-flex notextselect justify-content-between align-items-center">
+                        <span class="h6 m-0 w-100">
+                            <strong class="font-weight-bold text-uppercase">{{layout.Name}}</strong>
+                            <small class="text-muted d-block w-100">Plan name, Background and more...</small>
+                        </span>
+
+                        <button mat-mini-fab color="white" matTooltip="Edit Floor Plan Settings" [matTooltipPosition]="'before'" (click)="layoutSettingsEnabled = true">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </div>
+                    <hr class="w-100 m-0" />
+                </div>
+                <div class="panelCntr px-4 py-3">
+                    <h6 class="font-weight-normal notextselect">DRAG and DROP objects</h6>
+                    <tabset>
+                        <tab>
+                            <ng-template tabHeading>
+                                <span class="notextselect">TABLES</span>
+                            </ng-template>
+                            <hr class="w-100 mt-0" />
+                            <div class="row my-3" *ngFor="let set of createTableSet">
+                                <div class="col-12 notextselect">
+                                    <h6>{{set.title}}</h6>
+                                </div>
+                                <div class="col-12">
+                                    <ul class="floor-objects">
+                                        <li *ngFor="let table of set.tables">
+                                            <div class="floor-object notextselect" [ngClass]="{'square': set.shape == 1, 'rectangle': set.shape == 2, 'round': set.shape == 3}">
+                                                <!-- <span class="m-0 seats">{{table}}</span> SEATER -->
+                                                <div class="floor-object notextselect drag-copy m-0" [style.left.px]="movingObject == table && movingObjectShape == set.shape ? draggerPositionX : 0"
+                                                    [style.top.px]="movingObject == table && movingObjectShape == set.shape ? draggerPositionY : 0"
+                                                    [ngClass]="{'moving' : movingObject == table && movingObjectShape == set.shape, 'square': set.shape == 1, 'rectangle': set.shape == 2, 'round': set.shape == 3}"
+                                                    ngDraggable [bounds]="createLayoutSection" [inBounds]="createLayoutSection"
+                                                    [preventDefaultEvent]="false" [position]="position" (stopped)="onStop()"
+                                                    (started)="dragTocreateNewTable(set.shape, table, false); onStart(table, set.shape)"
+                                                    (endOffset)="createNewTable($event)">
+                                                    <span class="m-0 seats">{{table}}</span>
+                                                    <span class="text">SEATER</span>
+                                                </div>
+                                                <span class="m-0 seats">{{table}}</span> SEATER
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="row my-3">
+                                <div class="col-12 notextselect">
+                                    <h6>Bar Seat</h6>
+                                </div>
+                                <div class="col-12">
+                                    <ul class="floor-objects">
+                                        <li>
+                                            <div class="floor-object notextselect round">
+                                                <!-- <span class="m-0 seats">{{table}}</span> SEATER -->
+                                                <div class="floor-object notextselect drag-copy m-0 round" [style.left.px]="movingObject == 1 && movingObjectShape == 3 ? draggerPositionX : 0"
+                                                    [style.top.px]="movingObject == 1 && movingObjectShape == 3 ? draggerPositionY : 0"
+                                                    [ngClass]="{'moving' : movingObject == 1 && movingObjectShape == 3}" ngDraggable
+                                                    [bounds]="createLayoutSection" [inBounds]="createLayoutSection" [preventDefaultEvent]="false"
+                                                    [position]="position" (stopped)="onStop()" (started)="dragTocreateNewTable(3, 1, true); onStart(1, 3)"
+                                                    (endOffset)="createNewTable($event)">
+                                                    <span class="m-0 seats">Bar</span>
+                                                    <span class="text">SEATER</span>
+                                                </div>
+                                                <span class="m-0 seats">Bar</span> SEATER
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </tab>
+                        <tab>
+                            <ng-template tabHeading>
+                                <span class="notextselect">SHAPES</span>
+                            </ng-template>
+                            <hr class="w-100 mt-0" />
+                            <div class="row my-4">
+                                <div class="col-12">
+                                </div>
+                                <div class="col-12">
+                                    <ul class="floor-objects">
+                                        <li>
+                                            <div class="floor-object notextselect square shape p-0">
+                                                <div class="floor-object square shape m-0" [style.left.px]="movingObject == 'square' && movingObjectShape == 1 ? draggerPositionX : 0"
+                                                    [style.top.px]="movingObject == 'square' && movingObjectShape == 1 ? draggerPositionY : 0"
+                                                    [ngClass]="{'moving' : movingObject == 'square' && movingObjectShape == 1}"
+                                                    ngDraggable [preventDefaultEvent]="true" [position]="position" (started)="dragTocreateNewTable(1, null, false); onStart('square', 1)"
+                                                    (stopped)="onStop()" (endOffset)="createNewImmovableShape()">
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="floor-object notextselect round shape p-0">
+                                                <div class="floor-object round shape m-0" [style.left.px]="movingObject == 'rounded' && movingObjectShape == 3 ? draggerPositionX : 0"
+                                                    [style.top.px]="movingObject == 'rounded' && movingObjectShape == 3 ? draggerPositionY : 0"
+                                                    [ngClass]="{'moving' : movingObject == 'rounded' && movingObjectShape == 3}"
+                                                    ngDraggable [preventDefaultEvent]="true" [position]="position" (started)="dragTocreateNewTable(3, null, false); onStart('rounded', 3)"
+                                                    (stopped)="onStop()" (endOffset)="createNewImmovableShape()">
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </tab>
+                    </tabset>
+
+                    <div>
+                        <hr class="w-100" />
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h6 m-0 w-100">
+                                <strong class="font-weight-normal text-uppercase">DELETE ALL OBJECTS</strong>
+                                <section class="mt-3">
+                                    <mat-checkbox color="primary" [disabled]="!layout.tables.length" class="mr-3" [(ngModel)]="delAllTables">Tables</mat-checkbox>
+                                    <mat-checkbox color="primary" [disabled]="!layout.immovableStructures.length" [(ngModel)]="delAllShapes">Shapes</mat-checkbox>
+                                </section>
+                                <small class="text-muted d-block w-100">Delete all tables and all shapes</small>
+                            </span>
+
+                            <button mat-mini-fab color="white" [disabled]="!delAllTables && !delAllShapes" (click)="deleteAllObjects(delAllTables, delAllShapes)">
+                                <mat-icon class="text-danger">delete_outline</mat-icon>
+                            </button>
+                        </div>
+                        <hr class="w-100" />
+                    </div>
+                </div>
+            </div>
+            <div class="row m-0">
+                <div class="col-12 px-4">
+                    <button class="btn btn-success" (click)="clickSaveFloorLayout()">
+                        SAVE FLOOR PLAN
+                    </button>
+                    <!-- <p class="mt-1 text-info">
+                        <small>Please Save Floor Plan periodically as you work to ensure no lost data.</small>
+                    </p> -->
+                </div>
+            </div>
+        </aside>
+
+        <aside *ngIf="itemSettingsEnabled">
+            <div class="scrollable-content has-only-navbar">
+                <div class="col-12 p-3">
+                    <i class="close material-icons md-30 cursor-pointer" (click)="itemSettingsEnabled = false; layoutSettingsEnabled = false">
+                        close
+                    </i>
+                </div>
+                <div class="panelCntr p-4">
+                    <h6 class="font-weight-normal" *ngIf="selectedItemType === 0">TABLE SETTINGS</h6>
+                    <h6 class="font-weight-normal" *ngIf="selectedItemType !== 0">SHAPE SETTINGS</h6>
+                    <div class="card p-3">
+                        <p class="text-muted mb-2">
+                            <small *ngIf="selectedItemType === 0">TABLE NAME</small>
+                            <small *ngIf="selectedItemType !== 0">ADD LABEL</small>
+                        </p>
+                        <mat-form-field [ngClass]="{'mat-form-field-invalid' : selectedItem.error}">
+                            <input matInput cdkFocusInitial [maxlength]="maxLength" (ngModelChange)="tableNameChanged($event)" class="h3" [(ngModel)]="selectedItem.name">
+                        </mat-form-field>
+                        <small class="help-block" *ngIf="selectedItem.error">Table name already exists.</small>
+                    </div>
+                    <div class="card p-3" *ngIf="selectedItemType === 0 && !selectedItem.barSeat">
+                        <p class="text-muted">
+                            <small>NUMBER OF CHAIRS</small>
+                        </p>
+                        <number-stepper [(modelValue)]="selectedItem.totalCovers" (modelValueChange)="updateTable()" [minValue]="minChairs" [maxValue]="maxChairs"
+                            [step]="stepValue"></number-stepper>
+                    </div>
+                    <div class="card p-3">
+                        <p class="text-muted">
+                            <small>ROTATION</small>
+                        </p>
+                        <mat-slider color="primary" class="mt-2 cdk-focused cdk-mouse-focused" thumbLabel step="5" min="-90" max="270" [(ngModel)]="selectedItem.rotation"
+                            [(value)]="selectedItem.rotation"></mat-slider>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <aside *ngIf="layoutSettingsEnabled">
+            <div class="scrollable-content no-inline-navbar">
+                <div class="col-12 px-3 pt-3">
+                    <i class="close material-icons md-30 cursor-pointer" (click)="layoutSettingsEnabled = false; itemSettingsEnabled = false;">
+                        close
+                    </i>
+                </div>
+                <div class="panelCntr p-4">
+                    <h6 class="font-weight-normal">EDIT FLOOR PLAN SETTINGS</h6>
+                    <p class="mt-3 mb-0">
+                        <mat-slide-toggle class="toggle-primary mr-1 mb-2" name="isActive" [checked]="layout.isActive" [(ngModel)]="layout.isActive">
+                            <small>Enable Floor Plan (Ready to use)</small>
+                        </mat-slide-toggle>
+                    </p>
+                    <div class="card p-3">
+                        <p class="text-muted mb-2">
+                            <small>FLOOR PLAN NAME</small>
+                        </p>
+                        <mat-form-field>
+                            <input matInput cdkFocusInitial class="text-uppercase" maxlength="32" [(ngModel)]="layout.Name">
+                        </mat-form-field>
+                    </div>
+                    <div class="card d-block w-100 p-3">
+                        <p class="text-muted">
+                            <small>BACKGROUND IMAGE</small>
+                        </p>
+                        <p>{{bgImageName}}
+                            <span *ngIf="!bgImageName">Upload reference Background image</span>
+                        </p>
+
+                        <div class="default-file-btn d-inline-block">
+                            <span class="btn btn-primary pull-left">UPLOAD NEW</span>
+                            <input #file type="file" (change)="upload(file.files)" />
+                        </div>
+
+                        <!-- <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
+                            {{progress}}%
+                        </span> -->
+                        <div class="d-flex more-options-card align-items-center" [ngClass]="uploadInProgress ? 'options-enabled' : ''">
+                            <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+                        </div>
+                    </div>
+                    <div class="card p-3">
+                        <p class="text-muted">
+                            <small>BACKGROUND SETTINGS</small>
+                        </p>
+                        <p>
+                            <mat-slide-toggle class="toggle-primary mr-1 mb-2" name="showBackgroundImageWhileEditingLayout" [checked]="layout.showBackgroundImageWhileEditingLayout"
+                                [(ngModel)]="layout.showBackgroundImageWhileEditingLayout">
+                                <small>Show Background image while editing Floor Plan</small>
+                            </mat-slide-toggle>
+                        </p>
+                        <hr class="w-100 mt-0" />
+                        <p>
+                            <mat-slide-toggle class="toggle-primary mr-1 mb-2" name="showGridGuidelinesWhileEditingLayout" [checked]="layout.showGridGuidelinesWhileEditingLayout"
+                                [(ngModel)]="layout.showGridGuidelinesWhileEditingLayout">
+                                <small>Show grid guidelines while editing Floor Plan</small>
+                            </mat-slide-toggle>
+                        </p>
+                        <!-- <hr class="w-100 mt-0" />
+                        <p>
+                            <mat-slide-toggle class="toggle-primary mr-1 mb-2" name="showBackgroundImageInTableManagement" [checked]="layout.showBackgroundImageInTableManagement"
+                                [(ngModel)]="layout.showBackgroundImageInTableManagement">
+                                <small>Show Background image in Table Management</small>
+                            </mat-slide-toggle>
+                        </p> -->
+
+                    </div>
+                </div>
+            </div>
+            <div class="px-4 pt-2">
+                <button class="btn btn-primary" (click)="layoutSettingsEnabled = false; itemSettingsEnabled = false;">DONE</button>
+            </div>
+        </aside>
+    </div>
+
+</section>

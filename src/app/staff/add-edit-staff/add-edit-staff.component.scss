@@ -1,0 +1,32 @@
+@import "../../../scss/_module-variables.scss";
+
+.display-name {
+  width: 70px;
+  height: 70px;
+  background: $brand-primary;
+  border-radius: 50%;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+}
+.circle {
+  outline: none;
+  border: none;
+  border-radius: 50px;
+  height: 70px;
+  width: 70px;
+}
+:host ::ng-deep {
+  .mat-button-toggle {
+    border: 2px solid $brand-primary;
+    margin-right: 4px;
+    color: $brand-primary;
+    &.mat-button-toggle-checked {
+      background: $brand-primary;
+      color: #fff;
+    }
+  }
+  .mat-button-toggle-group {
+    box-shadow: none;
+  }
+}

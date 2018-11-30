@@ -1,0 +1,42 @@
+$brand-primary: #4c7acf;
+
+//REVISIT THE STYLES
+input {
+  width: 100%;
+}
+input.h3 {
+  font-size: 1.6rem;
+  margin-top: -1.6rem;
+  width: inherit;
+}
+
+.mat-mini-fab:not([class*="mat-elevation-z"]) {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  background: #e2e2e2;
+  color: #000;
+  font-weight: normal;
+  width: 38px;
+  height: 38px;
+}
+
+.mat-mini-fab:not([class*="mat-elevation-z"]):disabled {
+  color: #999;
+  opacity: 0.6;
+}
+
+.mat-mini-fab.bg-primary:not([class*="mat-elevation-z"]) {
+  color: #fff;
+}
+
+body,
+button,
+a,
+span {
+  &:focus {
+    outline: none;
+  }
+}
+button h3 {
+  line-height: 24px;
+}

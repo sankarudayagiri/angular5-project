@@ -1,0 +1,114 @@
+@import "../../scss/_module-variables.scss";
+
+:host ::ng-deep .tab-content {
+  display: none;
+  .tab-pane {
+    padding: 0;
+  }
+}
+
+//Target child component style
+:host ::ng-deep .nav-tabs {
+  margin-left: -15px;
+  .nav-item.active .nav-link {
+    background: transparent;
+    border-color: transparent;
+    border-bottom: $brand-reservation solid 2px;
+    color: $brand-reservation;
+  }
+}
+
+:host ::ng-deep .nav-tabs {
+  .nav-item .nav-link {
+    &:hover {
+      color: $brand-reservation;
+    }
+  }
+}
+
+.text-primary {
+  color: $brand-reservation !important;
+}
+
+.bg-primary {
+  background: $brand-reservation !important;
+}
+
+.btn-primary {
+  background: $brand-reservation !important;
+  border-color: $brand-reservation !important;
+}
+
+.hidden-date-form {
+  margin-bottom: -50px;
+}
+
+.pills {
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      margin-bottom: 3px;
+      a {
+        display: block;
+        padding: 4px 5px 4px 8px;
+        border-radius: 25px;
+        border: #ccc solid 2px;
+        .badge {
+          color: #000;
+          background: rgba(0, 0, 0, 0.1);
+          padding: 6px;
+          border-radius: 20px;
+        }
+        &.active {
+          background: $brand-reservation;
+          border-color: $brand-reservation;
+          color: #fff;
+          .badge {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+$btn-container: 125px;
+.time-slot-container {
+  max-height: calc(
+    100vh - #{$btn-container + $navbar-height + $inline-header-height}
+  );
+  height: calc(
+    100vh - #{$btn-container + $navbar-height + $inline-header-height}
+  );
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
+    margin-left: -10px;
+    -webkit-appearance: none;
+  }
+  // &::-webkit-scrollbar-button {    }
+  &::-webkit-scrollbar-track {
+    background-color: lighten($gray-lighter, 5%);
+  }
+  // &::-webkit-scrollbar-track-piece {    }
+  &::-webkit-scrollbar-thumb {
+    height: 50px;
+    background-color: darken($gray-lighter, 10%);
+    background-clip: content-box;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 1px 2px;
+    border-radius: 10px;
+  }
+  &.no-block-container {
+    max-height: calc(
+      100vh - #{$btn-container + $navbar-height + $inline-header-height - 50}
+    );
+    height: calc(
+      100vh - #{$btn-container + $navbar-height + $inline-header-height - 50}
+    );
+  }
+}

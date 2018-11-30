@@ -1,0 +1,63 @@
+<div class="container-fluid login-page">
+    <div class="row d-flex">
+        <div class="col-sm-7 col-md-8">
+            <div class="left-section">
+                <img src="assets/img/host_concept_logo.png" class="mb-5 ">
+                <small style="position: relative; top: -40px; left: 10px;">v-6.6</small>
+                <h6 class="text-white mb-2 text-uppercase">24 / 7 Customer Support:</h6>
+                <h5 class="text-white my-3">
+                    <i class="icon-phone mr-2"></i>+1 800 321 6221</h5>
+                <h5 class="text-white">
+                    <a class="text-white" href="mailto:wecare@jtech.com">
+                        <i class="fa fa-envelope-o mr-2"></i>wecare@jtech.com</a>
+                </h5>
+            </div>
+        </div>
+        <div class="col-sm-5 col-md-4 login-container p-5 d-flex align-items-center">
+            <div class="w-100">
+                <!-- <h4 *ngIf="sessionExpired" >Your session is Expired.</h4>
+                <p *ngIf="sessionExpired" class="text-muted">Please login again to continue</p> -->
+                <h2 class="my-5 font-weight-bold text-primary">Sign in</h2>
+                <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+                    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                        <mat-form-field class="username" [ngClass]="{'mat-form-field-invalid' : invalidCredentials || matCustomError||invalid||resetPasswordError}">
+                            <input (keyup)="invalid=false;resetPasswordError=false" matInput type="text" autocomplete="off" name="username" placeholder="USERNAME"
+                                [(ngModel)]="model.username" #username="ngModel" [trimSpace] required>
+                        </mat-form-field>
+                        <!-- <mat-custom-error *ngIf="f.submitted && invalidUsername" [field]="'Username'" [(matCustomError)]="matCustomError" [errorData]="errorMessages"></mat-custom-error> -->
+                        <div *ngIf="f.submitted && !username.valid && !invalidCredentials && !resetPasswordError" class="help-block">Username is required</div>
+                        <div *ngIf="resetPasswordError" class="help-block">Username is required</div>
+                    </div>
+
+                    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid}">
+                        <mat-form-field class="password" [ngClass]="{'mat-form-field-invalid' : invalidCredentials || error||invalid}">
+                            <input matInput (keyup)="invalid=false" type="password" autocomplete="off" placeholder="PASSWORD" name="password" [(ngModel)]="model.password"
+                                #password="ngModel" required>
+                        </mat-form-field>
+                        <mat-error>
+                            <div *ngIf="f.submitted && invalid" class="help-block">Incorrect Username or Password</div>
+                        </mat-error>
+                        <!-- <mat-custom-error *ngIf="f.submitted && invalidPassword"  [field]="'Password'" [(matCustomError)]="error" [errorData]="errorMessages"></mat-custom-error> -->
+                        <div *ngIf="f.submitted && !password.valid && !invalidCredentials" class="help-block">Password is required</div>
+                        <div class="help-block" *ngIf="invalidCredentials">Invalid Username or Password</div>
+                    </div>
+                    <div>
+                        <label class="cursor-pointer" (click)="forgotPassword()">Forgot Password?</label>
+                    </div>
+
+                    <div class="form-group p-relative">
+
+                        <button [disabled]="loading" class="btn btn-primary rounded-circle">
+                            <i class="material-icons">arrow_forward</i>
+                        </button>
+                        <div class="spinner mt-3" *ngIf="loading">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

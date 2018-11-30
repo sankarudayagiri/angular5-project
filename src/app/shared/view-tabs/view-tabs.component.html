@@ -1,0 +1,48 @@
+<tabset (click)="getActiveTab()">
+    <tab customClass="{{type}}">
+        <ng-template tabHeading>
+            COMMUNICATION
+        </ng-template>
+        <div class="view-tabs-scrollable scrollbar pr-4" [ngClass]="{'d-flex align-items-center': !guestDetails || (guestDetails && guestDetails.length < 1)}">
+            <h6 *ngIf="!guestDetails || (guestDetails && guestDetails.length < 1)" class="w-100 text-center font-weight-bold">
+                <span class="text-muted">NO SMS HISTORY</span>
+            </h6>
+            <div *ngFor="let guest of guestDetails" class="msgBox mb-2 p-3">
+                <span class="d-block text-right text-muted mb-2">{{guest.createdDate | date : 'MMM d y hh:mm a' : timezone}}</span>
+                {{guest.messageText}}
+            </div>
+        </div>
+    </tab>
+    <tab customClass="{{type}}">
+        <ng-template tabHeading>
+            HISTORY
+        </ng-template>
+        <div class="view-tabs-scrollable scrollbar d-flex pr-3" [ngClass]="{'align-items-center': visitHistory && visitHistory.length < 1}">
+            <h6 *ngIf="visitHistory && visitHistory.length < 1" class="w-100 text-center font-weight-bold">
+                <span class="text-muted">NO VISIT HISTORY</span>
+            </h6>
+            <div class=" p-4">
+                <div class="row mb-2 px-2 py-3 msgBox" *ngFor="let visit of visitHistory">
+                    <div class="col-12 mb-2">
+                        <small>{{visit.seatedTime | date : 'hh:mm a,' : timezone}}</small>
+                        <small class="text-muted text-uppercase"> {{visit.seatedTime | date : 'MMM d y' : timezone}}</small>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="font-weight-500">{{visit.totalCovers}}</h5>
+                        <small class="text-muted">PARTY SIZE</small>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="font-weight-500">{{visit.timeSpent}}
+                            <!-- <small> min</small> -->
+                        </h5>
+                        <small class="text-muted">DURATION</small>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="font-weight-500">{{visit.tableName}}</h5>
+                        <small class="text-muted">TABLE</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </tab>
+</tabset>

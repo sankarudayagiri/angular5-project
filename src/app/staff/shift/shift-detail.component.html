@@ -1,0 +1,118 @@
+<h6 mat-dialog-title class="dialog-header text-center pb-4 mb-0 font-weight-bold">
+    {{data.section.section.name}}
+    <i class="material-icons pull-right close cursor-pointer" (click)="onNoClick()">
+        clear
+    </i>
+</h6>
+<div class="dialog-scrollable-content" [ngClass]="{'no-footer' : !data.shiftNow}">
+    <div class="display-name d-flex align-items-center justify-content-center lg mx-auto my-4" [style.background]="data.section.server.colorCode">
+        <h4 cdkFocusInitial class="m-0 text-uppercase font-weight-bold">
+            {{data.section.server.initials}}
+        </h4>
+
+    </div>
+    <div class="d-flex justify-content-center mt-4 mb-5">
+        <h6 class="font-weight-bold">{{data.section.server.firstName}} {{data.section.server.lastName}}</h6>
+        <i class="material-icons md-18 cursor-pointer ml-2" (click)="viewStaff()">
+            edit
+        </i>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="col-md-3 text-right px-5">
+            <h6 class="font-weight-bold d-inline-flex align-items-center align-middle">
+                <i class="material-icons mr-2">
+                    local_phone
+                </i>{{data.section.server.countryCode}}{{data.section.server.phoneNumber}}</h6>
+        </div>
+        <div class="col-md-3 px-5">
+            <h6 class="font-weight-bold d-inline-flex align-items-center">
+                <i class="material-icons mr-2">
+                    nfc
+                </i>{{data.section.server.pager}}</h6>
+        </div>
+    </div>
+
+
+    <div class="my-5">
+        <small>
+            <p class="text-center text-muted">ASSIGNED TABLES</p>
+        </small>
+        <div class="d-flex justify-content-center">
+            <span class="badge m-1 cursor-pointer" [ngClass]="{'bg-success':checkAvailable(table.tableName)}" *ngFor="let table of data.section.shiftSectionTables">{{table.tableName}}</span>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="col-md-4 text-center border p-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <small>
+                        <p>SERVING NOW</p>
+                    </small>
+                </div>
+                <div class="col-md-6">
+                    <small>
+                        <p>TOTALS</p>
+                    </small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <i class="material-icons">event_seat </i>
+                    <h5 class="text-success font-weight-bold">{{servingData.totalTablesServingNow}}</h5>
+                </div>
+                <div class="col-md-3">
+                    <i class="material-icons">person</i>
+                    <h5 class="text-success font-weight-bold">{{servingData.totalCoversServingNow}}</h5>
+                </div>
+                <div class="col-md-3">
+                    <i class="material-icons">event_seat </i>
+                    <h5 class="font-weight-bold">{{servingData.totalTablesServedToday}}</h5>
+                </div>
+                <div class="col-md-3">
+                    <i class="material-icons">person </i>
+                    <h5 class="font-weight-bold">{{servingData.totalCoversServedToday}}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="my-5">
+        <mat-button-toggle-group class="d-flex justify-content-center" #group="matButtonToggleGroup" (change)="onTypeSelectionChange(group.value)">
+            <mat-button-toggle [checked]="servingData.serverType=='Opener'" class="circle text-center" value="Opener">
+                <i class="material-icons opener-icon">
+                    exit_to_app
+                </i>
+            </mat-button-toggle>
+            <p class="ml-2 mb-0 text-muted font-weight-bold d-flex align-items-center">OPENER</p>
+            <mat-button-toggle [checked]="servingData.serverType=='Closer'" class="circle text-center ml-5" value="Closer">
+                <i class="material-icons">
+                    exit_to_app
+                </i>
+            </mat-button-toggle>
+            <p class="ml-2 mb-0 text-muted font-weight-bold d-flex  align-items-center">CLOSER</p>
+
+            <mat-button-toggle [checked]="servingData.serverType=='Double'" class="circle text-center ml-5" value="Double">
+                <i class="material-icons">
+                    flip
+                </i>
+
+            </mat-button-toggle>
+            <p class="ml-2 mb-0 text-muted  font-weight-bold d-flex align-items-center">DOUBLE</p>
+        </mat-button-toggle-group>
+    </div>
+</div>
+
+
+<div class="text-center dialog-footer" *ngIf="data.shiftNow">
+    <button *ngIf="data.section.section.serverStatus.id == 0" class="btn btn-success" (click)="confirmOn(data.section)">
+        MARK AS ON
+    </button>
+    <button *ngIf="data.section.section.serverStatus.id == 1" class="btn btn-danger" (click)="confirmCut(data.section)">
+        CUT
+    </button>
+    <button *ngIf="data.section.section.serverStatus.id == 1 && data.section.server.pager" (click)="sendMessageToPager(data.section.server.pager, data.section.section.serverID )" class="btn btn-primary">
+        TAP PAGER - {{data.section.server.pager}}
+    </button>
+    
+</div>

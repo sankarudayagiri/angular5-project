@@ -1,0 +1,103 @@
+<div class="setup-layout d-flex align-items-center">
+        <div class="container my-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center">
+                        <div class="row d-flex align-items-center">
+                            <div class="col-md-6">
+                                <img src="assets/img/host_concept_logo.png">
+                            </div>
+                            <div class="col-md-6 pt-2">
+                                <h4 class="text-center font-weight-bold">Setup Screen</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-center font-weight-normal mt-2">Manage your front-of-house operations.
+                        <br />Don't worry, you can go back and update anytime from settings.
+                    </p>
+                </div>
+            </div>
+            <div class="row px-3 mt-4">
+                <div class="col-md-3 d-flex">
+                    <div class="card px-4 py-5 bg-waitlist">
+                        <div class="text-center content">
+                            <!-- <h4 class="material-icons w-100 display-3">nfc</h4> -->
+                            <span class="icon-cntr pager-icon"></span>
+                            <h5 class="font-weight-bold mt-4">PAGER
+                                <br />
+                                <small>SETTINGS</small>
+                            </h5>
+                            <p class="my-4">Page or text guests when their table is ready.</p>
+                            <button class="btn font-weight-bold bg-white text-waitlist" routerLinkActive="active" [routerLink]="['/admin/pagers']" (click)="dialogRef.close()">SET UP</button>
+                        </div>
+                        <span class="bg-icon icon-cntr pager-icon"></span>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex">
+                    <div class="card px-4 py-5 bg-reservation">
+                        <div class="text-center content">
+                            <span class="icon-cntr reservation-icon"></span>
+                            <h5 class="font-weight-bold mt-4"> RESERVATION
+                                <br />
+                                <small>MANAGEMENT</small>
+                            </h5>
+                            <p class="my-4">Add names to the reservation.</p>
+                            <button class="btn font-weight-bold bg-white text-reservation" *ngIf="modules.hasModuleReservations" [routerLink]="['/admin/reservation-rules']" (click)="dialogRef.close()">SET UP</button>
+                            <button class="btn font-weight-bold bg-white text-reservation" [disabled]="true" *ngIf="!modules.hasModuleReservations">NOT SUBSCRIBED</button>
+                        </div>
+                        <span class="bg-icon icon-cntr reservation-icon"></span>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex">
+                    <div class="card px-4 py-5 bg-tables">
+                        <div class="text-center content">
+                            <span class="icon-cntr tables-icon"></span>
+                            <h5 class="font-weight-bold mt-4">TABLE
+                                <br />
+                                <small>MANAGEMENT</small>
+                            </h5>
+                            <p class="my-4">View table layout and check table status.
+                            </p>
+                            <button class="btn font-weight-bold bg-white text-tables" *ngIf="modules.hasModuleTable" [routerLink]="['/admin/floor-plan/plans']" (click)="dialogRef.close()">
+                                SET UP</button>
+                            <button class="btn font-weight-bold bg-white text-tables" [disabled]="true" *ngIf="!modules.hasModuleTable">
+                                NOT SUBSCRIBED</button>
+                        </div>
+                        <span class="bg-icon icon-cntr tables-icon"></span>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex">
+                    <div class="card px-4 py-5 bg-primary">
+                        <div class="text-center content">
+                            <span class="icon-cntr staff-icon"></span>
+                            <h5 class="font-weight-bold mt-4">STAFF
+                                <br />
+                                <small>MANAGEMENT</small>
+                            </h5>
+                            <p class="my-4">Manage staff rotation.
+                            </p>
+                            <button class="btn font-weight-bold text-primary" *ngIf="modules.hasModuleStaff" [routerLink]="['/staff/staff-list']" (click)="dialogRef.close()">
+                                SET UP</button>
+                            <button class="btn font-weight-bold text-primary" [disabled]="true" *ngIf="!modules.hasModuleStaff"> NOT SUBSCRIBED</button>
+    
+                        </div>
+                        <span class="bg-icon icon-cntr staff-icon"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="col-md-12">
+                    <p class="text-center font-weight-bold">
+                        <mat-slide-toggle name="isEvent" class="toggle-primary setup" [(ngModel)]="remindMeSetupScreen.remindMeSetupScreen" (ngModelChange)="setUserPreference()">
+                            <span> Remind me next time for set up</span>
+                        </mat-slide-toggle>
+                    </p>
+                </div>
+            </div>
+    
+            <div class="d-flex justify-content-center col-md-12 my-3">
+                <button class="btn bg-white mr-2 font-weight-bold" (click)="checkModulStatus()">SKIP{{modules.hasModuleTable && modules.hasModuleStaff ? ' TO DASHBOARD' : ''}}</button>
+                <button class="btn bg-white  font-weight-bold" [routerLink]="['/help']" (click)="dialogRef.close()" >NEED HELP?</button>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,168 @@
+<div class="row">
+    <div class="col-md-6 px-5 pt-4 fh-container has-header">
+        <div class="row pl-2">
+            <div class="col-12 mb-5">
+                <i class="icon-user"></i>
+                <h4 class="d-inline-block font-weight-normal">User Preferences</h4>
+                <button type="button" class="btn btn-success pull-right" (click)="saveUserPreferences()">Apply</button>
+            </div>
+
+            <div class="col-12" *ngIf="modules.hasModuleTable">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="font-weight-normal">Floorplan: Top Function Bar</h5>
+                    </div>
+
+                    <div class="col-12 mt-2">
+                        <h6 class="text-muted">Status Bar
+                            <mat-slide-toggle class="toggle-primary pull-right" (change)="toggleStatusBar()" [(ngModel)]="panels.isStatusBarVisible"></mat-slide-toggle>
+                        </h6>
+                        <hr/>
+                    </div>
+
+                    <div class="col-12">
+                        <h6 class="text-muted">Clock
+                            <mat-slide-toggle class="toggle-primary pull-right" (change)="updateStatusBar()" [(ngModel)]="panels.isStatusBarClockVisible"></mat-slide-toggle>
+                        </h6>
+                        <hr/>
+                    </div>
+
+                    <div class="col-12">
+                        <h6 class="text-muted">Wait List
+                            <mat-slide-toggle [disabled]="!modules.hasModuleWaitList" class="toggle-primary pull-right" (change)="updateStatusBar()"
+                                [(ngModel)]="panels.isStatusWaitlistVisible"></mat-slide-toggle>
+                        </h6>
+                        <hr/>
+                    </div>
+
+                    <div class="col-12">
+                        <h6 class="text-muted">Reservation
+                            <mat-slide-toggle [disabled]="!modules.hasModuleReservations" class="toggle-primary pull-right" (change)="updateStatusBar()"
+                                [(ngModel)]="panels.isStatusBarReservationVisible"></mat-slide-toggle>
+                        </h6>
+                        <hr/>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <h5 class="font-weight-normal">Floorplan: Additional Views</h5>
+                    </div>
+
+                    <div class="col-12 mt-2">
+                        <h6 class="text-muted">Wait List
+                            <mat-slide-toggle [disabled]="!modules.hasModuleWaitList" class="toggle-primary pull-right" [(ngModel)]="panels.showWaitlist">
+                            </mat-slide-toggle>
+                        </h6>
+                        <hr/>
+                    </div>
+
+                    <div class="col-12">
+                        <h6 class="text-muted">Reservation
+                            <mat-slide-toggle [disabled]="!modules.hasModuleReservations" class="toggle-primary pull-right" [(ngModel)]="panels.showReservationList">
+                            </mat-slide-toggle>
+                        </h6>
+                        <hr/>
+                    </div>
+
+                    <div class="col-12">
+                        <h6 class="text-muted">Seated List
+                            <mat-slide-toggle class="toggle-primary pull-right" [(ngModel)]="panels.showSeatedList"> </mat-slide-toggle>
+                        </h6>
+                        <hr/>
+                    </div>
+
+                    <div class="col-12">
+                        <h6 class="text-muted">Server Panel
+                            <mat-slide-toggle class="toggle-primary pull-right" [(ngModel)]="panels.showServerPanel"> </mat-slide-toggle>
+                        </h6>
+                        <hr/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <h5 class="font-weight-normal">Theme Setting</h5>
+            </div>
+
+            <div class="col-12">
+                <h6 class="text-muted d-inline-block">Color Palette</h6>
+                <button active type="button" class="color btn btn-secondary pull-right ml-2" (click)="applyTheme('light')"></button>
+                <button type="button" class="colors btn btn-primary pull-right" (click)="applyTheme('dark')"></button>
+                <hr/>
+            </div>
+            <div class="col-12" *ngIf="!showHeader">
+                <h5 class="font-weight-normal">Setup Screen
+                    <button type="button" [disabled]="currentUser.role == 'Host'" class="btn btn-primary pull-right mt-2 ml-2" (click)="goToSetUpScreen()">Go To Setup Screen</button>
+                </h5>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 pt-4 bg-white fh-container" [ngClass]="{'has-header': !showHeader && modules.hasModuleTable}">
+        <div class="" *ngIf="!showHeader && modules.hasModuleTable">
+            <div class="row">
+                <div class="col-md-8">
+                    <i class="material-icons key-icon ml-3">
+                        vpn_key
+                    </i>
+                    <i class="icon-user"></i>
+                    <h4 class="d-inline-block font-weight-normal">Admin Preferences</h4>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-success pull-right mr-3" (click)="saveAdminPreferences()">Apply</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 pt-5 ml-3">
+                    <h4 class="text-black font-weight-normal">Table Turnover</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 p-2 ml-4">
+                    <h6 class="text-muted">Enter the optimal time that a table should turn over by table size; i.e. Table Size 2,
+                        <br>Turn Time 45 min. Table colors will change as turn time approaches.</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 py-3 ml-4">
+                    <h6 class="font-weight-500">
+                        TABLE SIZE </h6>
+                </div>
+                <div class="col-md-3 py-3">
+                    <h6 class="font-weight-500">
+                        TURN TIME
+                    </h6>
+                </div>
+            </div>
+
+            <div class="row" *ngFor="let threshold of thresholds;let index = index; ">
+                <div class="col-sm-3 ml-3 pl-4">
+                    <mat-form-field>
+                        <input matInput maxlength="2" onkeyup="this.value = this.value.replace(/^0/gi, '')" autocomplete="off" [(ngModel)]="threshold.covers"
+                            [numbersOnly] required>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-3 ml-4 ">
+                    <mat-form-field>
+                        <input matInput maxlength="3" onkeyup="this.value = this.value.replace(/^0/gi, '')"  autocomplete="off" [(ngModel)]="threshold.threshold"
+                            (keydown)='validateKey($event)' #thresholdsVar="ngModel" [numbersOnly] required>
+                    </mat-form-field>
+                </div>
+
+                <!-- <div *ngIf="showError">Wait time or l.llllllllllllTable size cannot be 0 or empty 
+                </div> -->
+                <h6 class=" text-muted pt-3">min</h6>
+                <i class="icon-close text-muted p-3" (click)="confirmDelete(index)"></i>
+                <div class="text-danger ml-5" *ngIf="threshold.threshold=='' || threshold.covers==''">Turn Time for Table size cannot be 0 or empty.
+                </div>
+            </div>
+            <div class="text-danger p-2 ml-4" *ngIf='showError'>Turn Time for Table size cannot be 0 or empty.
+            </div>
+            <button type="button" class="btn btn-primary pull-left ml-4" (click)="createNew()">+ ADD</button>
+
+            <br>
+            <br>
+            <hr/>
+        </div>
+    </div>
+</div>

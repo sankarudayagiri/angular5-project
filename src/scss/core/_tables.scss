@@ -1,0 +1,33 @@
+.table-outline {
+  border: 1px solid $table-border-color;
+
+  td {
+    vertical-align: middle;
+  }
+}
+
+.table-align-middle {
+
+  td {
+    vertical-align: middle;
+  }
+}
+
+.table-clear {
+  td {
+    border: 0;
+  }
+}
+
+.table {
+  thead th {
+    vertical-align: bottom;
+    border-bottom: 1px solid $table-border-color;
+  }
+}
+
+
+.table-hover tbody tr:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
