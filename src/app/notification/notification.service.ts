@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../environments/environment";
+//import { environment } from "../../environments/environment";
 
 export class NotificationList {
   date: Date = new Date();
@@ -14,7 +14,7 @@ export class NotificationService {
 
   openNotificationPanel: boolean = false;
 
-  postNotificationList(model) {
-    return this.http.post<any>(environment.API + "/notification/list", model);
-  }
+  // postNotificationList(model) {
+  //   return this.http.post<any>(environment.API + "/notification/list", model);
+  // }
 }

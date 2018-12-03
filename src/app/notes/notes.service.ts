@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../environments/environment";
+//import { environment } from "../../environments/environment";
 
 export class Reminder {
   note: string;
@@ -27,18 +27,18 @@ export class NotesService {
 
   openNotesPanel: boolean = false;
 
-  postNotes(model) {
-    return this.http.post<any>(environment.API + "/Notes/handover/add", model);
-  }
+  // postNotes(model) {
+  //   return this.http.post<any>(environment.API + "/Notes/handover/add", model);
+  // }
 
-  postNotesByDay(model) {
-    return this.http.post<any>(
-      environment.API + "/Notes/handover/listbyday",
-      model
-    );
-  }
+  // postNotesByDay(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Notes/handover/listbyday",
+  //     model
+  //   );
+  // }
 
-  addReminder(model) {
-    return this.http.post<any>(environment.API + "/Notes/reminder", model);
-  }
+  // addReminder(model) {
+  //   return this.http.post<any>(environment.API + "/Notes/reminder", model);
+  // }
 }

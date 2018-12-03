@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../environments/environment";
+//import { environment } from "../../environments/environment";
 import { GuestDetails } from "../_services";
 import { Cacheable, CacheBuster } from "ngx-cacheable";
 import { Subject } from "rxjs";
@@ -87,102 +87,102 @@ export class TableService {
     return this.floorPlans;
   }
 
-  seatParty(model) {
-    return this.http.post<any>(
-      environment.API + "/Floor/table/seatParty",
-      model
-    );
-  }
+  // seatParty(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Floor/table/seatParty",
+  //     model
+  //   );
+  // }
 
-  getTableDetails(tableid: string, clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/floor/table/" + tableid + "/" + clientid
-    );
-  }
+  // getTableDetails(tableid: string, clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/floor/table/" + tableid + "/" + clientid
+  //   );
+  // }
 
-  //block table
-  blockTable(model) {
-    return this.http.post<any>(environment.API + "/Floor/table/block", model);
-  }
+  // //block table
+  // blockTable(model) {
+  //   return this.http.post<any>(environment.API + "/Floor/table/block", model);
+  // }
 
-  //hold table
-  holdTable(model) {
-    return this.http.post<any>(environment.API + "/Floor/table/hold", model);
-  }
+  // //hold table
+  // holdTable(model) {
+  //   return this.http.post<any>(environment.API + "/Floor/table/hold", model);
+  // }
 
-  //release table
-  releaseTable(model) {
-    return this.http.post<any>(environment.API + "/Floor/table/release", model);
-  }
-
-
-  assignServer(model) {
-    return this.http.post<any>(
-      environment.API + "/Floor/table/assignserver",
-      model
-    );
-  }
-
-  quickSeatParty(model) {
-    return this.http.post<any>(
-      environment.API + "/Floor/table/quickSeatParty",
-      model
-    );
-  }
-
-  //send message
-  tableDetailTextMessage(model) {
-    return this.http.post<any>(
-      environment.API + "/textmessage/sendTableDetailTextMessage",
-      model
-    );
-  }
-
-  updateParty(model) {
-    return this.http.post<any>(environment.API + "/Floor/table/update", model);
-  }
+  // //release table
+  // releaseTable(model) {
+  //   return this.http.post<any>(environment.API + "/Floor/table/release", model);
+  // }
 
 
-  tablesMerge(model) {
-    return this.http.post<any>(environment.API + "/Floor/table/merge", model);
-  }
+  // assignServer(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Floor/table/assignserver",
+  //     model
+  //   );
+  // }
 
-  tablesUnlink(model) {
-    return this.http.post<any>(environment.API + "/Floor/table/unmerge", model);
-  }
+  // quickSeatParty(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Floor/table/quickSeatParty",
+  //     model
+  //   );
+  // }
+
+  // //send message
+  // tableDetailTextMessage(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/textmessage/sendTableDetailTextMessage",
+  //     model
+  //   );
+  // }
+
+  // updateParty(model) {
+  //   return this.http.post<any>(environment.API + "/Floor/table/update", model);
+  // }
 
 
-  tablesUndoSeating(tableid: string, clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/Floor/undoSeating/" + tableid + "/" + clientid
-    );
-  }
+  // tablesMerge(model) {
+  //   return this.http.post<any>(environment.API + "/Floor/table/merge", model);
+  // }
 
-  getSeatedGuest(layoutid: string, clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/Floor/seatedguest/" + layoutid + "/" + clientid
-    );
-  }
+  // tablesUnlink(model) {
+  //   return this.http.post<any>(environment.API + "/Floor/table/unmerge", model);
+  // }
 
-  currentOccupancies(layoutid: string, clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/dashboard/Occupancy/" + layoutid + "/" + clientid
-    );
-  }
 
-  tableRotation(layoutid: string, clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/dashboard/rotation/" + layoutid + "/" + clientid
-    );
-  }
+  // tablesUndoSeating(tableid: string, clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Floor/undoSeating/" + tableid + "/" + clientid
+  //   );
+  // }
 
-  getAvailableTables(layoutid: string, clientid: string) {
-    return this.http.get<any>(
-      environment.API +
-        "/dashboard/availabletables/" +
-        layoutid +
-        "/" +
-        clientid
-    );
-  }
+  // getSeatedGuest(layoutid: string, clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Floor/seatedguest/" + layoutid + "/" + clientid
+  //   );
+  // }
+
+  // currentOccupancies(layoutid: string, clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/dashboard/Occupancy/" + layoutid + "/" + clientid
+  //   );
+  // }
+
+  // tableRotation(layoutid: string, clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/dashboard/rotation/" + layoutid + "/" + clientid
+  //   );
+  // }
+
+  // getAvailableTables(layoutid: string, clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API +
+  //       "/dashboard/availabletables/" +
+  //       layoutid +
+  //       "/" +
+  //       clientid
+  //   );
+  // }
 }

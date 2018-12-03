@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "./../../environments/environment";
+//import { environment } from "./../../environments/environment";
 import { Cacheable } from "ngx-cacheable";
 
 export class RemindMeSetupScreen {
@@ -34,25 +34,25 @@ export class SettingsService {
 
   constructor(private http: HttpClient) {}
 
-  saveUserPreference(model: any) {
-    return this.http.post<any>(
-      environment.API + "/Settings/Preferences",
-      model
-    );
-  }
+  // saveUserPreference(model: any) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Settings/Preferences",
+  //     model
+  //   );
+  // }
 
 
-  @Cacheable()
-  getAdminPreference(clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/Settings/AdminPreferences/" + clientid
-    );
-  }
+  // @Cacheable()
+  // getAdminPreference(clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Settings/AdminPreferences/" + clientid
+  //   );
+  // }
 
-  saveAdminPreference(model: any) {
-    return this.http.post<any>(
-      environment.API + "/Settings/AdminPreferences",
-      model
-    );
-  }
+  // saveAdminPreference(model: any) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Settings/AdminPreferences",
+  //     model
+  //   );
+  // }
 }

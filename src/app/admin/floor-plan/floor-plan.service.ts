@@ -2,7 +2,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
-import { environment } from "../../../environments/environment";
+//import { environment } from "../../../environments/environment";
 import { SafeUrl } from "@angular/platform-browser";
 import { Cacheable } from "ngx-cacheable";
 
@@ -92,31 +92,31 @@ export class FloorPlanService {
   constructor(private http: HttpClient) {}
 
   //@Cacheable()
-  getLayoutLists(clientID: string) {
-    return this.http.get<any>(
-      environment.API + "/floor/admin/layout/list/" + clientID
-    );
-  }
+  // getLayoutLists(clientID: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/floor/admin/layout/list/" + clientID
+  //   );
+  // }
 
-  deleteLayout(id: string) {
-    return this.http.delete<any>(
-      environment.API + "/floor/layout/admin/delete/" + id
-    );
-  }
+  // deleteLayout(id: string) {
+  //   return this.http.delete<any>(
+  //     environment.API + "/floor/layout/admin/delete/" + id
+  //   );
+  // }
 
   //@Cacheable()
-  getLayout(id: string, clientID: string) {
-    return this.http.get<any>(
-      environment.API + "/floor/layout/" + id + "/" + clientID
-    );
-  }
+  // getLayout(id: string, clientID: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/floor/layout/" + id + "/" + clientID
+  //   );
+  // }
 
-  saveFloorLayout(layout: any) {
-    return this.http.post<any>(
-      environment.API + "/floor/layout/admin/save",
-      layout
-    );
-  }
+  // saveFloorLayout(layout: any) {
+  //   return this.http.post<any>(
+  //     environment.API + "/floor/layout/admin/save",
+  //     layout
+  //   );
+  // }
 
   // uploadBgImage(model) {
   //   return this.http
@@ -124,12 +124,12 @@ export class FloorPlanService {
   // }
 
   @Cacheable()
-  downloadBgImage(model): Observable<Blob> {
-    return this.http.post<any>(
-      environment.API + "/floor/DownloadFileAsByteArray",
-      model
-    );
-  }
+  // downloadBgImage(model): Observable<Blob> {
+  //   return this.http.post<any>(
+  //     environment.API + "/floor/DownloadFileAsByteArray",
+  //     model
+  //   );
+  // }
 
   getTableSet() {
     return TABLESET;

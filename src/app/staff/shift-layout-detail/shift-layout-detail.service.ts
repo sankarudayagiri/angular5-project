@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
 import * as _ from "underscore";
-import { environment } from "../../../environments/environment";
+//import { environment } from "../../../environments/environment";
 
 export class saveSectionsModel {
   shiftLayoutID: string;
@@ -68,11 +68,11 @@ export class ShiftLayoutDetailService {
 
   constructor(private http: HttpClient) {}
 
-  getShiftLayout(id: string, clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/Shift/layout/" + id + "/" + clientid
-    );
-  }
+  // getShiftLayout(id: string, clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Shift/layout/" + id + "/" + clientid
+  //   );
+  // }
 
   getShiftLayoutSections(data) {
     _.each(data, function(i) {
@@ -91,12 +91,12 @@ export class ShiftLayoutDetailService {
     return data;
   }
 
-  saveShiftLayoutWithSections(model) {
-    return this.http.post<any>(
-      environment.API + "/Shift/layout/savesections",
-      model
-    );
-  }
+  // saveShiftLayoutWithSections(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Shift/layout/savesections",
+  //     model
+  //   );
+  // }
 
   // SECTION COLORS
   getSectionColors() {

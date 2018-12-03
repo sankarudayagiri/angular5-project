@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../../environments/environment";
+//import { environment } from "../../../environments/environment";
 
 export class PagersData {
   clientID: string = "";
@@ -21,16 +21,16 @@ export class PagersData {
 export class PagerService {
   constructor(private http: HttpClient) {}
 
-  getPagerData(clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/Settings/admin/pagersettings/" + clientid
-    );
-  }
+  // getPagerData(clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Settings/admin/pagersettings/" + clientid
+  //   );
+  // }
 
-  savePagerData(model) {
-    return this.http.post<any>(
-      environment.API + "/Settings/admin/pagersettings/save",
-      model
-    );
-  }
+  // savePagerData(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Settings/admin/pagersettings/save",
+  //     model
+  //   );
+  // }
 }

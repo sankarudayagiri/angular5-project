@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../environments/environment";
+//import { environment } from "../../environments/environment";
 import { SessionService } from "./session.service";
 import { DatePipe } from "@angular/common";
 
@@ -113,9 +113,9 @@ export class TimeZoneService {
     return this.datePipe.transform(d, "MMM d, y, h:mm:ss a");
   }
 
-  getClientTimeZone(clientId: string) {
-    return this.http.get<any>(
-      environment.API + "/client/getClientTimeZoneOffset/" + clientId
-    );
-  }
+  // getClientTimeZone(clientId: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/client/getClientTimeZoneOffset/" + clientId
+  //   );
+  // }
 }

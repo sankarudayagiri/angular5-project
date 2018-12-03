@@ -27,27 +27,27 @@ export class GuestService {
   constructor(private http: HttpClient) {}
 
   //Service to get guest details
-  getGuestNumber(num : number, clientid : string, countrycode : number) {
-    return this.http.get<any>(environment.API + "/Guest/getGuest/" + num + "/" + clientid + "/" + countrycode);
-  }
+  // getGuestNumber(num : number, clientid : string, countrycode : number) {
+  //   return this.http.get<any>(environment.API + "/Guest/getGuest/" + num + "/" + clientid + "/" + countrycode);
+  // }
 
-  // service to pre-defined notes
-  getNotes(clientid: string) {
-    return this.http
-      .post<any>(environment.API + "/Notes/Party/list/" + clientid, null)
-      .map(list => {
-        _.each(list, function(i) {
-          i.selected = false;
-        });
-        this.notes = list;
-        return list;
-      });
-  }
+  // // service to pre-defined notes
+  // getNotes(clientid: string) {
+  //   return this.http
+  //     .post<any>(environment.API + "/Notes/Party/list/" + clientid, null)
+  //     .map(list => {
+  //       _.each(list, function(i) {
+  //         i.selected = false;
+  //       });
+  //       this.notes = list;
+  //       return list;
+  //     });
+  // }
 
-  getPreDefinedNotes() {
-    _.each(this.notes, function(i) {
-      i.selected = false;
-    });
-    return this.notes;
-  }
+  // getPreDefinedNotes() {
+  //   _.each(this.notes, function(i) {
+  //     i.selected = false;
+  //   });
+  //   return this.notes;
+  // }
 }

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
 import { Cacheable, CacheBuster } from "ngx-cacheable";
-import { environment } from "../../../environments/environment";
+//import { environment } from "../../../environments/environment";
 import { Subject } from "rxjs";
 
 export class GeneralSettingsData {
@@ -43,31 +43,31 @@ export class GeneralSettingsService {
   // @Cacheable({
   //   cacheBusterObserver: cacheBuster$
   // })
-  getGeneralSettingsData(clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/Settings/admin/generalsettings/" + clientid
-    );
-  }
+  // getGeneralSettingsData(clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Settings/admin/generalsettings/" + clientid
+  //   );
+  // }
 
-  // @CacheBuster({
-  //   cacheBusterNotifier: cacheBuster$
-  // })
-  saveGeneralSettingsData(model) {
-    return this.http.post<any>(
-      environment.API + "/Settings/admin/generalsettings/save",
-      model
-    );
-  }
+  // // @CacheBuster({
+  // //   cacheBusterNotifier: cacheBuster$
+  // // })
+  // saveGeneralSettingsData(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Settings/admin/generalsettings/save",
+  //     model
+  //   );
+  // }
 
-  @Cacheable()
-  getStates(countrycode) {
-    return this.http.get<any>(
-      environment.API + "/Guest/statesByCountry/" + countrycode
-    );
-  }
+  // @Cacheable()
+  // getStates(countrycode) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Guest/statesByCountry/" + countrycode
+  //   );
+  // }
 
-  @Cacheable()
-  getTimeZones() {
-    return this.http.get<any>(environment.API + "/client/getTimeZoneList");
-  }
+  // @Cacheable()
+  // getTimeZones() {
+  //   return this.http.get<any>(environment.API + "/client/getTimeZoneList");
+  // }
 }

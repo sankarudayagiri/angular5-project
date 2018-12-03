@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../../environments/environment";
+//import { environment } from "../../../environments/environment";
 
 export class clientData {
   multiUnitClientID: string;
@@ -20,23 +20,23 @@ export class clientUnderMultiAdmin{
 @Injectable()
 export class MultiUnitUserService {
   constructor(private http: HttpClient) { }
-    getMultiUnitUsersLists() {
-    return this.http
-      .get<any>(environment.API + "/multiunitclients/getAllMultiUnitClients")
+  //   getMultiUnitUsersLists() {
+  //   return this.http
+  //     .get<any>(environment.API + "/multiunitclients/getAllMultiUnitClients")
       
-  }
-  getClients(clientID) {
-    return this.http
-      .get<any>(environment.API + "/multiunitclients/addclients" + clientID)
+  // }
+  // getClients(clientID) {
+  //   return this.http
+  //     .get<any>(environment.API + "/multiunitclients/addclients" + clientID)
      
-  }
-  addClients(model) {
-    return this.http
-      .post<any>(environment.API + "/multiunitclients/addclients",model)
+  // }
+  // addClients(model) {
+  //   return this.http
+  //     .post<any>(environment.API + "/multiunitclients/addclients",model)
       
-  }
-  getAllMultiUnitUsers() {
-    return this.http
-      .get<any>(environment.API + "/user/admin/listmultiunitadminusers")
-  }
+  // }
+  // getAllMultiUnitUsers() {
+  //   return this.http
+  //     .get<any>(environment.API + "/user/admin/listmultiunitadminusers")
+  // }
 }

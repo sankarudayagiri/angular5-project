@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../../environments/environment";
+//import { environment } from "../../../environments/environment";
 
 export class CustomizationData {
   clientID: string;
@@ -31,16 +31,16 @@ export class notesList {
 export class CustomizationService {
   constructor(private http: HttpClient) {}
 
-  getCustomizationData(clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/Settings/admin/customization/" + clientid
-    );
-  }
+  // getCustomizationData(clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Settings/admin/customization/" + clientid
+  //   );
+  // }
 
-  saveCustomizationData(model) {
-    return this.http.post<any>(
-      environment.API + "/Settings/admin/customization/save",
-      model
-    );
-  }
+  // saveCustomizationData(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Settings/admin/customization/save",
+  //     model
+  //   );
+  // }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../../../environments/environment";
+//import { environment } from "../../../../environments/environment";
 
 export class SaveFeedback {
   guestID: string;
@@ -19,13 +19,13 @@ export class SaveFeedback {
 export class FeedbackService {
   constructor(private http: HttpClient) {}
 
-  getGuestFeedback(clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/Guest/getguestfeedback/" + clientid
-    );
-  }
+  // getGuestFeedback(clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Guest/getguestfeedback/" + clientid
+  //   );
+  // }
 
-  saveFeedback(model) {
-    return this.http.post<any>(environment.API + "/Guest/savefeedback", model);
-  }
+  // saveFeedback(model) {
+  //   return this.http.post<any>(environment.API + "/Guest/savefeedback", model);
+  // }
 }

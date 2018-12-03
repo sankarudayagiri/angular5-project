@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../../environments/environment";
+//import { environment } from "../../../environments/environment";
 import { Cacheable, CacheBuster } from "ngx-cacheable";
 import { Subject } from "rxjs";
 
@@ -47,39 +47,39 @@ export class StaffListService {
   @Cacheable({
     cacheBusterObserver: cacheBuster$
   })
-  getStaffList(model) {
-    return this.http.post<any>(
-      environment.API + "/Shift/layout/stafflist",
-      model
-    );
-  }
+  // getStaffList(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Shift/layout/stafflist",
+  //     model
+  //   );
+  // }
 
-  @CacheBuster({
-    cacheBusterNotifier: cacheBuster$
-  })
-  createStaff(model) {
-    return this.http.post<any>(
-      environment.API + "/Server/admin/createUpdate",
-      model
-    );
-  }
+  // @CacheBuster({
+  //   cacheBusterNotifier: cacheBuster$
+  // })
+  // createStaff(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Server/admin/createUpdate",
+  //     model
+  //   );
+  // }
 
-  @CacheBuster({
-    cacheBusterNotifier: cacheBuster$
-  })
-  updateStaff(model) {
-    return this.http.post<any>(
-      environment.API + "/Server/admin/updateServer",
-      model
-    );
-  }
+  // @CacheBuster({
+  //   cacheBusterNotifier: cacheBuster$
+  // })
+  // updateStaff(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Server/admin/updateServer",
+  //     model
+  //   );
+  // }
 
-  @CacheBuster({
-    cacheBusterNotifier: cacheBuster$
-  })
-  deleteStaff(id: string) {
-    return this.http.delete<any>(
-      environment.API + "/Server/admin/delete/" + id
-    );
-  }
+  // @CacheBuster({
+  //   cacheBusterNotifier: cacheBuster$
+  // })
+  // deleteStaff(id: string) {
+  //   return this.http.delete<any>(
+  //     environment.API + "/Server/admin/delete/" + id
+  //   );
+  // }
 }

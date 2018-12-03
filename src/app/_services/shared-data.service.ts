@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../environments/environment";
+//import { environment } from "../../environments/environment";
 import { SessionService } from "./session.service";
 import { Subject } from "rxjs/Subject";
 import { DatePipe } from "@angular/common";
@@ -24,50 +24,50 @@ export class SharedDataService {
   updateBadgerCount$ = this.updateBadgerCount.asObservable();
   constructor(private http: HttpClient, private session: SessionService) {}
 
-  @Cacheable()
-  getSectionLayoutsList(layoutId: string, clientId: string) {
-    return this.http.get<any>(
-      environment.API + "/Shift/layout/list/" + layoutId + "/" + clientId
-    );
-  }
+  // @Cacheable()
+  // getSectionLayoutsList(layoutId: string, clientId: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Shift/layout/list/" + layoutId + "/" + clientId
+  //   );
+  // }
 
-  @Cacheable()
-  getSectionLayoutsListWithOnlySections(layoutId: string, clientId: string) {
-    return this.http.get<any>(
-      environment.API +
-        "/Shift/layout/listWithSection/" +
-        layoutId +
-        "/" +
-        clientId
-    );
-  }
+  // @Cacheable()
+  // getSectionLayoutsListWithOnlySections(layoutId: string, clientId: string) {
+  //   return this.http.get<any>(
+  //     environment.API +
+  //       "/Shift/layout/listWithSection/" +
+  //       layoutId +
+  //       "/" +
+  //       clientId
+  //   );
+  // }
 
-  // get logged in user details
-  getClientID() {
-    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    return sessionStorage.clientID
-      ? sessionStorage.clientID
-      : currentUser.role != "JtechAdmin" ? currentUser.clientID : null;
-  }
+  // // get logged in user details
+  // getClientID() {
+  //   let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  //   return sessionStorage.clientID
+  //     ? sessionStorage.clientID
+  //     : currentUser.role != "JtechAdmin" ? currentUser.clientID : null;
+  // }
 
-  resetShifts(layoutId: string, clientId: string) {
-    return this.http.post<any>(
-      environment.API + "/DailySetup/layout/resetshifts",
-      {
-        layoutID: layoutId,
-        clientID: clientId
-      }
-    );
-  }
+  // resetShifts(layoutId: string, clientId: string) {
+  //   return this.http.post<any>(
+  //     environment.API + "/DailySetup/layout/resetshifts",
+  //     {
+  //       layoutID: layoutId,
+  //       clientID: clientId
+  //     }
+  //   );
+  // }
 
-  resetTables(layoutId: string, clientId: string) {
-    return this.http.post<any>(
-      environment.API + "/DailySetup/layout/resetalltable",
-      {
-        clientID: clientId
-      }
-    );
-  }
+  // resetTables(layoutId: string, clientId: string) {
+  //   return this.http.post<any>(
+  //     environment.API + "/DailySetup/layout/resetalltable",
+  //     {
+  //       clientID: clientId
+  //     }
+  //   );
+  // }
 
   // current floor plan
   storeCurrentFloorPlan(floor: any) {
@@ -156,67 +156,67 @@ export class SharedDataService {
     localStorage.removeItem("currentFloorPlan");
   }
 
-  seatReservationParty(model: any) {
-    return this.http.post<any>(
-      environment.API + "/Reservation/seatParty",
-      model
-    );
-  }
+  // seatReservationParty(model: any) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Reservation/seatParty",
+  //     model
+  //   );
+  // }
 
-  seatWaitListParty(model: any) {
-    return this.http.post<any>(
-      environment.API + "/WaitListData/seatParty",
-      model
-    );
-  }
+  // seatWaitListParty(model: any) {
+  //   return this.http.post<any>(
+  //     environment.API + "/WaitListData/seatParty",
+  //     model
+  //   );
+  // }
 
-  //suggest table
-  sugestTable(model: any) {
-    return this.http.post<any>(
-      environment.API + "/WaitListData/suggestTable",
-      model
-    );
-  }
+  // //suggest table
+  // sugestTable(model: any) {
+  //   return this.http.post<any>(
+  //     environment.API + "/WaitListData/suggestTable",
+  //     model
+  //   );
+  // }
 
-  moveSeatedParty(model: any) {
-    return this.http.post<any>(
-      environment.API + "/Floor/table/moveparty",
-      model
-    );
-  }
+  // moveSeatedParty(model: any) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Floor/table/moveparty",
+  //     model
+  //   );
+  // }
 
-  saveUserPreference(model: any) {
-    return this.http.post<any>(
-      environment.API + "/Settings/Preferences",
-      model
-    );
-  }
+  // saveUserPreference(model: any) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Settings/Preferences",
+  //     model
+  //   );
+  // }
 
-  badger(model) {
-    return this.http.post<any>(environment.API + "/badger/counts", model);
-  }
+  // badger(model) {
+  //   return this.http.post<any>(environment.API + "/badger/counts", model);
+  // }
 
-  getActiveNoteReminders(clientId: string) {
-    return this.http.get<any>(
-      environment.API + "/Notes/getActiveNoteReminders/" + clientId
-    );
-  }
+  // getActiveNoteReminders(clientId: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Notes/getActiveNoteReminders/" + clientId
+  //   );
+  // }
 
-  updateNotesStatus(noteId) {
-    return this.http.get<any>(
-      environment.API + "/Notes/updateStatus/" + noteId
-    );
-  }
+  // updateNotesStatus(noteId) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Notes/updateStatus/" + noteId
+  //   );
+  // }
 
-  showSideBar(header: boolean) {
-    this.showSidebar.next(header);
-  }
-  updateBadger(update: boolean) {
-    this.updateBadgerCount.next(update);
-  }
-  getTableDetails(tableID:string,clientID:string){
-    return this.http.get<any>(
-      environment.API + "/Floor/table/" + tableID +"/"+ clientID
-    );
-  }
+  // showSideBar(header: boolean) {
+  //   this.showSidebar.next(header);
+  // }
+  // updateBadger(update: boolean) {
+  //   this.updateBadgerCount.next(update);
+  // }
+  // getTableDetails(tableID:string,clientID:string){
+  //   return this.http.get<any>(
+  //     environment.API + "/Floor/table/" + tableID +"/"+ clientID
+  //   );
+  // }
 }

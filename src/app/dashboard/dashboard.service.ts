@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../environments/environment";
+//import { environment } from "../../environments/environment";
 import { Cacheable } from "ngx-cacheable";
 
 export class Occupancy {
@@ -32,17 +32,17 @@ export class ReservationData {
 export class DashBoardService {
   constructor(private http: HttpClient) { }
 
-  totalReservationCount(model) {
-    return this.http.post<any>(
-      environment.API + "/dashboard/totalReservationCount",
-      model
-    );
-  }
+  // totalReservationCount(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/dashboard/totalReservationCount",
+  //     model
+  //   );
+  // }
 
-  reservation(model) {
-    return this.http.post<any>(
-      environment.API + "/dashboard/reservation",
-      model
-    );
-  }
+  // reservation(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/dashboard/reservation",
+  //     model
+  //   );
+  // }
 }

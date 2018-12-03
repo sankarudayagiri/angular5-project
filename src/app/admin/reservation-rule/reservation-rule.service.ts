@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../../environments/environment";
+//import { environment } from "../../../environments/environment";
 import { Cacheable } from "ngx-cacheable";
 
 export class Rule {
@@ -40,19 +40,19 @@ export class ReservationRuleService {
   constructor(private http: HttpClient) {}
 
   //@Cacheable()
-  getReservationLists(clientid: string, clearcache : boolean) {
-    return this.http.get<any>(
-      environment.API + "/ReservationRule/admin/list/" + clientid
-    );
-  }
+  // getReservationLists(clientid: string, clearcache : boolean) {
+  //   return this.http.get<any>(
+  //     environment.API + "/ReservationRule/admin/list/" + clientid
+  //   );
+  // }
 
-  saveReservationRule(model, clientID) {
-    return this.http.post<any>(
-      environment.API + "/ReservationRule/admin/save",
-      {
-        reservationRules: model,
-        clientID: clientID
-      }
-    );
-  }
+  // saveReservationRule(model, clientID) {
+  //   return this.http.post<any>(
+  //     environment.API + "/ReservationRule/admin/save",
+  //     {
+  //       reservationRules: model,
+  //       clientID: clientID
+  //     }
+  //   );
+  // }
 }

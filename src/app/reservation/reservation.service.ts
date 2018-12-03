@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
 import { stringTimeToDatePipe } from "../_pipes";
-import { environment } from "../../environments/environment";
+//import { environment } from "../../environments/environment";
 import { GuestDetails, SharedDataService, TimeZoneService } from "../_services";
 import { Cacheable } from "ngx-cacheable";
 
@@ -84,22 +84,22 @@ export class ReservationService {
     public tzone : TimeZoneService
   ) {}
 
-  getReservationList(model) {
-    return this.http.post<any>(environment.API + "/Reservation/list", model);
-  }
+  // getReservationList(model) {
+  //   return this.http.post<any>(environment.API + "/Reservation/list", model);
+  // }
 
   //@Cacheable()
-  getReservationSlots(model) {
-    return this.http.post<any>(
-      environment.API + "/ReservationRule/availableReservationSlots",
-      model
-    );
-  }
+  // getReservationSlots(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/ReservationRule/availableReservationSlots",
+  //     model
+  //   );
+  // }
 
   //service to add data to reservation
-  addReservationData(model) {
-    return this.http.post<any>(environment.API + "/Reservation/add", model);
-  }
+  // addReservationData(model) {
+  //   return this.http.post<any>(environment.API + "/Reservation/add", model);
+  // }
 
   // create timeSlots
   createTimeSlots(ft, tt, meriden, date) {
@@ -135,81 +135,81 @@ export class ReservationService {
   }
 
   //move to waitlist
-  addToWaitlist(model) {
-    return this.http.post<any>(
-      environment.API + "/Reservation/moveToWaitList",
-      model
-    );
-  }
+  // addToWaitlist(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Reservation/moveToWaitList",
+  //     model
+  //   );
+  // }
 
   //move to history
-  movePartyToHistory(reservationId: string, clientId: string) {
-    return this.http.post<any>(environment.API + "/Reservation/moveToHistory", {
-      ID: reservationId,
-      ClientID: clientId
-    });
-  }
+  // movePartyToHistory(reservationId: string, clientId: string) {
+  //   return this.http.post<any>(environment.API + "/Reservation/moveToHistory", {
+  //     ID: reservationId,
+  //     ClientID: clientId
+  //   });
+  // }
 
-  //no show
-  noshow(reservationId: string, clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/Reservation/noshow/" + reservationId + "/" + clientid
-    );
-  }
+  // //no show
+  // noshow(reservationId: string, clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Reservation/noshow/" + reservationId + "/" + clientid
+  //   );
+  // }
 
-  //undo no show
-  undoNoshow(reservationhistoryid: string, clientid: string) {
-    return this.http.get<any>(
-      environment.API +
-        "/Reservation/undonoshow/" +
-        reservationhistoryid +
-        "/" +
-        clientid
-    );
-  }
+  // //undo no show
+  // undoNoshow(reservationhistoryid: string, clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API +
+  //       "/Reservation/undonoshow/" +
+  //       reservationhistoryid +
+  //       "/" +
+  //       clientid
+  //   );
+  // }
 
-  //delete reservation
-  deleteReservation(reservationid: string, clientid: string) {
-    return this.http.delete<any>(
-      environment.API + "/Reservation/delete/" + reservationid + "/" + clientid
-    );
-  }
+  // //delete reservation
+  // deleteReservation(reservationid: string, clientid: string) {
+  //   return this.http.delete<any>(
+  //     environment.API + "/Reservation/delete/" + reservationid + "/" + clientid
+  //   );
+  // }
 
-  //reservation history
-  postReservationHistory(model) {
-    return this.http.post<any>(environment.API + "/Reservation/history", model);
-  }
+  // //reservation history
+  // postReservationHistory(model) {
+  //   return this.http.post<any>(environment.API + "/Reservation/history", model);
+  // }
 
-  editReservaion(model) {
-    return this.http.post<any>(environment.API + "/Reservation/edit", model);
-  }
+  // editReservaion(model) {
+  //   return this.http.post<any>(environment.API + "/Reservation/edit", model);
+  // }
 
-  stopReservationForToday(model) {
-    return this.http.post<any>(
-      environment.API + "/Reservation/admin/blockReservation",
-      model
-    );
-  }
+  // stopReservationForToday(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Reservation/admin/blockReservation",
+  //     model
+  //   );
+  // }
 
-  //@Cacheable()
-  getBlockedReservationsStatus(model) {
-    return this.http.post<any>(
-      environment.API + "/Reservation/admin/getBlockedReservationStatus",
-      model
-    );
-  }
+  // //@Cacheable()
+  // getBlockedReservationsStatus(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Reservation/admin/getBlockedReservationStatus",
+  //     model
+  //   );
+  // }
 
-  unblockReservation(model) {
-    return this.http.post<any>(
-      environment.API + "/Reservation/admin/unblockReservation",
-      model
-    );
-  }
+  // unblockReservation(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Reservation/admin/unblockReservation",
+  //     model
+  //   );
+  // }
 
-  updateStatus(model) {
-    return this.http.post<any>(
-      environment.API + "/Reservation/updatestatus",
-      model
-    );
-  }
+  // updateStatus(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Reservation/updatestatus",
+  //     model
+  //   );
+  // }
 }

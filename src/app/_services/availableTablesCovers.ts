@@ -8,13 +8,13 @@ import { environment } from "../../environments/environment";
 export class AvailableTableService {
     constructor(private http: HttpClient) { }
 
-    getAvailableTables(layoutid : string, clientid :string) {
-        return this.http
-            .get<any>(environment.API + "/dashboard/availabletables/" + layoutid + "/" + clientid);
-    }
+    // getAvailableTables(layoutid : string, clientid :string) {
+    //     return this.http
+    //         .get<any>(environment.API + "/dashboard/availabletables/" + layoutid + "/" + clientid);
+    // }
 
-    getAvailableTablesNoShift(layoutid : string,clientid : string) {
-        return this.http
-            .get<any>(environment.API + "/dashboard/availabletablesNoShift/" + layoutid + "/" + clientid);
-    }    
+    // getAvailableTablesNoShift(layoutid : string,clientid : string) {
+    //     return this.http
+    //         .get<any>(environment.API + "/dashboard/availabletablesNoShift/" + layoutid + "/" + clientid);
+    // }    
 }

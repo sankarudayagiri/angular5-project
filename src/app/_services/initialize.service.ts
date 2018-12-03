@@ -125,67 +125,67 @@ export class InitializeService {
   }
 
   /* ===== api services  ============ */
-  getCountryCodes() {
-    return this.http.get<any>(environment.API + "/Guest/countryCodes");
-  }
+  // getCountryCodes() {
+  //   return this.http.get<any>(environment.API + "/Guest/countryCodes");
+  // }
 
-  getSelectedCountryCodes(clientId: string) {
-    return this.http.get<any>(
-      environment.API + "/client/GetCountryCode/" + clientId
-    );
-  }
+  // getSelectedCountryCodes(clientId: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/client/GetCountryCode/" + clientId
+  //   );
+  // }
 
-  getUserPreference(userId: string) {
-    return this.http.get<any>(
-      environment.API + "/Settings/Preferences/" + userId
-    );
-  }
+  // getUserPreference(userId: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Settings/Preferences/" + userId
+  //   );
+  // }
 
-  getModuleAccessDetails(clientId: string) {
-    return this.http.get<any>(
-      environment.API + "/client/getModuleAccessDetails/" + clientId
-    );
-  }
+  // getModuleAccessDetails(clientId: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/client/getModuleAccessDetails/" + clientId
+  //   );
+  // }
 
-  getClientTimeZone(clientId: string) {
-    return this.http.get<any>(
-      environment.API + "/client/getClientTimeZoneOffset/" + clientId
-    );
-  }
+  // getClientTimeZone(clientId: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/client/getClientTimeZoneOffset/" + clientId
+  //   );
+  // }
 
-  getClientDetails(clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/client/admin/get/" + clientid
-    );
-  }
+  // getClientDetails(clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/client/admin/get/" + clientid
+  //   );
+  // }
 
-  getFloorPlans(clientId: string) {
-    return this.http.get<any>(
-      environment.API + "/Floor/layout/list/" + clientId
-    );
-  }
+  // getFloorPlans(clientId: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Floor/layout/list/" + clientId
+  //   );
+  // }
 
-  returnCountryList() {
-    return this.countryList;
-  }
+  // returnCountryList() {
+  //   return this.countryList;
+  // }
 
-  returnUserPreferences() {
-    return this.userPreferences;
-  }
+  // returnUserPreferences() {
+  //   return this.userPreferences;
+  // }
 
-  returnModuleStatus() {
-    return this.moduleStatus;
-  }
+  // returnModuleStatus() {
+  //   return this.moduleStatus;
+  // }
 
-  returnClientDetails() {
-    return this.clientDetails;
-  }
+  // returnClientDetails() {
+  //   return this.clientDetails;
+  // }
 
-  returnClientTimeZone() {
-    return this.clientTimeZone;
-  }
+  // returnClientTimeZone() {
+  //   return this.clientTimeZone;
+  // }
 
-  returnFloorPlanList() {
-    return this.floorPlanList;
-  }
+  // returnFloorPlanList() {
+  //   return this.floorPlanList;
+  // }
 }

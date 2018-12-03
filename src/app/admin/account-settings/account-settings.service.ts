@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
-import { environment } from "../../../environments/environment";
+//import { environment } from "../../../environments/environment";
 //import { Cacheable, CacheBuster } from "ngx-cacheable";
 import { Subject } from "rxjs";
 
@@ -39,19 +39,19 @@ export class AccountSettingService {
   // @Cacheable({
   //   cacheBusterObserver: cacheBuster$
   // })
-  accountSettings(clientid: string) {
-    return this.http.get<any>(
-      environment.API + "/Settings/admin/accountsettings/" + clientid
-    );
-  }
+  // accountSettings(clientid: string) {
+  //   return this.http.get<any>(
+  //     environment.API + "/Settings/admin/accountsettings/" + clientid
+  //   );
+  // }
 
-  // @CacheBuster({
-  //   cacheBusterNotifier: cacheBuster$
-  // })
-  saveAccountSettings(model) {
-    return this.http.post<any>(
-      environment.API + "/Settings/admin/accountsettings/save",
-      model
-    );
-  }
+  // // @CacheBuster({
+  // //   cacheBusterNotifier: cacheBuster$
+  // // })
+  // saveAccountSettings(model) {
+  //   return this.http.post<any>(
+  //     environment.API + "/Settings/admin/accountsettings/save",
+  //     model
+  //   );
+  // }
 }
